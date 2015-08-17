@@ -99,14 +99,15 @@ define(["activity/sample-ressources"], function (SampleRessources) {
         templates: [TEMPLATE_SUMS, TEMPLATE_LETTERS, TEMPLATE_SOUNDS],
         template: TEMPLATE_LETTERS,
         game: {
-            mode: MODE_CLASSIC,
+            selectedCards: [],
+            mode: MODE_SPLITTED,
             cards: [],
             host: "",
             currentPlayer: "",
-            players: []
+            players: [],
+            size: 4
         },
         computeCards: computeCards,
-        size: 4,
         inEditMode: false,
         shareActivity: shareActivity,
         initUI: initUI,
@@ -121,13 +122,13 @@ define(["activity/sample-ressources"], function (SampleRessources) {
     }
 
     function computeCards() {
-        MemorizeApp.cards = [];
+        MemorizeApp.game.cards = [];
 
         var suffledTemplate = shuffle(MemorizeApp.template);
 
         if (MemorizeApp.game.mode == MODE_CLASSIC) {
             var cards = [];
-            for (var i = 0; i < suffledTemplate.length && i < MemorizeApp.size; i++) {
+            for (var i = 0; i < suffledTemplate.length && i < MemorizeApp.game.size * MemorizeApp.game.size / 2; i++) {
                 var card1 = suffledTemplate[i][0];
                 var card2 = suffledTemplate[i][1];
 
@@ -136,14 +137,15 @@ define(["activity/sample-ressources"], function (SampleRessources) {
 
                 cards.push(card1);
                 cards.push(card2);
-                console.log(card1, card2);
             }
-            MemorizeApp.cards = shuffle(cards);
-        } else {
+            MemorizeApp.game.cards = shuffle(cards);
+        }
+
+        if (MemorizeApp.game.mode == MODE_SPLITTED) {
             var cards1 = [];
             var cards2 = [];
 
-            for (var i = 0; i < MemorizeApp.size && i < suffledTemplate.length; i++) {
+            for (var i = 0; i < MemorizeApp.game.size * MemorizeApp.game.size / 2 && i < suffledTemplate.length; i++) {
                 var card1 = suffledTemplate[i][0];
                 var card2 = suffledTemplate[i][1];
 
@@ -155,20 +157,145 @@ define(["activity/sample-ressources"], function (SampleRessources) {
             }
 
             var shuffledCard1 = shuffle(cards1);
-            for (var i = 0; i < MemorizeApp.size && i < shuffledCard1.length; i++) {
-                MemorizeApp.cards.push(shuffledCard1[i]);
+            for (var i = 0; i < shuffledCard1.length; i++) {
+                MemorizeApp.game.cards.push(shuffledCard1[i]);
             }
 
             var shuffledCard2 = shuffle(cards2);
-            for (var i = 0; i < MemorizeApp.size && i < shuffledCard2.length; i++) {
-                MemorizeApp.cards.push(shuffledCard2[i]);
+            for (var i = 0; i < shuffledCard2.length; i++) {
+                MemorizeApp.game.cards.push(shuffledCard2[i]);
             }
         }
 
     }
 
+    function generateCardDiv(card, minSize) {
+        if (card.text) {
+            var p = document.createElement("p");
+            p.innerHTML = card.text;
+            p.style.position = "absolute";
+            p.style.left = "50%";
+            p.style.height = minSize + "px";
+            p.style.fontSize = minSize + "px";
+            p.style.transform = "translateX(-50%) translateY(-50%)"
+
+            return p;
+        }
+    }
+
     function drawGame() {
-        console.log(MemorizeApp.cards);
+        MemorizeApp.ui.gameGrid.innerHTML = "";
+
+        var gameDiv = document.createElement("div");
+        var width = document.body.clientWidth;
+        var height = document.body.clientHeight;
+        var middle = MemorizeApp.game.cards.length / 2;
+
+        var minSize = height;
+        if (width < height) {
+            minSize = width;
+        }
+        minSize = minSize - (56 + 20) * 2;
+        minSize = minSize / MemorizeApp.game.size;
+
+        for (var i = 0; i < MemorizeApp.game.cards.length; i++) {
+            var card = MemorizeApp.game.cards[i];
+
+            if (i % MemorizeApp.game.size == 0 && i > 0) {
+                var div = document.createElement("div");
+                div.style.clear = "both";
+                gameDiv.appendChild(div);
+            }
+            var fullCardDiv = document.createElement("div");
+            fullCardDiv.cardPosition = i;
+            fullCardDiv.style.margin = "5px";
+            fullCardDiv.style.transition = "transform 1s";
+            fullCardDiv.style.transformStyle = "preserve-3d";
+            fullCardDiv.style.position = "relative";
+            fullCardDiv.style.transform = "rotateY(180deg)";
+            fullCardDiv.style.float = "left";
+            fullCardDiv.style.height = minSize + "px";
+            fullCardDiv.style.width = minSize + "px";
+
+
+            var front = document.createElement("div");
+            if (MemorizeApp.game.mode == MODE_CLASSIC) {
+                front.style.background = "#ccc url(icons/grouped_game1.svg)";
+            }
+            if (MemorizeApp.game.mode == MODE_SPLITTED) {
+                if (i < middle) {
+                    front.style.background = "#ccc url(icons/grouped_game1.svg)";
+                } else {
+                    front.style.background = "#ccc url(icons/grouped_game2.svg)";
+                }
+            }
+            front.style.backgroundPosition = "center center";
+            front.style.backgroundRepeat = "no-repeat";
+            front.style.height = minSize + "px";
+            front.style.position = "absolute";
+            front.style.top = "0px";
+            front.style.left = "0px";
+            front.style.width = minSize + "px";
+
+            var div = document.createElement("div");
+            div.appendChild(generateCardDiv(MemorizeApp.game.cards[i], minSize));
+            div.style.height = minSize + "px";
+            div.style.backfaceVisibility = "hidden";
+            div.style.position = "absolute";
+            div.style.zIndex = 99;
+            div.style.top = "0px";
+            div.style.left = "0px";
+            div.style.width = minSize + "px";
+            div.style.background = "#fff";
+            div.style.border = "1px solid #fff";
+
+            fullCardDiv.card = card;
+
+            fullCardDiv.addEventListener("click", function () {
+                var t = this;
+
+                if (t.solved) {
+                    return;
+                }
+                if (MemorizeApp.game.selectedCards.length == 2) {
+                    return;
+                }
+
+                if (MemorizeApp.game.mode == MODE_SPLITTED && MemorizeApp.game.selectedCards.length == 1) {
+                    if ((t.cardPosition < middle && MemorizeApp.game.selectedCards[0].cardPosition < middle) || (t.cardPosition > middle && MemorizeApp.game.selectedCards[0].cardPosition > middle)) {
+                        return;
+                    }
+                }
+
+                t.style.transform = "";
+
+                MemorizeApp.game.selectedCards.push(t);
+
+                if (MemorizeApp.game.selectedCards.length == 1) {
+                    return;
+                }
+
+                if (MemorizeApp.game.selectedCards[0].card.id == t.card.id) {
+                    MemorizeApp.game.selectedCards[0].solved = true;
+                    t.solved = true;
+                    MemorizeApp.game.selectedCards = [];
+                    return;
+                }
+
+                setTimeout(function () {
+                    t.style.transform = "rotateY(180deg)";
+                    MemorizeApp.game.selectedCards[0].style.transform = "rotateY(180deg)";
+                    MemorizeApp.game.selectedCards = [];
+                }, 1000)
+
+
+            });
+            fullCardDiv.appendChild(div);
+            fullCardDiv.appendChild(front);
+            gameDiv.appendChild(fullCardDiv);
+        }
+
+        MemorizeApp.ui.gameGrid.appendChild(gameDiv);
     }
 
     function onUsersListChanged(users) {
@@ -283,4 +410,5 @@ define(["activity/sample-ressources"], function (SampleRessources) {
     }
 
     return MemorizeApp;
-});
+})
+;

@@ -69,6 +69,15 @@
     border-radius: 5.5px;
 }
 
+#game-players {
+    background: #005983;
+    position:fixed;
+    bottom:0;
+    width:100%;
+    height:56px;
+}
+
+
 .palette .wrapper {
     min-width: 10px;
     padding: 5px;

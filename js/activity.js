@@ -6,9 +6,8 @@ define(function (require) {
         window.memorizeApp = memorizeApp;
 
         if (window.top.sugar.environment.sharedId) {
-            memorizeApp.init(function () {
+            memorizeApp.initUI(function () {
                 initPresence(activity, memorizeApp, presencePalette, function() {
-                    memorizeApp.drawGame();
                 });
             })
         } else {
@@ -101,7 +100,6 @@ function initPresence(activity, memorizeApp, presencepalette, callback) {
 
         // Launched with a shared id, activity is already shared
         if (window.top && window.top.sugar && window.top.sugar.environment && window.top.sugar.environment.sharedId) {
-            console.log("SHARED")
             shareActivity(activity, presence, memorizeApp);
             presencePalette.setShared(true);
 
