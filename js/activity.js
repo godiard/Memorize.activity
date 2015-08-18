@@ -2,18 +2,17 @@
 define(function (require) {
     require(['domReady!', "sugar-web/activity/activity", "sugar-web/graphics/presencepalette", 'activity/memorize-app'], function (doc, activity, presencePalette, memorizeApp) {
         activity.setup();
-
         window.memorizeApp = memorizeApp;
 
         if (window.top.sugar.environment.sharedId) {
             memorizeApp.initUI(function () {
-                initPresence(activity, memorizeApp, presencePalette, function() {
+                initPresence(activity, memorizeApp, presencePalette, function () {
                 });
             })
         } else {
             loadData(activity, memorizeApp, function () {
                 memorizeApp.initUI(function () {
-                    initPresence(activity, memorizeApp, presencePalette, function() {
+                    initPresence(activity, memorizeApp, presencePalette, function () {
                         memorizeApp.drawGame();
                     });
                 })

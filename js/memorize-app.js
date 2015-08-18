@@ -27,12 +27,12 @@ define(["activity/sample-ressources"], function (SampleRessources) {
     var MODE_SPLITTED = "splitted";
 
     var TEMPLATE_SUMS = [
+        [{text: "3+4"}, {text: "7"}],
         [{text: "5+5"}, {text: "10"}],
         [{text: "5+6"}, {text: "11"}],
         [{text: "4+4"}, {text: "8"}],
         [{text: "4+5"}, {text: "9"}],
         [{text: "3+3"}, {text: "6"}],
-        [{text: "3+4"}, {text: "7"}],
         [{text: "2+2"}, {text: "4"}],
         [{text: "1+1"}, {text: "2"}],
         [{text: "1+2"}, {text: "3"}],
@@ -42,8 +42,7 @@ define(["activity/sample-ressources"], function (SampleRessources) {
         [{text: "8+9"}, {text: "17"}],
         [{text: "7+7"}, {text: "14"}],
         [{text: "7+8"}, {text: "15"}],
-        [{text: "6+6"}, {text: "12"}],
-        [{text: "6+7"}, {text: "13"}]
+        [{text: "6+6"}, {text: "12"}]
     ];
 
     var TEMPLATE_LETTERS = [
@@ -97,7 +96,7 @@ define(["activity/sample-ressources"], function (SampleRessources) {
     var MemorizeApp = {
         ui: {},
         templates: [TEMPLATE_SUMS, TEMPLATE_LETTERS, TEMPLATE_SOUNDS],
-        template: TEMPLATE_LETTERS,
+        template: TEMPLATE_SUMS,
         game: {
             selectedCards: [],
             mode: MODE_SPLITTED,
@@ -169,17 +168,41 @@ define(["activity/sample-ressources"], function (SampleRessources) {
 
     }
 
-    function generateCardDiv(card, minSize) {
-        if (card.text) {
-            var p = document.createElement("p");
-            p.innerHTML = card.text;
-            p.style.position = "absolute";
-            p.style.left = "50%";
-            p.style.height = minSize + "px";
-            p.style.fontSize = minSize + "px";
-            p.style.transform = "translateX(-50%) translateY(-50%)"
+    function resizeText() {
+        var elements = document.getElementsByClassName('textCard');
+        for (var i = 0; i < elements.length; i++) {
+            var el = elements[i];
+            while (el.scrollHeight > el.offsetHeight) {
+                el.style.fontSize = parseInt(el.style.fontSize) - 1 + "px";
+            }
+            while (el.scrollWidth > el.offsetWidth) {
+                el.style.fontSize = parseInt(el.style.fontSize) - 1 + "px";
+            }
+        }
 
-            return p;
+    }
+
+    function generateCardDiv(card, minSize) {
+        if (card.image) {
+            var img = document.createElement("img");
+            img.style.background = "url('" + card.image + "')";
+            img.style.height = minSize + "px";
+
+            return img;
+        }
+
+        if (card.text) {
+            var div = document.createElement("div");
+            div.className += "textCard";
+            div.style.textAlign = "center";
+            div.style.display = "block";
+            div.innerHTML = card.text;
+            div.style.fontSize = minSize + 'px';
+            div.style.color = "#000";
+            div.style.width = minSize + "px";
+            div.style.height = minSize + "px";
+
+            return div;
         }
     }
 
@@ -212,7 +235,9 @@ define(["activity/sample-ressources"], function (SampleRessources) {
             fullCardDiv.style.transition = "transform 1s";
             fullCardDiv.style.transformStyle = "preserve-3d";
             fullCardDiv.style.position = "relative";
-            fullCardDiv.style.transform = "rotateY(180deg)";
+            if (!card.found) {
+                fullCardDiv.style.transform = "rotateY(180deg)";
+            }
             fullCardDiv.style.float = "left";
             fullCardDiv.style.height = minSize + "px";
             fullCardDiv.style.width = minSize + "px";
@@ -238,7 +263,9 @@ define(["activity/sample-ressources"], function (SampleRessources) {
             front.style.width = minSize + "px";
 
             var div = document.createElement("div");
-            div.appendChild(generateCardDiv(MemorizeApp.game.cards[i], minSize));
+            var generatedDiv = generateCardDiv(MemorizeApp.game.cards[i], minSize);
+            div.appendChild(generatedDiv);
+
             div.style.height = minSize + "px";
             div.style.backfaceVisibility = "hidden";
             div.style.position = "absolute";
@@ -247,7 +274,7 @@ define(["activity/sample-ressources"], function (SampleRessources) {
             div.style.left = "0px";
             div.style.width = minSize + "px";
             div.style.background = "#fff";
-            div.style.border = "1px solid #fff";
+            div.style.border = "1px solid #ccc";
 
             fullCardDiv.card = card;
 
@@ -262,7 +289,10 @@ define(["activity/sample-ressources"], function (SampleRessources) {
                 }
 
                 if (MemorizeApp.game.mode == MODE_SPLITTED && MemorizeApp.game.selectedCards.length == 1) {
-                    if ((t.cardPosition < middle && MemorizeApp.game.selectedCards[0].cardPosition < middle) || (t.cardPosition > middle && MemorizeApp.game.selectedCards[0].cardPosition > middle)) {
+                    if (t.cardPosition < middle && MemorizeApp.game.selectedCards[0].cardPosition < middle) {
+                        return;
+                    }
+                    if (t.cardPosition >= middle && MemorizeApp.game.selectedCards[0].cardPosition >= middle) {
                         return;
                     }
                 }
@@ -286,16 +316,17 @@ define(["activity/sample-ressources"], function (SampleRessources) {
                     t.style.transform = "rotateY(180deg)";
                     MemorizeApp.game.selectedCards[0].style.transform = "rotateY(180deg)";
                     MemorizeApp.game.selectedCards = [];
-                }, 1000)
+                }, 2000)
 
 
             });
             fullCardDiv.appendChild(div);
             fullCardDiv.appendChild(front);
             gameDiv.appendChild(fullCardDiv);
-        }
 
+        }
         MemorizeApp.ui.gameGrid.appendChild(gameDiv);
+        resizeText();
     }
 
     function onUsersListChanged(users) {
