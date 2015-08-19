@@ -85,16 +85,15 @@ function initPresence(activity, memorizeApp, presencepalette, callback) {
             memorizeApp.onUsersListChanged(users);
         });
 
-        presencePalette.addEventListener('shared', function () {
-            shareActivity(activity, presence, memorizeApp)
-        });
-
 
         // Launched with a shared id, activity is already shared
         if (window.top && window.top.sugar && window.top.sugar.environment && window.top.sugar.environment.sharedId) {
-            shareActivity(activity, presence, memorizeApp);
+            shareActivity(activity, presence, memorizeApp, false);
             presencePalette.setShared(true);
-
+        } else {
+            presencePalette.addEventListener('shared', function () {
+                shareActivity(activity, presence, memorizeApp, true);
+            });
         }
 
         if (callback) {
@@ -103,9 +102,8 @@ function initPresence(activity, memorizeApp, presencepalette, callback) {
     });
 }
 
-function shareActivity(activity, presence, memorizeApp) {
-
-    memorizeApp.shareActivity();
+function shareActivity(activity, presence, memorizeApp, isHost) {
+    memorizeApp.shareActivity(isHost);
 
     var userSettings = presence.getUserInfo();
 
@@ -122,22 +120,11 @@ function shareActivity(activity, presence, memorizeApp) {
         console.log("Connection closed");
     });
 
-    // Handle messages received
     presence.onDataReceived(function (data) {
-        console.log(data)
+        memorizeApp.onDataReceived(data);
     });
 
     presence.listUsers(function (users) {
         console.log(users)
-    })
-
-    //if (!PaintApp.data.isHost) {
-    //    PaintApp.data.presence.listUsers(function (users) {
-    //            sendMessage({
-    //                action: "entranceToDataURLRequest " + users[0].networkId
-    //            })
-    //        }
-    //    )
-
-    //}
+    });
 }
