@@ -23,10 +23,11 @@ define(["sugar-web/graphics/palette"], function (palette) {
         }
         this.setContent([div]);
 
-        // Pop-down the palette when a item in the menu is clicked.
-
         this.buttons = div.querySelectorAll('button');
         var that = this;
+
+        that.getPalette().firstChild.style.backgroundColor = "transparent";
+        that.getPalette().firstChild.style.backgroundImage = "";
 
         function popDownOnButtonClick(event) {
             console.log(event);
@@ -41,7 +42,6 @@ define(["sugar-web/graphics/palette"], function (palette) {
                 button.addEventListener("click", function () {
                     that.sharedEvent.detail.value = button.innerHTML;
                     that.getPalette().dispatchEvent(that.sharedEvent);
-                    invoker.style.background = "url(icons/"+ button.innerHTML + "x" + button.innerHTML + ".svg)";
                     that.popDown();
                 });
             })(button);
