@@ -127,7 +127,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         if (!MemorizeApp.template) {
             return;
         }
-        var suffledTemplate = shuffle(MemorizeApp.template);
+        var suffledTemplate = JSON.parse(JSON.stringify(shuffle(MemorizeApp.template)));
 
         if (MemorizeApp.game.mode == MODE_CLASSIC) {
             var cards = [];
@@ -400,11 +400,13 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 }
 
                 setTimeout(function () {
-                    t.style.webkitTransform = "rotateY(180deg)";
-                    t.style.transform = "rotateY(180deg)";
-                    MemorizeApp.game.selectedCards[0].style.webkitTransform = "rotateY(180deg)";
-                    MemorizeApp.game.selectedCards[0].style.transform = "rotateY(180deg)";
-                    MemorizeApp.game.selectedCards = [];
+                    try {
+                        t.style.webkitTransform = "rotateY(180deg)";
+                        t.style.transform = "rotateY(180deg)";
+                        MemorizeApp.game.selectedCards[0].style.webkitTransform = "rotateY(180deg)";
+                        MemorizeApp.game.selectedCards[0].style.transform = "rotateY(180deg)";
+                        MemorizeApp.game.selectedCards = [];
+                    } catch (e) {}
                 }, 2000)
 
 
@@ -464,6 +466,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
     function enterEditMode() {
         MemorizeApp.inEditMode = true;
         MemorizeApp.ui.gameGrid.innerHTML = "";
+        MemorizeApp.game.selectedCards = [];
 
         /* Disable game buttons */
 
