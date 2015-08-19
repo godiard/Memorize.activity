@@ -26,80 +26,89 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
     var MODE_CLASSIC = "classic";
     var MODE_SPLITTED = "splitted";
 
-    var TEMPLATE_SUMS = [
-        [{text: "3+4"}, {text: "7"}],
-        [{text: "5+5"}, {text: "10"}],
-        [{text: "5+6"}, {text: "11"}],
-        [{text: "4+4"}, {text: "8"}],
-        [{text: "4+5"}, {text: "9"}],
-        [{text: "3+3"}, {text: "6"}],
-        [{text: "2+2"}, {text: "4"}],
-        [{text: "1+1"}, {text: "2"}],
-        [{text: "1+2"}, {text: "3"}],
-        [{text: "9+9"}, {text: "18"}],
-        [{text: "10+9"}, {text: "19"}],
-        [{text: "8+8"}, {text: "16"}],
-        [{text: "8+9"}, {text: "17"}],
-        [{text: "7+7"}, {text: "14"}],
-        [{text: "7+8"}, {text: "15"}],
-        [{text: "6+6"}, {text: "12"}]
-    ];
+    var TEMPLATE_SUMS = {
+        name: "Sums", cards: [
+            [{text: "3+4"}, {text: "7"}],
+            [{text: "5+5"}, {text: "10"}],
+            [{text: "5+6"}, {text: "11"}],
+            [{text: "4+4"}, {text: "8"}],
+            [{text: "4+5"}, {text: "9"}],
+            [{text: "3+3"}, {text: "6"}],
+            [{text: "2+2"}, {text: "4"}],
+            [{text: "1+1"}, {text: "2"}],
+            [{text: "1+2"}, {text: "3"}],
+            [{text: "9+9"}, {text: "18"}],
+            [{text: "10+9"}, {text: "19"}],
+            [{text: "8+8"}, {text: "16"}],
+            [{text: "8+9"}, {text: "17"}],
+            [{text: "7+7"}, {text: "14"}],
+            [{text: "7+8"}, {text: "15"}],
+            [{text: "6+6"}, {text: "12"}]
+        ],
+        mode: MODE_SPLITTED
+    };
 
-    var TEMPLATE_LETTERS = [
-        [{text: "A"}, {text: "a"}],
-        [{text: "B"}, {text: "b"}],
-        [{text: "C"}, {text: "c"}],
-        [{text: "D"}, {text: "d"}],
-        [{text: "E"}, {text: "e"}],
-        [{text: "F"}, {text: "f"}],
-        [{text: "G"}, {text: "g"}],
-        [{text: "H"}, {text: "h"}],
-        [{text: "I"}, {text: "i"}],
-        [{text: "J"}, {text: "j"}],
-        [{text: "K"}, {text: "k"}],
-        [{text: "L"}, {text: "l"}],
-        [{text: "M"}, {text: "m"}],
-        [{text: "N"}, {text: "n"}],
-        [{text: "O"}, {text: "o"}],
-        [{text: "P"}, {text: "p"}],
-        [{text: "Q"}, {text: "q"}],
-        [{text: "R"}, {text: "r"}],
-        [{text: "S"}, {text: "s"}],
-        [{text: "T"}, {text: "t"}],
-        [{text: "U"}, {text: "u"}],
-        [{text: "V"}, {text: "v"}],
-        [{text: "W"}, {text: "w"}],
-        [{text: "X"}, {text: "x"}],
-        [{text: "Y"}, {text: "y"}],
-        [{text: "Z"}, {text: "z"}]
-    ];
+    var TEMPLATE_LETTERS = {
+        name: "Letters", cards: [
+            [{text: "A"}, {text: "a"}],
+            [{text: "B"}, {text: "b"}],
+            [{text: "C"}, {text: "c"}],
+            [{text: "D"}, {text: "d"}],
+            [{text: "E"}, {text: "e"}],
+            [{text: "F"}, {text: "f"}],
+            [{text: "G"}, {text: "g"}],
+            [{text: "H"}, {text: "h"}],
+            [{text: "I"}, {text: "i"}],
+            [{text: "J"}, {text: "j"}],
+            [{text: "K"}, {text: "k"}],
+            [{text: "L"}, {text: "l"}],
+            [{text: "M"}, {text: "m"}],
+            [{text: "N"}, {text: "n"}],
+            [{text: "O"}, {text: "o"}],
+            [{text: "P"}, {text: "p"}],
+            [{text: "Q"}, {text: "q"}],
+            [{text: "R"}, {text: "r"}],
+            [{text: "S"}, {text: "s"}],
+            [{text: "T"}, {text: "t"}],
+            [{text: "U"}, {text: "u"}],
+            [{text: "V"}, {text: "v"}],
+            [{text: "W"}, {text: "w"}],
+            [{text: "X"}, {text: "x"}],
+            [{text: "Y"}, {text: "y"}],
+            [{text: "Z"}, {text: "z"}]
+        ],
+        mode: MODE_CLASSIC
+    };
 
-    var TEMPLATE_SOUNDS = [
-        [{image: SampleRessources.imageMan, sound: SampleRessources.soundHello}, {
-            image: SampleRessources.imageMan,
-            sound: SampleRessources.soundHello
-        }],
-        [{image: SampleRessources.imageMan, sound: SampleRessources.soundHello}, {
-            image: SampleRessources.imageMan,
-            sound: SampleRessources.soundHello
-        }],
-        [{image: SampleRessources.imageMan, sound: SampleRessources.soundHello}, {
-            image: SampleRessources.imageMan,
-            sound: SampleRessources.soundHello
-        }],
-        [{image: SampleRessources.imageMan, sound: SampleRessources.soundHello}, {
-            image: SampleRessources.imageMan,
-            sound: SampleRessources.soundHello
-        }]
-    ];
+    var TEMPLATE_SOUNDS = {
+        name: "Sounds", cards: [
+            [{image: SampleRessources.imageMan, sound: SampleRessources.soundHello}, {
+                image: SampleRessources.imageMan,
+                sound: SampleRessources.soundHello
+            }],
+            [{image: SampleRessources.imageMan, sound: SampleRessources.soundHello}, {
+                image: SampleRessources.imageMan,
+                sound: SampleRessources.soundHello
+            }],
+            [{image: SampleRessources.imageMan, sound: SampleRessources.soundHello}, {
+                image: SampleRessources.imageMan,
+                sound: SampleRessources.soundHello
+            }],
+            [{image: SampleRessources.imageMan, sound: SampleRessources.soundHello}, {
+                image: SampleRessources.imageMan,
+                sound: SampleRessources.soundHello
+            }]
+        ],
+        mode: MODE_SPLITTED
+    };
 
     var MemorizeApp = {
         ui: {audios: []},
         templates: [TEMPLATE_SUMS, TEMPLATE_LETTERS, TEMPLATE_SOUNDS],
-        template: TEMPLATE_LETTERS,
+        template: undefined,
         game: {
             selectedCards: [],
-            mode: MODE_SPLITTED,
+            mode: undefined,
             cards: [],
             host: "",
             currentPlayer: "",
@@ -127,8 +136,10 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         if (!MemorizeApp.template) {
             return;
         }
+        MemorizeApp.game.mode = MemorizeApp.template.mode;
 
-        var suffledTemplate = JSON.parse(JSON.stringify(shuffle(MemorizeApp.template)));
+        var shuffledTemplate = {name: MemorizeApp.template.name, cards: []}
+        shuffledTemplate.cards = JSON.parse(JSON.stringify(shuffle(MemorizeApp.template.cards)));
 
         var cardsNumber = 0;
         if (MemorizeApp.game.size % 2 == 0) {
@@ -139,9 +150,9 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
 
         if (MemorizeApp.game.mode == MODE_CLASSIC) {
             var cards = [];
-            for (var i = 0; i < suffledTemplate.length && i < cardsNumber / 2; i++) {
-                var card1 = suffledTemplate[i][0];
-                var card2 = suffledTemplate[i][1];
+            for (var i = 0; i < shuffledTemplate.cards.length && i < cardsNumber / 2; i++) {
+                var card1 = shuffledTemplate.cards[i][0];
+                var card2 = shuffledTemplate.cards[i][1];
 
                 card1.id = i;
                 card2.id = i;
@@ -156,9 +167,9 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             var cards1 = [];
             var cards2 = [];
 
-            for (var i = 0; i < cardsNumber / 2 && i < suffledTemplate.length; i++) {
-                var card1 = suffledTemplate[i][0];
-                var card2 = suffledTemplate[i][1];
+            for (var i = 0; i < cardsNumber / 2 && i < shuffledTemplate.cards.length; i++) {
+                var card1 = shuffledTemplate.cards[i][0];
+                var card2 = shuffledTemplate.cards[i][1];
 
                 card1.id = i;
                 card2.id = i;
@@ -377,10 +388,8 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
 
 
                 if (this.card.sound) {
-
-                    var b64 = TEMPLATE_SOUNDS[0][0].sound.split("base64,")[1];
+                    var b64 = this.card.sound.split("base64,")[1];
                     b64 = Base64Binary.decodeArrayBuffer(btoa(atob(b64)));
-
 
                     if (MemorizeApp.context) {
                         MemorizeApp.context.decodeAudioData(b64, function (buffer) {
@@ -423,7 +432,6 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             fullCardDiv.appendChild(div);
             fullCardDiv.appendChild(front);
             gameDiv.appendChild(fullCardDiv);
-
         }
 
         MemorizeApp.ui.gameGrid.appendChild(gameDiv);
@@ -438,9 +446,15 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         MemorizeApp.ui.gameEditor = document.getElementById("game-editor");
 
         MemorizeApp.ui.gameTemplatesButton = document.getElementById("game-templates-button");
+        var gt = new templatePalette.TemplatePalette(MemorizeApp.ui.gameTemplatesButton, undefined, MemorizeApp.templates);
+        gt.addEventListener('template', function (e) {
+            MemorizeApp.template = e.detail.value;
+            MemorizeApp.computeCards();
+            MemorizeApp.drawGame();
+        });
+
         MemorizeApp.ui.gameSizeButton = document.getElementById("game-size-button");
         var sp = new sizePalette.SizePalette(MemorizeApp.ui.gameSizeButton);
-
         sp.addEventListener('size', function (e) {
             MemorizeApp.game.size = e.detail.value;
             MemorizeApp.ui.gameSizeButton.style.background = "url(icons/" + e.detail.value + "x" + e.detail.value + ".svg)";
@@ -630,4 +644,5 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
     }
 
     return MemorizeApp;
-});
+})
+;
