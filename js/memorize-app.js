@@ -96,7 +96,7 @@ define(["activity/sample-ressources"], function (SampleRessources) {
     var MemorizeApp = {
         ui: {audios: []},
         templates: [TEMPLATE_SUMS, TEMPLATE_LETTERS, TEMPLATE_SOUNDS],
-        template: TEMPLATE_SOUNDS,
+        template: TEMPLATE_LETTERS,
         game: {
             selectedCards: [],
             mode: MODE_SPLITTED,
@@ -123,6 +123,9 @@ define(["activity/sample-ressources"], function (SampleRessources) {
     function computeCards() {
         MemorizeApp.game.cards = [];
 
+        if (!MemorizeApp.template) {
+            return;
+        }
         var suffledTemplate = shuffle(MemorizeApp.template);
 
         if (MemorizeApp.game.mode == MODE_CLASSIC) {
@@ -189,6 +192,7 @@ define(["activity/sample-ressources"], function (SampleRessources) {
             div.style.background = "url('" + card.image + "')";
             div.style.backgroundRepeat = "no-repeat";
             div.style.backgroundSize = "contain";
+            div.style.webkitBackgroundSize = "contain";
             div.style.backgroundPosition = "center center";
             div.style.height = minSize + "px";
             div.style.width = minSize + "px";
@@ -243,7 +247,6 @@ define(["activity/sample-ressources"], function (SampleRessources) {
     }
 
     function drawGame() {
-        console.log("DRAW GAME")
         MemorizeApp.ui.gameGrid.innerHTML = "";
 
         var gameDiv = document.createElement("div");
@@ -292,13 +295,13 @@ define(["activity/sample-ressources"], function (SampleRessources) {
 
             var front = document.createElement("div");
             if (MemorizeApp.game.mode == MODE_CLASSIC) {
-                front.style.background = "#ccc url(icons/grouped_game1.svg)";
+                front.style.background = "#aaa url(icons/number1.svg)";
             }
             if (MemorizeApp.game.mode == MODE_SPLITTED) {
                 if (i < middle) {
-                    front.style.background = "#ccc url(icons/grouped_game1.svg)";
+                    front.style.background = "#aaa url(icons/number1.svg)";
                 } else {
-                    front.style.background = "#ccc url(icons/grouped_game2.svg)";
+                    front.style.background = "#aaa url(icons/number2.svg)";
                 }
             }
             front.zIndex = 2;
@@ -378,7 +381,6 @@ define(["activity/sample-ressources"], function (SampleRessources) {
                             source.buffer = buffer;
                             source.connect(MemorizeApp.context.destination);
                             source.start(0);
-                            console.log(42)
                         }, function (err) {
                             console.log("err(decodeAudioData): " + err);
                         });
