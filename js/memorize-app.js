@@ -2,7 +2,7 @@
  * Created by ohayon_m on 17/08/15.
  */
 
-define(["activity/sample-ressources"], function (SampleRessources) {
+define(["activity/sample-ressources", "activity/palettes/template-palette", "activity/palettes/size-palette"], function (SampleRessources, templatePalette, sizePalette) {
 
     function shuffle(array) {
         var currentIndex = array.length, temporaryValue, randomIndex;
@@ -122,6 +122,7 @@ define(["activity/sample-ressources"], function (SampleRessources) {
 
     function computeCards() {
         MemorizeApp.game.cards = [];
+        MemorizeApp.game.selectedCards = [];
 
         if (!MemorizeApp.template) {
             return;
@@ -341,12 +342,11 @@ define(["activity/sample-ressources"], function (SampleRessources) {
                 clickEvent = "touchstart";
             }
             fullCardDiv.addEventListener(clickEvent, function () {
-
                 createContext();
 
                 var t = this;
 
-                if (t.solved) {
+                if (t.card.solved) {
                     return;
                 }
                 if (MemorizeApp.game.selectedCards.length == 2) {
@@ -393,8 +393,8 @@ define(["activity/sample-ressources"], function (SampleRessources) {
                 }
 
                 if (MemorizeApp.game.selectedCards[0].card.id == t.card.id) {
-                    MemorizeApp.game.selectedCards[0].solved = true;
-                    t.solved = true;
+                    MemorizeApp.game.selectedCards[0].card.solved = true;
+                    t.card.solved = true;
                     MemorizeApp.game.selectedCards = [];
                     return;
                 }
@@ -429,6 +429,10 @@ define(["activity/sample-ressources"], function (SampleRessources) {
         MemorizeApp.ui.gameTemplatesButton = document.getElementById("game-templates-button");
         MemorizeApp.ui.gameSizeButton = document.getElementById("game-size-button");
         MemorizeApp.ui.gameResetButton = document.getElementById("game-reset-button");
+        MemorizeApp.ui.gameResetButton.addEventListener("click", function () {
+            MemorizeApp.computeCards();
+            MemorizeApp.drawGame();
+        });
 
         MemorizeApp.ui.gameEditorButton = document.getElementById("game-editor-button");
         MemorizeApp.ui.gameEditorInsertModeButton = document.getElementById("game-editor-insert-mode-button");
@@ -459,6 +463,7 @@ define(["activity/sample-ressources"], function (SampleRessources) {
 
     function enterEditMode() {
         MemorizeApp.inEditMode = true;
+        MemorizeApp.ui.gameGrid.innerHTML = "";
 
         /* Disable game buttons */
 
@@ -511,6 +516,8 @@ define(["activity/sample-ressources"], function (SampleRessources) {
         MemorizeApp.ui.gameEditorClearButton.style.opacity = 0.3;
 
         MemorizeApp.ui.gameEditorButton.style.backgroundImage = "url(icons/cog.svg)";
+
+        MemorizeApp.drawGame();
     }
 
     function disableEditMode() {
