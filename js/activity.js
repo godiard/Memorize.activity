@@ -6,17 +6,18 @@ define(function (require) {
 
         if (window.top.sugar.environment.sharedId) {
             memorizeApp.initUI(function () {
-                initPresence(activity, memorizeApp, presencePalette, function () {
-                });
+                initPresence(activity, memorizeApp, presencePalette);
             })
         } else {
-            loadData(activity, memorizeApp, function () {
-                memorizeApp.initUI(function () {
-                    initPresence(activity, memorizeApp, presencePalette, function () {
-                        memorizeApp.drawGame();
-                    });
-                })
-            });
+            memorizeApp.initUI(function () {
+                initPresence(activity, memorizeApp, presencePalette);
+                memorizeApp.computeCards();
+                memorizeApp.drawGame();
+                loadData(activity, memorizeApp, function () {
+                    memorizeApp.drawGame();
+                });
+            })
+
         }
     });
 });
@@ -29,25 +30,17 @@ function loadData(activity, memorizeApp, callback) {
             timeout = 500;
         });
     } else {
-        timeout = 50;
+        timeout = 0;
     }
 
     setTimeout(function () {
         activity.getDatastoreObject().loadAsText(function (error, metadata, jsonData) {
             if (jsonData == null) {
-                if (callback) {
-                    memorizeApp.computeCards();
-                    callback();
-                }
                 return;
             }
 
             var data = JSON.parse(jsonData);
             if (data == null) {
-                if (callback) {
-                    memorizeApp.computeCards();
-                    callback();
-                }
                 return;
             }
 
