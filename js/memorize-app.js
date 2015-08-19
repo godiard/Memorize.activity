@@ -310,7 +310,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         return front;
     }
 
-    function createDiv(i, minSize) {
+    function createDiv(i, minSize, card) {
         var div = document.createElement("div");
         var generatedDiv = generateCardDiv(MemorizeApp.game.cards[i], minSize);
         div.appendChild(generatedDiv);
@@ -324,6 +324,10 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         div.style.width = minSize + "px";
         div.style.background = "#fff";
         div.style.border = "1px solid #ccc";
+
+        if (card.solved) {
+            div.style.backgroundColor = "#6edbff";
+        }
 
         return div;
     }
@@ -378,6 +382,14 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         if (MemorizeApp.game.selectedCards[0].card.id == t.card.id) {
             MemorizeApp.game.selectedCards[0].card.solved = true;
             t.card.solved = true;
+
+            var div1 = MemorizeApp.game.selectedCards[0].resultDiv;
+            var div2 = t.resultDiv;
+            setTimeout(function() {
+                div1.style.backgroundColor = "#6edbff";
+                div2.style.backgroundColor = "#6edbff";
+            }, 1000);
+
             MemorizeApp.game.selectedCards = [];
             return;
         }
@@ -420,9 +432,10 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
 
             var fullCardDiv = createFullCardDiv(i, minSize, card);
             var front = createFrontDiv(i, middle, minSize);
-            var div = createDiv(i, minSize);
+            var div = createDiv(i, minSize, card);
 
             fullCardDiv.card = card;
+            fullCardDiv.resultDiv = div;
 
             var clickEvent = "click";
             if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
