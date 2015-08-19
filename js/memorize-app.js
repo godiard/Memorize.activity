@@ -4,25 +4,6 @@
 
 define(["activity/sample-ressources", "activity/palettes/template-palette", "activity/palettes/size-palette"], function (SampleRessources, templatePalette, sizePalette) {
 
-    function shuffle(array) {
-        var currentIndex = array.length, temporaryValue, randomIndex;
-
-        // While there remain elements to shuffle...
-        while (0 !== currentIndex) {
-
-            // Pick a remaining element...
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex -= 1;
-
-            // And swap it with the current element.
-            temporaryValue = array[currentIndex];
-            array[currentIndex] = array[randomIndex];
-            array[randomIndex] = temporaryValue;
-        }
-
-        return array;
-    }
-
     var MODE_CLASSIC = "classic";
     var MODE_SPLITTED = "splitted";
 
@@ -47,7 +28,6 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         ],
         mode: MODE_SPLITTED
     };
-
     var TEMPLATE_LETTERS = {
         name: "Letters", cards: [
             [{text: "A"}, {text: "a"}],
@@ -103,7 +83,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
     };
 
     var MemorizeApp = {
-        ui: {audios: []},
+        ui: {},
         templates: [TEMPLATE_SUMS, TEMPLATE_LETTERS, TEMPLATE_SOUNDS],
         template: undefined,
         game: {
@@ -123,6 +103,21 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         onUsersListChanged: onUsersListChanged
     };
 
+    function shuffle(array) {
+        var currentIndex = array.length, temporaryValue, randomIndex;
+
+        while (0 !== currentIndex) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+        }
+
+        return array;
+    }
+
     function shareActivity() {
         MemorizeApp.inEditMode = false;
         leaveEditMode();
@@ -138,7 +133,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         }
         MemorizeApp.game.mode = MemorizeApp.template.mode;
 
-        var shuffledTemplate = {name: MemorizeApp.template.name, cards: []}
+        var shuffledTemplate = {name: MemorizeApp.template.name, cards: []};
         shuffledTemplate.cards = JSON.parse(JSON.stringify(shuffle(MemorizeApp.template.cards)));
 
         var cardsNumber = 0;
@@ -192,7 +187,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
     }
 
 
-    function resizeText() {
+    function resizeTextInsideTextCardDivs() {
         var elements = document.getElementsByClassName('textCard');
         for (var i = 0; i < elements.length; i++) {
             var el = elements[i];
@@ -236,7 +231,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         }
     }
 
-    function createContext() {
+    function createAudioContextIfMissing() {
         if (memorizeApp.context) {
             return;
         }
@@ -252,18 +247,151 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         context = new context();
         memorizeApp.context = context;
 
-        // create empty buffer
         var buffer = context.createBuffer(1, 1, 22050);
         var source = context.createBufferSource();
         memorizeApp.source = source;
         source.buffer = buffer;
 
-        // connect to output (your speakers)
         source.connect(context.destination);
-
-        // play the file
         source.start(0);
+    }
 
+    function createFullCardDiv(i, minSize, card) {
+        var fullCardDiv = document.createElement("div");
+        fullCardDiv.cardPosition = i;
+        fullCardDiv.style.margin = "5px";
+        fullCardDiv.style.webkitTransition = "transform 0.5s";
+        fullCardDiv.style.transition = "transform 0.5s";
+        fullCardDiv.style.transformStyle = "preserve-3d";
+        fullCardDiv.style.webkitTransformStyle = "preserve-3d";
+        fullCardDiv.style.position = "relative";
+        fullCardDiv.style.float = "left";
+        fullCardDiv.style.height = minSize + "px";
+        fullCardDiv.style.width = minSize + "px";
+        if (!card.solved) {
+            fullCardDiv.style.webkitTransform = "rotateY(180deg)";
+            fullCardDiv.style.transform = "rotateY(180deg)";
+        }
+        if (MemorizeApp.game.selectedCards.length != 0) {
+            if (MemorizeApp.game.selectedCards[0].cardPosition == fullCardDiv.cardPosition) {
+                fullCardDiv.style.webkitTransform = "";
+                fullCardDiv.style.transform = "";
+            }
+        }
+
+        return fullCardDiv;
+    }
+
+    function createFrontDiv(i, middle, minSize) {
+        var front = document.createElement("div");
+        if (MemorizeApp.game.mode == MODE_CLASSIC) {
+            front.style.background = "#aaa url(icons/number1.svg)";
+        }
+        if (MemorizeApp.game.mode == MODE_SPLITTED) {
+            if (i < middle) {
+                front.style.background = "#aaa url(icons/number1.svg)";
+            } else {
+                front.style.background = "#aaa url(icons/number2.svg)";
+            }
+        }
+        front.zIndex = 2;
+        front.style.webkitBackfaceVisibility = "hidden";
+        front.style.backfaceVisibility = "hidden";
+        front.style.webkitTransform = "rotateY(180deg)"
+        front.style.transform = "rotateY(180deg)"
+        front.style.backgroundPosition = "center center";
+        front.style.backgroundRepeat = "no-repeat";
+        front.style.height = minSize + "px";
+        front.style.position = "absolute";
+        front.style.top = "0px";
+        front.style.left = "0px";
+        front.style.width = minSize + "px";
+
+        return front;
+    }
+
+    function createDiv(i, minSize) {
+        var div = document.createElement("div");
+        var generatedDiv = generateCardDiv(MemorizeApp.game.cards[i], minSize);
+        div.appendChild(generatedDiv);
+        div.style.height = minSize + "px";
+        div.style.webkitBackfaceVisibility = "hidden";
+        div.style.backfaceVisibility = "hidden";
+        div.style.mozBackfaceVisibility = "hidden";
+        div.style.position = "absolute";
+        div.style.top = "0px";
+        div.style.left = "0px";
+        div.style.width = minSize + "px";
+        div.style.background = "#fff";
+        div.style.border = "1px solid #ccc";
+
+        return div;
+    }
+
+    function onCardClick() {
+        var middle = MemorizeApp.game.cards.length / 2;
+
+        createAudioContextIfMissing();
+        var t = this;
+
+        if (t.card.solved || MemorizeApp.game.selectedCards.length == 2) {
+            return;
+        }
+
+        if (MemorizeApp.game.mode == MODE_SPLITTED && MemorizeApp.game.selectedCards.length == 1) {
+            if (t.cardPosition < middle && MemorizeApp.game.selectedCards[0].cardPosition < middle) {
+                return;
+            }
+            if (t.cardPosition >= middle && MemorizeApp.game.selectedCards[0].cardPosition >= middle) {
+                return;
+            }
+        }
+
+        t.style.webkitTransform = "";
+        t.style.transform = "";
+
+        MemorizeApp.game.selectedCards.push(t);
+
+
+        if (this.card.sound) {
+            var b64 = this.card.sound.split("base64,")[1];
+            b64 = Base64Binary.decodeArrayBuffer(btoa(atob(b64)));
+
+            if (MemorizeApp.context) {
+                MemorizeApp.context.decodeAudioData(b64, function (buffer) {
+                    var source = MemorizeApp.context.createBufferSource(); // creates a sound source
+                    MemorizeApp.source = source;
+                    source.buffer = buffer;
+                    source.connect(MemorizeApp.context.destination);
+                    source.start(0);
+                }, function (err) {
+                    console.log("err(decodeAudioData): " + err);
+                });
+            }
+
+        }
+
+        if (MemorizeApp.game.selectedCards.length == 1) {
+            return;
+        }
+
+        if (MemorizeApp.game.selectedCards[0].card.id == t.card.id) {
+            MemorizeApp.game.selectedCards[0].card.solved = true;
+            t.card.solved = true;
+            MemorizeApp.game.selectedCards = [];
+            return;
+        }
+
+        setTimeout(function () {
+            try {
+                t.style.webkitTransform = "rotateY(180deg)";
+                t.style.transform = "rotateY(180deg)";
+                MemorizeApp.game.selectedCards[0].style.webkitTransform = "rotateY(180deg)";
+                MemorizeApp.game.selectedCards[0].style.transform = "rotateY(180deg)";
+                MemorizeApp.game.selectedCards = [];
+            } catch (e) {
+            }
+        }, 2000)
     }
 
     function drawGame() {
@@ -289,70 +417,10 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 div.style.clear = "both";
                 gameDiv.appendChild(div);
             }
-            var fullCardDiv = document.createElement("div");
-            fullCardDiv.cardPosition = i;
-            fullCardDiv.style.margin = "5px";
-            fullCardDiv.style.webkitTransition = "transform 0.5s";
-            fullCardDiv.style.transition = "transform 0.5s";
-            fullCardDiv.style.transformStyle = "preserve-3d";
-            fullCardDiv.style.webkitTransformStyle = "preserve-3d";
-            fullCardDiv.style.position = "relative";
-            if (!card.solved) {
-                fullCardDiv.style.webkitTransform = "rotateY(180deg)";
-                fullCardDiv.style.transform = "rotateY(180deg)";
-            }
-            if (MemorizeApp.game.selectedCards.length != 0) {
-                if (MemorizeApp.game.selectedCards[0].cardPosition == fullCardDiv.cardPosition) {
-                    fullCardDiv.style.webkitTransform = "";
-                    fullCardDiv.style.transform = "";
-                }
-            }
 
-            fullCardDiv.style.float = "left";
-            fullCardDiv.style.height = minSize + "px";
-            fullCardDiv.style.width = minSize + "px";
-
-
-            var front = document.createElement("div");
-            if (MemorizeApp.game.mode == MODE_CLASSIC) {
-                front.style.background = "#aaa url(icons/number1.svg)";
-            }
-            if (MemorizeApp.game.mode == MODE_SPLITTED) {
-                if (i < middle) {
-                    front.style.background = "#aaa url(icons/number1.svg)";
-                } else {
-                    front.style.background = "#aaa url(icons/number2.svg)";
-                }
-            }
-            front.zIndex = 2;
-            front.style.webkitBackfaceVisibility = "hidden";
-            front.style.backfaceVisibility = "hidden";
-            front.style.webkitTransform = "rotateY(180deg)"
-            front.style.transform = "rotateY(180deg)"
-            front.style.backgroundPosition = "center center";
-            front.style.backgroundRepeat = "no-repeat";
-            front.style.height = minSize + "px";
-            front.style.position = "absolute";
-            front.style.top = "0px";
-            front.style.left = "0px";
-            front.style.width = minSize + "px";
-
-            var div = document.createElement("div");
-            var generatedDiv = generateCardDiv(MemorizeApp.game.cards[i], minSize);
-            div.appendChild(generatedDiv);
-
-            div.style.height = minSize + "px";
-
-            div.style.webkitBackfaceVisibility = "hidden";
-            div.style.backfaceVisibility = "hidden";
-            div.style.mozBackfaceVisibility = "hidden";
-            div.style.position = "absolute";
-            //div.style.zIndex = 99;
-            div.style.top = "0px";
-            div.style.left = "0px";
-            div.style.width = minSize + "px";
-            div.style.background = "#fff";
-            div.style.border = "1px solid #ccc";
+            var fullCardDiv = createFullCardDiv(i, minSize, card);
+            var front = createFrontDiv(i, middle, minSize);
+            var div = createDiv(i, minSize);
 
             fullCardDiv.card = card;
 
@@ -360,82 +428,14 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
                 clickEvent = "touchstart";
             }
-            fullCardDiv.addEventListener(clickEvent, function () {
-                createContext();
-
-                var t = this;
-
-                if (t.card.solved) {
-                    return;
-                }
-                if (MemorizeApp.game.selectedCards.length == 2) {
-                    return;
-                }
-
-                if (MemorizeApp.game.mode == MODE_SPLITTED && MemorizeApp.game.selectedCards.length == 1) {
-                    if (t.cardPosition < middle && MemorizeApp.game.selectedCards[0].cardPosition < middle) {
-                        return;
-                    }
-                    if (t.cardPosition >= middle && MemorizeApp.game.selectedCards[0].cardPosition >= middle) {
-                        return;
-                    }
-                }
-
-                t.style.webkitTransform = "";
-                t.style.transform = "";
-
-                MemorizeApp.game.selectedCards.push(t);
-
-
-                if (this.card.sound) {
-                    var b64 = this.card.sound.split("base64,")[1];
-                    b64 = Base64Binary.decodeArrayBuffer(btoa(atob(b64)));
-
-                    if (MemorizeApp.context) {
-                        MemorizeApp.context.decodeAudioData(b64, function (buffer) {
-                            var source = MemorizeApp.context.createBufferSource(); // creates a sound source
-                            MemorizeApp.source = source;
-                            source.buffer = buffer;
-                            source.connect(MemorizeApp.context.destination);
-                            source.start(0);
-                        }, function (err) {
-                            console.log("err(decodeAudioData): " + err);
-                        });
-                    }
-
-                }
-
-                if (MemorizeApp.game.selectedCards.length == 1) {
-                    return;
-                }
-
-                if (MemorizeApp.game.selectedCards[0].card.id == t.card.id) {
-                    MemorizeApp.game.selectedCards[0].card.solved = true;
-                    t.card.solved = true;
-                    MemorizeApp.game.selectedCards = [];
-                    return;
-                }
-
-                setTimeout(function () {
-                    try {
-                        t.style.webkitTransform = "rotateY(180deg)";
-                        t.style.transform = "rotateY(180deg)";
-                        MemorizeApp.game.selectedCards[0].style.webkitTransform = "rotateY(180deg)";
-                        MemorizeApp.game.selectedCards[0].style.transform = "rotateY(180deg)";
-                        MemorizeApp.game.selectedCards = [];
-                    } catch (e) {
-                    }
-                }, 2000)
-
-
-            }, false);
+            fullCardDiv.addEventListener(clickEvent, onCardClick, false);
             fullCardDiv.appendChild(div);
             fullCardDiv.appendChild(front);
             gameDiv.appendChild(fullCardDiv);
         }
 
         MemorizeApp.ui.gameGrid.appendChild(gameDiv);
-        resizeText();
+        resizeTextInsideTextCardDivs();
     }
 
     function onUsersListChanged(users) {
@@ -642,6 +642,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             return uarray;
         }
     }
+
 
     return MemorizeApp;
 })
