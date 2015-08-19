@@ -17,6 +17,8 @@
 
 #main-toolbar #game-size-button {
     background-image: url(../icons/4x4.svg);
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
 }
 
 #main-toolbar #game-reset-button {

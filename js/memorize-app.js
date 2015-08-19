@@ -127,11 +127,19 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         if (!MemorizeApp.template) {
             return;
         }
+
         var suffledTemplate = JSON.parse(JSON.stringify(shuffle(MemorizeApp.template)));
+
+        var cardsNumber = 0;
+        if (MemorizeApp.game.size % 2 == 0) {
+            cardsNumber = MemorizeApp.game.size * MemorizeApp.game.size;
+        } else {
+            cardsNumber = MemorizeApp.game.size * MemorizeApp.game.size - 2;
+        }
 
         if (MemorizeApp.game.mode == MODE_CLASSIC) {
             var cards = [];
-            for (var i = 0; i < suffledTemplate.length && i < MemorizeApp.game.size * MemorizeApp.game.size / 2; i++) {
+            for (var i = 0; i < suffledTemplate.length && i < cardsNumber / 2; i++) {
                 var card1 = suffledTemplate[i][0];
                 var card2 = suffledTemplate[i][1];
 
@@ -148,7 +156,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             var cards1 = [];
             var cards2 = [];
 
-            for (var i = 0; i < MemorizeApp.game.size * MemorizeApp.game.size / 2 && i < suffledTemplate.length; i++) {
+            for (var i = 0; i < cardsNumber / 2 && i < suffledTemplate.length; i++) {
                 var card1 = suffledTemplate[i][0];
                 var card2 = suffledTemplate[i][1];
 
@@ -406,7 +414,8 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                         MemorizeApp.game.selectedCards[0].style.webkitTransform = "rotateY(180deg)";
                         MemorizeApp.game.selectedCards[0].style.transform = "rotateY(180deg)";
                         MemorizeApp.game.selectedCards = [];
-                    } catch (e) {}
+                    } catch (e) {
+                    }
                 }, 2000)
 
 
@@ -430,6 +439,16 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
 
         MemorizeApp.ui.gameTemplatesButton = document.getElementById("game-templates-button");
         MemorizeApp.ui.gameSizeButton = document.getElementById("game-size-button");
+        var sp = new sizePalette.SizePalette(MemorizeApp.ui.gameSizeButton);
+
+        sp.addEventListener('size', function (e) {
+            MemorizeApp.game.size = e.detail.value;
+            MemorizeApp.ui.gameSizeButton.style.background = "url(icons/" + e.detail.value + "x" + e.detail.value + ".svg)";
+            MemorizeApp.computeCards();
+            MemorizeApp.drawGame();
+        });
+
+
         MemorizeApp.ui.gameResetButton = document.getElementById("game-reset-button");
         MemorizeApp.ui.gameResetButton.addEventListener("click", function () {
             MemorizeApp.computeCards();
