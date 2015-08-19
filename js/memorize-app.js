@@ -96,7 +96,7 @@ define(["activity/sample-ressources"], function (SampleRessources) {
     var MemorizeApp = {
         ui: {audios: []},
         templates: [TEMPLATE_SUMS, TEMPLATE_LETTERS, TEMPLATE_SOUNDS],
-        template: TEMPLATE_SUMS,
+        template: TEMPLATE_SOUNDS,
         game: {
             selectedCards: [],
             mode: MODE_SPLITTED,
@@ -212,6 +212,36 @@ define(["activity/sample-ressources"], function (SampleRessources) {
         }
     }
 
+    function createContext() {
+        if (memorizeApp.context) {
+            return;
+        }
+        var context = window.AudioContext ||
+            window.webkitAudioContext ||
+            window.mozAudioContext ||
+            window.oAudioContext ||
+            window.msAudioContext;
+
+        if (!context) {
+            return;
+        }
+        context = new context();
+        memorizeApp.context = context;
+
+        // create empty buffer
+        var buffer = context.createBuffer(1, 1, 22050);
+        var source = context.createBufferSource();
+        memorizeApp.source = source;
+        source.buffer = buffer;
+
+        // connect to output (your speakers)
+        source.connect(context.destination);
+
+        // play the file
+        source.start(0);
+
+    }
+
     function drawGame() {
         console.log("DRAW GAME")
         MemorizeApp.ui.gameGrid.innerHTML = "";
@@ -303,83 +333,80 @@ define(["activity/sample-ressources"], function (SampleRessources) {
 
             fullCardDiv.card = card;
 
-            clickEvent = "click"
+            var clickEvent = "click";
+            if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+                clickEvent = "touchstart";
+            }
             fullCardDiv.addEventListener(clickEvent, function () {
-                    var t = this;
 
-                    if (t.solved) {
+                createContext();
+
+                var t = this;
+
+                if (t.solved) {
+                    return;
+                }
+                if (MemorizeApp.game.selectedCards.length == 2) {
+                    return;
+                }
+
+                if (MemorizeApp.game.mode == MODE_SPLITTED && MemorizeApp.game.selectedCards.length == 1) {
+                    if (t.cardPosition < middle && MemorizeApp.game.selectedCards[0].cardPosition < middle) {
                         return;
                     }
-                    if (MemorizeApp.game.selectedCards.length == 2) {
+                    if (t.cardPosition >= middle && MemorizeApp.game.selectedCards[0].cardPosition >= middle) {
                         return;
                     }
+                }
 
-                    if (MemorizeApp.game.mode == MODE_SPLITTED && MemorizeApp.game.selectedCards.length == 1) {
-                        if (t.cardPosition < middle && MemorizeApp.game.selectedCards[0].cardPosition < middle) {
-                            return;
-                        }
-                        if (t.cardPosition >= middle && MemorizeApp.game.selectedCards[0].cardPosition >= middle) {
-                            return;
-                        }
+                t.style.webkitTransform = "";
+                t.style.transform = "";
+
+                MemorizeApp.game.selectedCards.push(t);
+
+
+                if (this.card.sound) {
+
+                    var b64 = TEMPLATE_SOUNDS[0][0].sound.split("base64,")[1];
+                    b64 = Base64Binary.decodeArrayBuffer(btoa(atob(b64)));
+
+
+                    if (MemorizeApp.context) {
+                        MemorizeApp.context.decodeAudioData(b64, function (buffer) {
+                            var source = MemorizeApp.context.createBufferSource(); // creates a sound source
+                            MemorizeApp.source = source;
+                            source.buffer = buffer;
+                            source.connect(MemorizeApp.context.destination);
+                            source.start(0);
+                            console.log(42)
+                        }, function (err) {
+                            console.log("err(decodeAudioData): " + err);
+                        });
                     }
-
-                    t.style.webkitTransform = "";
-                    t.style.transform = "";
-
-                    MemorizeApp.game.selectedCards.push(t);
-
-
-                    if (this.card.sound) {
-
-                        var b64 = TEMPLATE_SOUNDS[0][0].sound.split("base64,")[1];
-                        b64 = Base64Binary.decodeArrayBuffer(btoa(atob(b64)));
-
-
-                        var context = window.AudioContext ||
-                            window.webkitAudioContext ||
-                            window.mozAudioContext ||
-                            window.oAudioContext ||
-                            window.msAudioContext;
-
-                        if (context) {
-                            context = new context();
-                            context.decodeAudioData(b64, function (buffer) {
-                                var source = context.createBufferSource(); // creates a sound source
-                                source.buffer = buffer;
-                                source.connect(context.destination); // connect the source to the context's destination (the speakers)
-                                source.start(0);                           // play the source now
-
-                            }, function (err) {
-                                console.log("err(decodeAudioData): " + err);
-                            });
-                        }
-
-                    }
-
-                    if (MemorizeApp.game.selectedCards.length == 1) {
-                        return;
-                    }
-
-                    if (MemorizeApp.game.selectedCards[0].card.id == t.card.id) {
-                        MemorizeApp.game.selectedCards[0].solved = true;
-                        t.solved = true;
-                        MemorizeApp.game.selectedCards = [];
-                        return;
-                    }
-
-                    setTimeout(function () {
-                        t.style.webkitTransform = "rotateY(180deg)";
-                        t.style.transform = "rotateY(180deg)";
-                        MemorizeApp.game.selectedCards[0].style.webkitTransform = "rotateY(180deg)";
-                        MemorizeApp.game.selectedCards[0].style.transform = "rotateY(180deg)";
-                        MemorizeApp.game.selectedCards = [];
-                    }, 2000)
-
-
 
                 }
-            )
-            ;
+
+                if (MemorizeApp.game.selectedCards.length == 1) {
+                    return;
+                }
+
+                if (MemorizeApp.game.selectedCards[0].card.id == t.card.id) {
+                    MemorizeApp.game.selectedCards[0].solved = true;
+                    t.solved = true;
+                    MemorizeApp.game.selectedCards = [];
+                    return;
+                }
+
+                setTimeout(function () {
+                    t.style.webkitTransform = "rotateY(180deg)";
+                    t.style.transform = "rotateY(180deg)";
+                    MemorizeApp.game.selectedCards[0].style.webkitTransform = "rotateY(180deg)";
+                    MemorizeApp.game.selectedCards[0].style.transform = "rotateY(180deg)";
+                    MemorizeApp.game.selectedCards = [];
+                }, 2000)
+
+
+            }, false);
             fullCardDiv.appendChild(div);
             fullCardDiv.appendChild(front);
             gameDiv.appendChild(fullCardDiv);
