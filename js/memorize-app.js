@@ -343,7 +343,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             return div;
         }
 
-        function cardClick(div, fromMe) {
+        function cardClick(div, fromMe, user) {
             var middle = MemorizeApp.game.cards.length / 2;
 
             createAudioContextIfMissing();
@@ -403,6 +403,8 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 MemorizeApp.game.selectedCards[0].card.solved = true;
                 t.card.solved = true;
 
+                user.score = user.score + 1;
+                displayUsersAndScores();
                 var div1 = MemorizeApp.game.selectedCards[0].resultDiv;
                 var div2 = t.resultDiv;
                 setTimeout(function () {
@@ -432,8 +434,15 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                     return;
                 }
                 sendMessage({action: "cardClick", position: this.cardPosition});
+                for (var i = 0; i < MemorizeApp.game.players.length; i++) {
+                    if (MemorizeApp.game.players[i].networkId == MemorizeApp.me.networkId) {
+                        cardClick(this, true, MemorizeApp.game.players[i]);
+                    }
+                }
+            } else {
+                cardClick(this, true);
             }
-            cardClick(this, true);
+
         }
 
         function drawGame() {
@@ -497,16 +506,16 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             }
 
             if (data.content.action == "cardClick") {
-                var cards = memorizeApp.ui.gameGrid.children[0].childNodes;
-                var j = -1;
-                for (var i = 0; i < cards.length; i++) {
-                    if (!cards[i].style.clear || cards[i].style.clear == "") {
-                        j = j + 1;
+                var notFilteredCards = memorizeApp.ui.gameGrid.children[0].childNodes;
+                var cards = [];
+                for (var i = 0; i < notFilteredCards.length; i++) {
+                    if (!notFilteredCards[i].style.clear || notFilteredCards[i].style.clear == "") {
+                        cards.push(notFilteredCards[i]);
                     }
-
-                    if (j === data.content.position) {
-                        cardClick(cards[i], false);
-                        return;
+                }
+                for (var i = 0; i < MemorizeApp.game.players.length; i++) {
+                    if (MemorizeApp.game.players[i].networkId == data.user.networkId) {
+                        cardClick(cards[data.content.position], false, MemorizeApp.game.players[i]);
                     }
                 }
             }
@@ -530,10 +539,11 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             for (var i = 0; i < MemorizeApp.game.players.length; i++) {
                 var player = MemorizeApp.game.players[i];
                 var d = document.createElement("div");
+                d.style.paddingTop = "15px";
                 var xoColor = generateXOLogoWithColor(player.colorvalue);
                 var scores = "";
                 for (var j = 0; j < player.score; j++) {
-                    scores += '<img style="height:20px; padding-top:15px;" src="icons/pair-add.svg">';
+                    scores += '<img style="height:13px;" src="icons/pair-add.svg">';
                 }
                 d.innerHTML = '<img style="height:23px; vertical-align:middle; " src="' + xoColor + '"><span style="color:#fff;">' + player.name + "</span> " + scores;
                 d.style.float = "left";
@@ -547,8 +557,8 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         }
 
         function onUsersListChanged(users) {
-            for (var i = 0; i < users.length; i++) {
-                users[i].online = false;
+            for (var i = 0; i < MemorizeApp.game.players.length; i++) {
+                MemorizeApp.game.players[i].online = false;
             }
             if (MemorizeApp.game.players.length == 0 && users.length >= 3) {
                 document.getElementById("stop-button").click();
@@ -560,9 +570,6 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             }
 
             if (users.length == 1) {
-                for (var i = 0; i < MemorizeApp.game.players.length; i++) {
-                    MemorizeApp.game.players[i].score = 0;
-                }
                 MemorizeApp.isHost = true;
                 MemorizeApp.game.currentPlayer = MemorizeApp.me.networkId;
                 MemorizeApp.game.selectedCards = [];
@@ -628,6 +635,10 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
 
             MemorizeApp.ui.gameResetButton = document.getElementById("game-reset-button");
             MemorizeApp.ui.gameResetButton.addEventListener("click", function () {
+                for (var i = 0; i < MemorizeApp.game.players.length; i++) {
+                    MemorizeApp.game.players[i].score = 0;
+                }
+                displayUsersAndScores();
                 MemorizeApp.computeCards();
                 MemorizeApp.drawGame();
                 sendMessage({action: "updateGame", game: MemorizeApp.game});
