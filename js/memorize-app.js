@@ -203,6 +203,9 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
 
 
         function shareActivity(isHost) {
+            if (!memorizeApp.presence.isConnected()) {
+                return;
+            }
             MemorizeApp.inEditMode = false;
 
             leaveEditMode();
@@ -479,14 +482,34 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 if (MemorizeApp.context) {
                     MemorizeApp.context.decodeAudioData(b64, function (buffer) {
                         var source = MemorizeApp.context.createBufferSource(); // creates a sound source
+                        if (MemorizeApp.source) {
+                            if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+                                try {
+                                    MemorizeApp.source.noteOff(0);
+                                } catch (e) {
+                                }
+                            } else {
+                                try {
+                                    MemorizeApp.source.stop(0);
+                                } catch (e) {
+                                }
+                            }
+                        }
                         MemorizeApp.source = source;
                         source.buffer = buffer;
                         source.connect(MemorizeApp.context.destination);
-                        try {
-                            source.noteOn(0);
-                        } catch (e) {
+                        if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+                            try {
+                                source.noteOn(0);
+                            } catch (e) {
+                            }
+                        } else {
+                            try {
+                                source.start(0);
+                            } catch (e) {
+
+                            }
                         }
-                        source.start(0);
                     }, function (err) {
                         console.log("err(decodeAudioData): " + err);
                     });
