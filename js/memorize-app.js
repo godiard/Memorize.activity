@@ -128,9 +128,10 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             disableEditMode();
 
             MemorizeApp.game.multiplayer = true;
-            MemorizeApp.me = memorizeApp.presence.userInfo;
-            MemorizeApp.ui.gamePlayers.style.display = "block";
             MemorizeApp.isHost = isHost;
+            MemorizeApp.me = memorizeApp.presence.userInfo;
+            MemorizeApp.game.currentPlayer = MemorizeApp.me.networkId;
+            MemorizeApp.ui.gamePlayers.style.display = "block";
         }
 
 
@@ -342,14 +343,11 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             return div;
         }
 
-        function onCardClick() {
-            if (MemorizeApp.game.multiplayer) {
-
-            }
+        function cardClick(div, fromMe) {
             var middle = MemorizeApp.game.cards.length / 2;
 
             createAudioContextIfMissing();
-            var t = this;
+            var t = div;
 
             if (t.card.solved || MemorizeApp.game.selectedCards.length == 2) {
                 return;
@@ -369,8 +367,17 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
 
             MemorizeApp.game.selectedCards.push(t);
 
+            if (MemorizeApp.game.selectedCards.length == 2 && fromMe) {
+                for (var i = 0; i < MemorizeApp.game.players.length; i++) {
+                    if (MemorizeApp.game.players[i].online && MemorizeApp.game.players[i].networkId != MemorizeApp.me.networkId) {
+                        MemorizeApp.game.currentPlayer = MemorizeApp.game.players[i].networkId;
+                        sendMessage({action: "updateCurrentPlayer", currentPlayer: MemorizeApp.game.currentPlayer});
+                        break;
+                    }
+                }
+            }
 
-            if (this.card.sound) {
+            if (t.card.sound) {
                 var b64 = this.card.sound.split("base64,")[1];
                 b64 = Base64Binary.decodeArrayBuffer(btoa(atob(b64)));
 
@@ -417,6 +424,16 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 } catch (e) {
                 }
             }, 2000)
+        }
+
+        function onCardClick() {
+            if (MemorizeApp.game.multiplayer) {
+                if (MemorizeApp.game.currentPlayer != MemorizeApp.me.networkId) {
+                    return;
+                }
+                sendMessage({action: "cardClick", position: this.cardPosition});
+            }
+            cardClick(this, true);
         }
 
         function drawGame() {
@@ -468,12 +485,33 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             if (data.user.networkId == MemorizeApp.me.networkId) {
                 return;
             }
-            if (data.content.game) {
-                MemorizeApp.game = data.content.game;
-                MemorizeApp.drawGame();
+
+            if (data.content.action == "updateCurrentPlayer") {
+                memorizeApp.game.currentPlayer = data.content.currentPlayer;
             }
 
-            console.log(data);
+            if (data.content.action == "updateGame") {
+                MemorizeApp.game = data.content.game;
+                MemorizeApp.drawGame();
+                displayUsersAndScores();
+            }
+
+            if (data.content.action == "cardClick") {
+                var cards = memorizeApp.ui.gameGrid.children[0].childNodes;
+                var j = -1;
+                for (var i = 0; i < cards.length; i++) {
+                    if (!cards[i].style.clear || cards[i].style.clear == "") {
+                        j = j + 1;
+                    }
+
+                    if (j === data.content.position) {
+                        cardClick(cards[i], false);
+                        return;
+                    }
+                }
+            }
+
+
         }
 
         function sendMessage(content) {
@@ -487,14 +525,38 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             });
         }
 
+        function displayUsersAndScores() {
+            var div = document.createElement("div");
+            for (var i = 0; i < MemorizeApp.game.players.length; i++) {
+                var player = MemorizeApp.game.players[i];
+                var d = document.createElement("div");
+                var xoColor = generateXOLogoWithColor(player.colorvalue);
+                var scores = "";
+                for (var j = 0; j < player.score; j++) {
+                    scores += '<img style="height:20px; padding-top:15px;" src="icons/pair-add.svg">';
+                }
+                d.innerHTML = '<img style="height:23px; vertical-align:middle; " src="' + xoColor + '"><span style="color:#fff;">' + player.name + "</span> " + scores;
+                d.style.float = "left";
+                if (i != 0) {
+                    d.style.marginLeft = "10px";
+                }
+                div.appendChild(d);
+            }
+            MemorizeApp.ui.gamePlayers.innerHTML = "";
+            MemorizeApp.ui.gamePlayers.appendChild(div);
+        }
+
         function onUsersListChanged(users) {
+            for (var i = 0; i < users.length; i++) {
+                users[i].online = false;
+            }
             if (MemorizeApp.game.players.length == 0 && users.length >= 3) {
                 document.getElementById("stop-button").click();
                 return;
             }
 
             if (MemorizeApp.isHost) {
-                sendMessage({game: MemorizeApp.game});
+                sendMessage({action: "updateGame", game: MemorizeApp.game});
             }
 
             if (users.length == 1) {
@@ -502,6 +564,10 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                     MemorizeApp.game.players[i].score = 0;
                 }
                 MemorizeApp.isHost = true;
+                MemorizeApp.game.currentPlayer = MemorizeApp.me.networkId;
+                MemorizeApp.game.selectedCards = [];
+                drawGame();
+                displayUsersAndScores();
                 return;
             }
 
@@ -509,6 +575,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 var found = false;
                 for (var j = 0; j < MemorizeApp.game.players.length; j++) {
                     if (MemorizeApp.game.players[j].networkId == users[i].networkId) {
+                        MemorizeApp.game.players[j].online = true;
                         found = true;
                         break;
                     }
@@ -517,9 +584,21 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 if (!found) {
                     var user = users[i];
                     user.score = 0;
+                    user.online = true;
                     MemorizeApp.game.players.push(user);
                 }
             }
+            displayUsersAndScores();
+        }
+
+        var xoLogo = '<?xml version="1.0" ?><!DOCTYPE svg  PUBLIC \'-//W3C//DTD SVG 1.1//EN\'  \'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\' [<!ENTITY stroke_color "#010101"><!ENTITY fill_color "#FFFFFF">]><svg enable-background="new 0 0 55 55" height="55px" version="1.1" viewBox="0 0 55 55" width="55px" x="0px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" y="0px"><g display="block" id="stock-xo_1_"><path d="M33.233,35.1l10.102,10.1c0.752,0.75,1.217,1.783,1.217,2.932   c0,2.287-1.855,4.143-4.146,4.143c-1.145,0-2.178-0.463-2.932-1.211L27.372,40.961l-10.1,10.1c-0.75,0.75-1.787,1.211-2.934,1.211   c-2.284,0-4.143-1.854-4.143-4.141c0-1.146,0.465-2.184,1.212-2.934l10.104-10.102L11.409,24.995   c-0.747-0.748-1.212-1.785-1.212-2.93c0-2.289,1.854-4.146,4.146-4.146c1.143,0,2.18,0.465,2.93,1.214l10.099,10.102l10.102-10.103   c0.754-0.749,1.787-1.214,2.934-1.214c2.289,0,4.146,1.856,4.146,4.145c0,1.146-0.467,2.18-1.217,2.932L33.233,35.1z" fill="&fill_color;" stroke="&stroke_color;" stroke-width="3.5"/><circle cx="27.371" cy="10.849" fill="&fill_color;" r="8.122" stroke="&stroke_color;" stroke-width="3.5"/></g></svg>';
+
+        function generateXOLogoWithColor(color) {
+            var coloredLogo = xoLogo;
+            coloredLogo = coloredLogo.replace("#010101", color.stroke);
+            coloredLogo = coloredLogo.replace("#FFFFFF", color.fill);
+
+            return "data:image/svg+xml;base64," + btoa(coloredLogo);
         }
 
         function initUI(callback) {
@@ -533,7 +612,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 MemorizeApp.game.template = e.detail.value;
                 MemorizeApp.computeCards();
                 MemorizeApp.drawGame();
-                sendMessage({game: MemorizeApp.game});
+                sendMessage({action: "updateGame", game: MemorizeApp.game});
             });
 
             MemorizeApp.ui.gameSizeButton = document.getElementById("game-size-button");
@@ -543,7 +622,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 MemorizeApp.ui.gameSizeButton.style.background = "url(icons/" + e.detail.value + "x" + e.detail.value + ".svg)";
                 MemorizeApp.computeCards();
                 MemorizeApp.drawGame();
-                sendMessage({game: MemorizeApp.game});
+                sendMessage({action: "updateGame", game: MemorizeApp.game});
             });
 
 
@@ -551,6 +630,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             MemorizeApp.ui.gameResetButton.addEventListener("click", function () {
                 MemorizeApp.computeCards();
                 MemorizeApp.drawGame();
+                sendMessage({action: "updateGame", game: MemorizeApp.game});
             });
 
             MemorizeApp.ui.gameEditorButton = document.getElementById("game-editor-button");
