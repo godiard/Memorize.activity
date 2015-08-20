@@ -408,11 +408,13 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 MemorizeApp.game.selectedCards[0].card.solved = true;
                 t.card.solved = true;
 
-                saveGame();
-
-                if (user && user.score) {
-                    user.score = user.score + 1;
+                for (var i = 0; i < MemorizeApp.game.players.length; i++) {
+                    if (MemorizeApp.game.players[i].networkId == user.networkId) {
+                        MemorizeApp.game.players[i].score =  MemorizeApp.game.players[i].score + 1;
+                    }
                 }
+
+                saveGame();
                 displayUsersAndScores();
                 var div1 = MemorizeApp.game.selectedCards[0].resultDiv;
                 var div2 = t.resultDiv;
@@ -439,6 +441,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         }
 
         function saveGame() {
+            return;
             memorizeApp.activity.getDatastoreObject().setDataAsText(JSON.stringify({game:MemorizeApp.game}));
             memorizeApp.activity.getDatastoreObject().save(function (error) {
             });
@@ -451,7 +454,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 }
                 sendMessage({action: "cardClick", position: this.cardPosition});
                 if (MemorizeApp.game.players.length == 0 || MemorizeApp.game.players.length == 1) {
-                    cardClick(this, true, MemorizeApp.me.networkId);
+                    cardClick(this, true);
                 }
                 for (var i = 0; i < MemorizeApp.game.players.length; i++) {
                     if (MemorizeApp.game.players[i].networkId == MemorizeApp.me.networkId) {
