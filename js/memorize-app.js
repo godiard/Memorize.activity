@@ -614,9 +614,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
 
             MemorizeApp.hasLoadedMultiplayer = true;
 
-            if (MemorizeApp.isHost) {
-                sendMessage({action: "updateGame", game: MemorizeApp.game});
-            }
+
 
             if (users.length == 1) {
                 MemorizeApp.isHost = true;
@@ -643,6 +641,9 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                     user.online = true;
                     MemorizeApp.game.players.push(user);
                 }
+            }
+            if (MemorizeApp.isHost) {
+                sendMessage({action: "updateGame", game: MemorizeApp.game});
             }
             displayUsersAndScores();
         }
