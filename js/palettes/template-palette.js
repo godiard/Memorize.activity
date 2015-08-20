@@ -39,6 +39,9 @@ define(["sugar-web/graphics/palette"], function (palette) {
 
         var that = this;
 
+        that.getPalette().firstChild.style.backgroundColor = "transparent";
+        that.getPalette().firstChild.style.backgroundImage = "";
+
         function popDownOnButtonClick(event) {
             console.log(event);
             that.popDown();

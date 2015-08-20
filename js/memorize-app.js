@@ -481,6 +481,9 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         }
 
         function drawGame() {
+            MemorizeApp.ui.gameSizeButton.style.background = "url(icons/" + MemorizeApp.game.size + "x" + MemorizeApp.game.size + ".svg)";
+            MemorizeApp.ui.gameTemplatesButton.style.backgroundImage = "url(icons/" + MemorizeApp.game.template.icon + ")";
+
             MemorizeApp.ui.gameGrid.innerHTML = "";
 
             var gameDiv = MemorizeApp.ui.gameGrid;
@@ -543,6 +546,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             if (data.content.action == "updateGame") {
                 MemorizeApp.game = data.content.game;
                 MemorizeApp.ui.gameSizeButton.style.background = "url(icons/" + MemorizeApp.game.size + "x" + MemorizeApp.game.size + ".svg)";
+                MemorizeApp.ui.gameTemplatesButton.style.backgroundImage = "url(icons/" + MemorizeApp.game.template.icon + ")";
                 MemorizeApp.drawGame();
                 displayUsersAndScores();
             }
@@ -690,12 +694,14 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             MemorizeApp.ui.gameEditor = document.getElementById("game-editor");
 
             MemorizeApp.ui.gameTemplatesButton = document.getElementById("game-templates-button");
+
             var gt = new templatePalette.TemplatePalette(MemorizeApp.ui.gameTemplatesButton, undefined, MemorizeApp.templates);
             gt.addEventListener('template', function (e) {
                 for (var i = 0; i < MemorizeApp.game.players.length; i++) {
                     MemorizeApp.game.players[i].score = 0;
                 }
                 MemorizeApp.game.template = e.detail.value;
+                MemorizeApp.ui.gameTemplatesButton.style.backgroundImage = "url(icons/" + e.detail.value.icon + ")";
                 MemorizeApp.computeCards();
                 MemorizeApp.drawGame();
                 sendMessage({action: "updateGame", game: MemorizeApp.game});

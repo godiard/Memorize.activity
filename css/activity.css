@@ -71,6 +71,11 @@
     border-radius: 5.5px;
 }
 
+#game-templates-button {
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
 #game-players {
     background: #005983;
     position:fixed;
