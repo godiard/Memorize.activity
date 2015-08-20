@@ -583,10 +583,13 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             for (var i = 0; i < MemorizeApp.game.players.length; i++) {
                 MemorizeApp.game.players[i].online = false;
             }
-            if (MemorizeApp.game.players.length == 0 && users.length >= 3) {
+
+            if (!MemorizeApp.hasLoadedMultiplayer && users.length >= 3) {
                 document.getElementById("stop-button").click();
                 return;
             }
+
+            MemorizeApp.hasLoadedMultiplayer = true;
 
             if (MemorizeApp.isHost) {
                 sendMessage({action: "updateGame", game: MemorizeApp.game});
