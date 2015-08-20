@@ -58,29 +58,109 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 [{text: "Y"}, {text: "y"}],
                 [{text: "Z"}, {text: "z"}]
             ],
-            mode: MODE_CLASSIC
+            mode: MODE_SPLITTED
         };
 
         var TEMPLATE_SOUNDS = {
             name: "Sounds", icon: "sounds.svg", cards: [
-                [{image: SampleRessources.imageMan, sound: SampleRessources.soundHello}, {
-                    image: SampleRessources.imageMan,
-                    sound: SampleRessources.soundHello
-                }],
-                [{image: SampleRessources.imageMan, sound: SampleRessources.soundHello}, {
-                    image: SampleRessources.imageMan,
-                    sound: SampleRessources.soundHello
-                }],
-                [{image: SampleRessources.imageMan, sound: SampleRessources.soundHello}, {
-                    image: SampleRessources.imageMan,
-                    sound: SampleRessources.soundHello
-                }],
-                [{image: SampleRessources.imageMan, sound: SampleRessources.soundHello}, {
-                    image: SampleRessources.imageMan,
-                    sound: SampleRessources.soundHello
-                }]
+                [
+                    {image: SampleRessources.drumkit1_b, sound: SampleRessources.beat1_a},
+                    {image: SampleRessources.drumkit1_b, sound: SampleRessources.beat1_a}
+                ],
+                [
+                    {image: SampleRessources.drumkit2_b, sound: SampleRessources.beat1_b},
+                    {image: SampleRessources.drumkit2_b, sound: SampleRessources.beat1_b}
+                ],
+                [
+                    {image: SampleRessources.drumkit3_b, sound: SampleRessources.beat1_c},
+                    {image: SampleRessources.drumkit3_b, sound: SampleRessources.beat1_c}
+                ],
+                [
+                    {image: SampleRessources.drumkit4_b, sound: SampleRessources.beat8},
+                    {image: SampleRessources.drumkit4_b, sound: SampleRessources.beat8}
+                ],
+                [
+                    {image: SampleRessources.drumkit5_b, sound: SampleRessources.beat10},
+                    {image: SampleRessources.drumkit5_b, sound: SampleRessources.beat10}
+                ],
+                [
+                    {image: SampleRessources.drumkit6_b, sound: SampleRessources.beat3},
+                    {image: SampleRessources.drumkit6_b, sound: SampleRessources.beat3}
+                ],
+                [
+                    {image: SampleRessources.drumkit7_b, sound: SampleRessources.beat4},
+                    {image: SampleRessources.drumkit7_b, sound: SampleRessources.beat4}
+                ],
+                [
+                    {image: SampleRessources.drumkit8_b, sound: SampleRessources.beat14},
+                    {image: SampleRessources.drumkit8_b, sound: SampleRessources.beat14}
+                ],
+                [
+                    {image: SampleRessources.drumkit9_b, sound: SampleRessources.beat6_2},
+                    {image: SampleRessources.drumkit9_b, sound: SampleRessources.beat6_2}
+                ],
+                [
+                    {image: SampleRessources.drumkit10_b, sound: SampleRessources.beat2},
+                    {image: SampleRessources.drumkit10_b, sound: SampleRessources.beat2}
+                ],
+                [
+                    {image: SampleRessources.drumkit11_b, sound: SampleRessources.beat16},
+                    {image: SampleRessources.drumkit11_b, sound: SampleRessources.beat16}
+                ],
+                [
+                    {image: SampleRessources.drumkit12_b, sound: SampleRessources.beat17},
+                    {image: SampleRessources.drumkit12_b, sound: SampleRessources.beat17}
+                ],
+                [
+                    {image: SampleRessources.guitar1_2, sound: SampleRessources.bending_a},
+                    {image: SampleRessources.guitar1_2, sound: SampleRessources.bending_a}
+                ],
+                [
+                    {image: SampleRessources.guitar2_2, sound: SampleRessources.bending_b},
+                    {image: SampleRessources.guitar2_2, sound: SampleRessources.bending_b}
+                ],
+                [
+                    {image: SampleRessources.guitar3_2, sound: SampleRessources.flashcomp2a},
+                    {image: SampleRessources.guitar3_2, sound: SampleRessources.flashcomp2a}
+                ],
+                [
+                    {image: SampleRessources.guitar4_2, sound: SampleRessources.flashcomp2b},
+                    {image: SampleRessources.guitar4_2, sound: SampleRessources.flashcomp2b}
+                ],
+                [
+                    {image: SampleRessources.guitar5_2, sound: SampleRessources.gedaempft},
+                    {image: SampleRessources.guitar5_2, sound: SampleRessources.gedaempft}
+                ],
+                [
+                    {image: SampleRessources.guitar6_2, sound: SampleRessources.ungedaempft},
+                    {image: SampleRessources.guitar6_2, sound: SampleRessources.ungedaempft}
+                ],
+                [
+                    {image: SampleRessources.guitar7_2, sound: SampleRessources.jimi4},
+                    {image: SampleRessources.guitar7_2, sound: SampleRessources.jimi4}
+                ],
+                [
+                    {image: SampleRessources.guitar8_2, sound: SampleRessources.git_hit1},
+                    {image: SampleRessources.guitar8_2, sound: SampleRessources.git_hit1}
+                ],
+                [
+                    {image: SampleRessources.guitar9_2, sound: SampleRessources.git_hit4},
+                    {image: SampleRessources.guitar9_2, sound: SampleRessources.git_hit4}
+                ],
+                [
+                    {image: SampleRessources.guitar10_2, sound: SampleRessources.jimi1},
+                    {image: SampleRessources.guitar10_2, sound: SampleRessources.jimi1}
+                ],
+                [
+                    {image: SampleRessources.guitar11_2, sound: SampleRessources.flasholet4},
+                    {image: SampleRessources.guitar11_2, sound: SampleRessources.flasholet4}
+                ],
+                [
+                    {image: SampleRessources.guitar12_2, sound: SampleRessources.guitcello},
+                    {image: SampleRessources.guitar12_2, sound: SampleRessources.guitcello}
+                ]
             ],
-            mode: MODE_SPLITTED
+            mode: MODE_CLASSIC
         };
 
         var MemorizeApp = {
@@ -91,7 +171,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 template: TEMPLATE_LETTERS,
                 multiplayer: false,
                 selectedCards: [],
-                mode: MODE_CLASSIC,
+                mode: undefined,
                 cards: [],
                 currentPlayer: "",
                 players: [],
