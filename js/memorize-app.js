@@ -381,7 +381,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
 
             MemorizeApp.game.selectedCards.push(t);
 
-            if (MemorizeApp.game.selectedCards.length == 2 && fromMe) {
+            if (MemorizeApp.game.selectedCards.length == 2 && MemorizeApp.game.selectedCards[0].card.id != t.card.id && fromMe) {
                 for (var i = 0; i < MemorizeApp.game.players.length; i++) {
                     if (MemorizeApp.game.players[i].online && MemorizeApp.game.players[i].networkId != MemorizeApp.me.networkId) {
                         MemorizeApp.game.currentPlayer = MemorizeApp.game.players[i].networkId;
@@ -533,6 +533,8 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 return;
             }
 
+            console.log("DATA HAS BEEN RECEIVED", data.content.action);
+
             if (data.content.action == "updateCurrentPlayer") {
                 memorizeApp.game.currentPlayer = data.content.currentPlayer;
                 displayUsersAndScores();
@@ -540,18 +542,21 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
 
             if (data.content.action == "updateGame") {
                 MemorizeApp.game = data.content.game;
+                MemorizeApp.ui.gameSizeButton.style.background = "url(icons/" + MemorizeApp.game.size + "x" + MemorizeApp.game.size + ".svg)";
                 MemorizeApp.drawGame();
                 displayUsersAndScores();
             }
 
             if (data.content.action == "cardClick") {
-                var notFilteredCards = memorizeApp.ui.gameGrid.children[0].childNodes;
+                var notFilteredCards = memorizeApp.ui.gameGrid.childNodes;
                 var cards = [];
+
                 for (var i = 0; i < notFilteredCards.length; i++) {
                     if (!notFilteredCards[i].style.clear || notFilteredCards[i].style.clear == "") {
                         cards.push(notFilteredCards[i]);
                     }
                 }
+
                 for (var i = 0; i < MemorizeApp.game.players.length; i++) {
                     if (MemorizeApp.game.players[i].networkId == data.user.networkId) {
                         cardClick(cards[data.content.position], false, MemorizeApp.game.players[i]);
@@ -568,6 +573,9 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             if (!sharedId) {
                 sharedId = MemorizeApp.presence.getSharedInfo().id
             }
+
+            console.log("DATA HAS BEEN SEND", content.action);
+
 
             MemorizeApp.presence.sendMessage(sharedId, {
                 user: MemorizeApp.presence.getUserInfo(),
