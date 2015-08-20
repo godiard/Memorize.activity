@@ -372,6 +372,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                     if (MemorizeApp.game.players[i].online && MemorizeApp.game.players[i].networkId != MemorizeApp.me.networkId) {
                         MemorizeApp.game.currentPlayer = MemorizeApp.game.players[i].networkId;
                         sendMessage({action: "updateCurrentPlayer", currentPlayer: MemorizeApp.game.currentPlayer});
+                        displayUsersAndScores();
                         break;
                     }
                 }
@@ -497,6 +498,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
 
             if (data.content.action == "updateCurrentPlayer") {
                 memorizeApp.game.currentPlayer = data.content.currentPlayer;
+                displayUsersAndScores();
             }
 
             if (data.content.action == "updateGame") {
@@ -536,6 +538,27 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
 
         function displayUsersAndScores() {
             var div = document.createElement("div");
+
+            var myTurn = false;
+            if (MemorizeApp.game.currentPlayer == MemorizeApp.me.networkId) {
+                myTurn = true;
+            }
+            var canPlay = document.createElement("div");
+            canPlay.style.float = "left";
+            canPlay.style.marginTop = "10px";
+            canPlay.style.width = "30px";
+            canPlay.style.marginRight = "3px";
+            canPlay.style.borderRight = "1px solid #fff";
+            canPlay.style.height = "30px";
+            if (myTurn) {
+                canPlay.style.backgroundImage = "url(icons/play.svg)"
+            } else {
+                canPlay.style.backgroundImage = "url(icons/sandclock.svg)"
+            }
+            canPlay.style.backgroundPosition = "center center";
+            canPlay.style.backgroundRepeat = "no-repeat";
+            div.appendChild(canPlay);
+
             for (var i = 0; i < MemorizeApp.game.players.length; i++) {
                 var player = MemorizeApp.game.players[i];
                 var d = document.createElement("div");
