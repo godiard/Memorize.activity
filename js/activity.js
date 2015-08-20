@@ -3,6 +3,7 @@ define(function (require) {
     require(['domReady!', "sugar-web/activity/activity", "sugar-web/graphics/presencepalette", 'activity/memorize-app'], function (doc, activity, presencePalette, memorizeApp) {
         activity.setup();
         window.memorizeApp = memorizeApp;
+        memorizeApp.activity = activity;
 
         if (window.top.sugar.environment.sharedId) {
             memorizeApp.initUI(function () {
@@ -44,24 +45,12 @@ function loadData(activity, memorizeApp, callback) {
                 return;
             }
 
-            if (data.mode) {
-                memorizeApp.game.mode = data.mode;
-            }
-
-            if (data.cards) {
-                memorizeApp.game.cards = data.cards;
-            }
-
-            if (data.template) {
-                memorizeApp.game.template = data.template;
-            }
-
-            if (data.size) {
-                memorizeApp.game.size = data.size;
-            }
-
-            if (!data.cards || data.cards.length == 0) {
-                memorizeApp.computeCards();
+            if (data.game) {
+                memorizeApp.game = data.game;
+                memorizeApp.game.multiplayer = false;
+                memorizeApp.game.selectedCards = [];
+                memorizeApp.game.currentPlayer = "";
+                memorizeApp.game.players = []
             }
 
             if (callback) {

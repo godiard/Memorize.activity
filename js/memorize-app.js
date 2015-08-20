@@ -408,7 +408,11 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 MemorizeApp.game.selectedCards[0].card.solved = true;
                 t.card.solved = true;
 
-                user.score = user.score + 1;
+                saveGame();
+
+                if (user && user.score) {
+                    user.score = user.score + 1;
+                }
                 displayUsersAndScores();
                 var div1 = MemorizeApp.game.selectedCards[0].resultDiv;
                 var div2 = t.resultDiv;
@@ -431,6 +435,13 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 } catch (e) {
                 }
             }, 2000)
+
+        }
+
+        function saveGame() {
+            memorizeApp.activity.getDatastoreObject().setDataAsText(JSON.stringify({game:MemorizeApp.game}));
+            memorizeApp.activity.getDatastoreObject().save(function (error) {
+            });
         }
 
         function onCardClick() {
@@ -654,6 +665,9 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             MemorizeApp.ui.gameTemplatesButton = document.getElementById("game-templates-button");
             var gt = new templatePalette.TemplatePalette(MemorizeApp.ui.gameTemplatesButton, undefined, MemorizeApp.templates);
             gt.addEventListener('template', function (e) {
+                for (var i = 0; i < MemorizeApp.game.players.length; i++) {
+                    MemorizeApp.game.players[i].score = 0;
+                }
                 MemorizeApp.game.template = e.detail.value;
                 MemorizeApp.computeCards();
                 MemorizeApp.drawGame();
@@ -663,6 +677,9 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             MemorizeApp.ui.gameSizeButton = document.getElementById("game-size-button");
             var sp = new sizePalette.SizePalette(MemorizeApp.ui.gameSizeButton);
             sp.addEventListener('size', function (e) {
+                for (var i = 0; i < MemorizeApp.game.players.length; i++) {
+                    MemorizeApp.game.players[i].score = 0;
+                }
                 MemorizeApp.game.size = e.detail.value;
                 MemorizeApp.ui.gameSizeButton.style.background = "url(icons/" + e.detail.value + "x" + e.detail.value + ".svg)";
                 MemorizeApp.computeCards();
