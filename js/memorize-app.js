@@ -273,6 +273,10 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             fullCardDiv.style.margin = "5px";
             fullCardDiv.style.webkitTransition = "transform 0.5s";
             fullCardDiv.style.transition = "transform 0.5s";
+
+            fullCardDiv.style.transitionDuration = "0.5s";
+            fullCardDiv.style.webkitTransitionDuration = "0.5s";
+
             fullCardDiv.style.transformStyle = "preserve-3d";
             fullCardDiv.style.webkitTransformStyle = "preserve-3d";
             fullCardDiv.style.position = "relative";
@@ -379,7 +383,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             }
 
             if (t.card.sound) {
-                var b64 = this.card.sound.split("base64,")[1];
+                var b64 = t.card.sound.split("base64,")[1];
                 b64 = Base64Binary.decodeArrayBuffer(btoa(atob(b64)));
 
                 if (MemorizeApp.context) {
@@ -435,6 +439,9 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                     return;
                 }
                 sendMessage({action: "cardClick", position: this.cardPosition});
+                if (MemorizeApp.game.players.length == 0 || MemorizeApp.game.players.length == 1) {
+                    cardClick(this, true, MemorizeApp.me.networkId);
+                }
                 for (var i = 0; i < MemorizeApp.game.players.length; i++) {
                     if (MemorizeApp.game.players[i].networkId == MemorizeApp.me.networkId) {
                         cardClick(this, true, MemorizeApp.game.players[i]);
@@ -521,15 +528,17 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                     }
                 }
             }
-
-
         }
 
         function sendMessage(content) {
+            if (!MemorizeApp.game.multiplayer) {
+                return;
+            }
             var sharedId = window.top.sugar.environment.sharedId;
             if (!sharedId) {
                 sharedId = MemorizeApp.presence.getSharedInfo().id
             }
+
             MemorizeApp.presence.sendMessage(sharedId, {
                 user: MemorizeApp.presence.getUserInfo(),
                 content: content
@@ -537,6 +546,9 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         }
 
         function displayUsersAndScores() {
+            if (MemorizeApp.game.players.length == 0) {
+                return;
+            }
             var div = document.createElement("div");
 
             var myTurn = false;
