@@ -24,7 +24,6 @@ define(function (require) {
 });
 
 function loadData(activity, memorizeApp, callback) {
-
     var timeout = 0;
     if (typeof chrome != 'undefined' && chrome.app && chrome.app.runtime) {
         chrome.storage.local.get('sugar_settings', function (values) {
