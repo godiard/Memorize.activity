@@ -8,7 +8,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         var MODE_SPLITTED = "splitted";
 
         var TEMPLATE_SUMS = {
-            name: "Sums", cards: [
+            name: "Addition", icon: "addition.svg", cards: [
                 [{text: "3+4"}, {text: "7"}],
                 [{text: "5+5"}, {text: "10"}],
                 [{text: "5+6"}, {text: "11"}],
@@ -29,7 +29,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             mode: MODE_SPLITTED
         };
         var TEMPLATE_LETTERS = {
-            name: "Letters", cards: [
+            name: "Letters", icon: "letters.svg", cards: [
                 [{text: "A"}, {text: "a"}],
                 [{text: "B"}, {text: "b"}],
                 [{text: "C"}, {text: "c"}],
@@ -61,7 +61,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         };
 
         var TEMPLATE_SOUNDS = {
-            name: "Sounds", cards: [
+            name: "Sounds", icon: "sounds.svg", cards: [
                 [{image: SampleRessources.imageMan, sound: SampleRessources.soundHello}, {
                     image: SampleRessources.imageMan,
                     sound: SampleRessources.soundHello
@@ -87,10 +87,10 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             templates: [TEMPLATE_SUMS, TEMPLATE_LETTERS, TEMPLATE_SOUNDS],
             isHost: false,
             game: {
-                template: undefined,
+                template: TEMPLATE_LETTERS,
                 multiplayer: false,
                 selectedCards: [],
-                mode: undefined,
+                mode: MODE_CLASSIC,
                 cards: [],
                 currentPlayer: "",
                 players: [],
@@ -270,6 +270,10 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         function createFullCardDiv(i, minSize, card) {
             var fullCardDiv = document.createElement("div");
             fullCardDiv.cardPosition = i;
+            fullCardDiv.webkitPerspective = "500px";
+            fullCardDiv.perspective = "500px";
+            fullCardDiv.style.border = "3px solid #fff";
+            fullCardDiv.style.borderRadius = "6px";
             fullCardDiv.style.margin = "5px";
             fullCardDiv.style.webkitTransition = "transform 0.5s";
             fullCardDiv.style.transition = "transform 0.5s";
@@ -283,9 +287,12 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             fullCardDiv.style.float = "left";
             fullCardDiv.style.height = minSize + "px";
             fullCardDiv.style.width = minSize + "px";
-            if (!card.solved) {
+            if (card.solved) {
                 fullCardDiv.style.webkitTransform = "rotateY(180deg)";
                 fullCardDiv.style.transform = "rotateY(180deg)";
+            } else {
+                fullCardDiv.style.webkitTransform = "";
+                fullCardDiv.style.transform = "";
             }
             if (MemorizeApp.game.selectedCards.length != 0) {
                 if (MemorizeApp.game.selectedCards[0].cardPosition == fullCardDiv.cardPosition) {
@@ -310,10 +317,10 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 }
             }
             front.zIndex = 2;
+            front.style.borderRadius = "6px";
             front.style.webkitBackfaceVisibility = "hidden";
             front.style.backfaceVisibility = "hidden";
-            front.style.webkitTransform = "rotateY(180deg)"
-            front.style.transform = "rotateY(180deg)"
+
             front.style.backgroundPosition = "center center";
             front.style.backgroundRepeat = "no-repeat";
             front.style.height = minSize + "px";
@@ -334,8 +341,11 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             div.style.backfaceVisibility = "hidden";
             div.style.mozBackfaceVisibility = "hidden";
             div.style.position = "absolute";
+            div.style.webkitTransform = "rotateY(180deg)";
+            div.style.transform = "rotateY(180deg)";
             div.style.top = "0px";
             div.style.left = "0px";
+            div.style.borderRadius = "6px";
             div.style.width = minSize + "px";
             div.style.background = "#fff";
             div.style.border = "1px solid #ccc";
@@ -366,8 +376,8 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 }
             }
 
-            t.style.webkitTransform = "";
-            t.style.transform = "";
+            t.style.webkitTransform = "rotateY(180deg)";
+            t.style.transform = "rotateY(180deg)";
 
             MemorizeApp.game.selectedCards.push(t);
 
@@ -429,10 +439,10 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
 
             setTimeout(function () {
                 try {
-                    t.style.webkitTransform = "rotateY(180deg)";
-                    t.style.transform = "rotateY(180deg)";
-                    MemorizeApp.game.selectedCards[0].style.webkitTransform = "rotateY(180deg)";
-                    MemorizeApp.game.selectedCards[0].style.transform = "rotateY(180deg)";
+                    t.style.webkitTransform = "";
+                    t.style.transform = "";
+                    MemorizeApp.game.selectedCards[0].style.webkitTransform = "";
+                    MemorizeApp.game.selectedCards[0].style.transform = "";
                     MemorizeApp.game.selectedCards = [];
                 } catch (e) {
                 }

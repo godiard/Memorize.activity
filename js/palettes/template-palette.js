@@ -10,22 +10,33 @@ define(["sugar-web/graphics/palette"], function (palette) {
         this.sharedEvent = document.createEvent("CustomEvent");
         this.sharedEvent.initCustomEvent('template', true, true, {});
 
+        this.buttons = [];
+
         var div = document.createElement('div');
         for (var i = 0; i < templates.length; i++) {
-            var button = document.createElement("button");
+            var template = templates[i];
+            var button = document.createElement("div");
+            button.value = template;
+            button.onmouseover = function() {
+                this.style.background = "#ccc";
+            };
+
+            button.onmouseout = function() {
+                this.style.background = "#000";
+            };
             button.style.borderRadius = "0";
             button.style.width = "100%";
             if (i != 0) {
                 button.style.marginTop = "3px";
             }
-            button.innerHTML = templates[i].name;
+            button.innerHTML = "<img style='vertical-align: middle; margin-right:3px;' src='icons/" + template.icon + "'>" + template.name;
             div.appendChild(button);
+            this.buttons.push(button);
         }
         this.setContent([div]);
 
         // Pop-down the palette when a item in the menu is clicked.
 
-        this.buttons = div.querySelectorAll('button');
         var that = this;
 
         function popDownOnButtonClick(event) {

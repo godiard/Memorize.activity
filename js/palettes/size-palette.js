@@ -9,21 +9,31 @@ define(["sugar-web/graphics/palette"], function (palette) {
 
         this.sharedEvent = document.createEvent("CustomEvent");
         this.sharedEvent.initCustomEvent('size', true, true, {});
+        this.buttons = [];
 
         var div = document.createElement('div');
         for (var i = 4; i <= 6; i++) {
-            var button = document.createElement("button");
+            var button = document.createElement("div");
+            button.value = i;
+            button.onmouseover = function() {
+                this.style.background = "#ccc";
+            };
+
+            button.onmouseout = function() {
+                this.style.background = "#000";
+            };
+
             button.style.borderRadius = "0";
             button.style.width = "100%";
             if (i != 4) {
                 button.style.marginTop = "3px";
             }
-            button.innerHTML = i.toString();
+            button.innerHTML = "<img style='vertical-align: middle; margin-right:3px;' src='icons/" + i + "x" + i + ".svg'>" + i + " X " + i;
             div.appendChild(button);
+            this.buttons.push(button);
         }
         this.setContent([div]);
 
-        this.buttons = div.querySelectorAll('button');
         var that = this;
 
         that.getPalette().firstChild.style.backgroundColor = "transparent";
@@ -40,7 +50,7 @@ define(["sugar-web/graphics/palette"], function (palette) {
 
             (function (button) {
                 button.addEventListener("click", function () {
-                    that.sharedEvent.detail.value = button.innerHTML;
+                    that.sharedEvent.detail.value = button.value;
                     that.getPalette().dispatchEvent(that.sharedEvent);
                     that.popDown();
                 });
