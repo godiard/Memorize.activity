@@ -1,20 +1,19 @@
 /* Start of the app, we require everything that is needed */
 define(function (require) {
     require(['domReady!', "sugar-web/activity/activity", "sugar-web/graphics/presencepalette", 'activity/memorize-app'], function (doc, activity, presencePalette, memorizeApp) {
-        activity.setup();
-        window.memorizeApp = memorizeApp;
         memorizeApp.activity = activity;
+        memorizeApp.activity.setup();
 
         if (window.top.sugar.environment.sharedId) {
             memorizeApp.initUI(function () {
-                initPresence(activity, memorizeApp, presencePalette);
+                initPresence(memorizeApp.activity, memorizeApp, presencePalette);
             })
         } else {
             memorizeApp.initUI(function () {
-                initPresence(activity, memorizeApp, presencePalette);
+                initPresence(memorizeApp.activity, memorizeApp, presencePalette);
                 memorizeApp.computeCards();
                 memorizeApp.drawGame();
-                loadData(activity, memorizeApp, function () {
+                loadData(memorizeApp.activity, memorizeApp, function () {
                     memorizeApp.drawGame();
                 });
             })

@@ -204,7 +204,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
 
 
         function shareActivity(isHost) {
-            if (!memorizeApp.presence.isConnected()) {
+            if (!MemorizeApp.presence.isConnected()) {
                 return;
             }
             MemorizeApp.inEditMode = false;
@@ -214,7 +214,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
 
             MemorizeApp.game.multiplayer = true;
             MemorizeApp.isHost = isHost;
-            MemorizeApp.me = memorizeApp.presence.userInfo;
+            MemorizeApp.me = MemorizeApp.presence.userInfo;
             MemorizeApp.game.currentPlayer = MemorizeApp.me.networkId;
             MemorizeApp.ui.gamePlayers.style.display = "block";
         }
@@ -334,7 +334,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         }
 
         function createAudioContextIfMissing() {
-            if (memorizeApp.context) {
+            if (MemorizeApp.context) {
                 return;
             }
             var context = window.AudioContext ||
@@ -347,11 +347,11 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 return;
             }
             context = new context();
-            memorizeApp.context = context;
+            MemorizeApp.context = context;
 
             var buffer = context.createBuffer(1, 1, 22050);
             var source = context.createBufferSource();
-            memorizeApp.source = source;
+            MemorizeApp.source = source;
             source.buffer = buffer;
 
             source.connect(context.destination);
@@ -530,7 +530,6 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                     }
                 }
 
-                saveGame();
                 displayUsersAndScores();
                 var div1 = MemorizeApp.game.selectedCards[0].resultDiv;
                 var div2 = t.resultDiv;
@@ -540,6 +539,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 }, 1000);
 
                 MemorizeApp.game.selectedCards = [];
+                saveGame();
                 return;
             }
 
@@ -577,8 +577,9 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         }
 
         function saveGame() {
-            memorizeApp.activity.getDatastoreObject().setDataAsText(JSON.stringify({game: MemorizeApp.game}));
-            memorizeApp.activity.getDatastoreObject().save(function (error) {
+            MemorizeApp.activity.getDatastoreObject().setDataAsText(JSON.stringify({game: MemorizeApp.game}));
+            MemorizeApp.activity.getDatastoreObject().save(function (error, meta) {
+                console.log(error, meta)
             });
         }
 
@@ -661,7 +662,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             data.content = JSON.parse(lzString.decompressFromUTF16(data.content));
 
             if (data.content.action == "updateCurrentPlayer") {
-                memorizeApp.game.currentPlayer = data.content.currentPlayer;
+                MemorizeApp.game.currentPlayer = data.content.currentPlayer;
                 displayUsersAndScores();
             }
 
@@ -674,7 +675,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             }
 
             if (data.content.action == "cardClick") {
-                var notFilteredCards = memorizeApp.ui.gameGrid.childNodes;
+                var notFilteredCards = MemorizeApp.ui.gameGrid.childNodes;
                 var cards = [];
 
                 for (var i = 0; i < notFilteredCards.length; i++) {
