@@ -895,6 +895,8 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         }
 
         function enterEditMode() {
+            //TODO palette equality
+            //TODO palette show
             MemorizeApp.inEditMode = true;
             MemorizeApp.ui.gameGrid.innerHTML = "";
             MemorizeApp.ui.gameGrid.style.display = "none";
@@ -1044,40 +1046,70 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             minSize = minSize - 10;
             var d = document.createElement("div");
             d.style.display = "inline-block";
-            d.style.height = minSize;
-            d.style.width = minSize;
-            d.style.marginTop = "5px";
-            d.style.marginLeft = "15px";
+            d.style.height = minSize + "px";
+            d.style.marginLeft = "5px";
+            //d.style.marginTop = "5px";
+            //d.style.marginLeft = "15px";
 
             var card1 = document.createElement("div");
-            card1.innerHTML = pair[0].text;
+            card1.style.backgroundRepeat = "no-repeat";
+            card1.style.backgroundSize = "cover";
+            card1.style.backgroundPosition = "center center";
+
+            if (pair[0].text) {
+                if (pair[0].text.indexOf(INLINE_RES) == 0) {
+                    pair[0].text = SampleRessources[pair[0].image.slice(INLINE_RES.length)]
+                }
+                card1.innerHTML = pair[0].text;
+                card1.className = "textCard";
+                card1.style.background = "#666";
+            }
+            if (pair[0].image) {
+                if (pair[0].image.indexOf(INLINE_RES) == 0) {
+                    pair[0].image = SampleRessources[pair[0].image.slice(INLINE_RES.length)]
+                }
+                card1.style.backgroundImage = "url('" + pair[0].image + "')";
+
+            }
             card1.style.width = parseInt(minSize / 2) + "px";
             card1.style.height = parseInt(minSize / 2) + "px";
-            card1.style.lineHeight = card1.style.width;
+            card1.style.lineHeight = card1.style.width + "";
             card1.style.borderRadius = "6px";
             card1.style.textAlign = "center";
-            card1.style.fontSize = card1.style.width;
+            card1.style.fontSize = parseInt(minSize / 8) + "px";
             card1.style.border = "1px solid #000";
-            card1.style.background = "#666";
             card1.style.color = "#fff";
-            //card1.style.marginBottom = "5px";
+            card1.style.marginBottom = "5px";
 
-            card1.className = "textCard";
 
             var card2 = document.createElement("div");
-            card2.innerHTML = pair[1].text;
+            card2.style.backgroundRepeat = "no-repeat";
+            card2.style.backgroundPosition = "center center";
+            card2.style.backgroundSize = "cover";
+
+            if (pair[1].text) {
+                if (pair[1].text.indexOf(INLINE_RES) == 0) {
+                    pair[1].text = SampleRessources[pair[1].image.slice(INLINE_RES.length)]
+                }
+                card2.innerHTML = pair[1].text;
+                card2.className = "textCard";
+                card2.style.background = "#666";
+            }
+            if (pair[1].image) {
+                if (pair[1].image.indexOf(INLINE_RES) == 0) {
+                    pair[1].image = SampleRessources[pair[1].image.slice(INLINE_RES.length)]
+                }
+                card2.style.backgroundImage = "url('" + pair[1].image + "')";
+            }
+
             card2.style.width = parseInt(minSize / 2) + "px";
             card2.style.height = parseInt(minSize / 2) + "px";
             card2.style.textAlign = "center";
-            card2.style.lineHeight = card2.style.width;
-            card2.style.top = "5px";
-            card2.style.position = "relative";
+            card2.style.lineHeight = card2.style.width + "";
             card2.style.borderRadius = "6px";
-            card2.style.fontSize = card2.style.width;
+            card2.style.fontSize = parseInt(minSize / 8) + "px";
             card2.style.border = "1px solid #000";
-            card2.style.background = "#666";
             card2.style.color = "#fff";
-            card2.className = "textCard";
 
             d.appendChild(card1);
             d.appendChild(card2);
@@ -1095,30 +1127,30 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             div.style.position = "fixed";
             div.style.bottom = 0;
             div.style.width = document.body.clientWidth + "px";
-            div.style.height = minSize / 3+ "px";
-            div.style.paddingBottom = "30px";
+            div.style.height = parseInt(minSize / 3) + "px";
+            div.style.padding = "10px";
+            div.style.paddingBottom = "20px";
             div.style.marginTop = "7px";
             div.style.background = "#eee";
             div.style.overflowX = "auto";
+            div.style.whiteSpace = "nowrap"
             div.style.overflowY = "hidden";
-
-            var container = document.createElement("div");
-            container.style.whiteSpace = "nowrap";
-            container.style.width = "auto";
-            container.style.height = minSize / 3  + "px";
 
             for (var i = 0; i < MemorizeApp.game.template.cards.length; i++) {
                 var card = MemorizeApp.game.template.cards[i];
                 var pair = generateEditorPair(card, parseInt(minSize / 3));
-                container.appendChild(pair);
+                pair.cards = card;
+                pair.addEventListener("click", function() {
+                    console.log("Click pair", this.cards)
+                });
+
+                div.appendChild(pair);
             }
             var emptyDiv = document.createElement("div");
             emptyDiv.style.height = parseInt(minSize/6)+"px";
             emptyDiv.style.width = "30px";
             emptyDiv.style.display = "inline-block";
-            container.appendChild(emptyDiv);
-
-            div.appendChild(container);
+            div.appendChild(emptyDiv);
 
             return div;
         }
@@ -1151,6 +1183,8 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         }
 
         function leaveEditMode() {
+            MemorizeApp.editor.card1 = {};
+            MemorizeApp.editor.card2 = {};
             MemorizeApp.inEditMode = false;
             MemorizeApp.ui.gameEditor.innerHTML = "";
             MemorizeApp.ui.gameEditor.style.display = "none";
@@ -1251,7 +1285,6 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
 
                 for (i = 0; i < bytes; i += 3) {
-                    //get the 3 octects in 4 ascii chars
                     enc1 = this._keyStr.indexOf(input.charAt(j++));
                     enc2 = this._keyStr.indexOf(input.charAt(j++));
                     enc3 = this._keyStr.indexOf(input.charAt(j++));
