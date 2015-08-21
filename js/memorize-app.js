@@ -881,6 +881,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                     MemorizeApp.game.template.mode = MODE_CLASSIC;
                     MemorizeApp.ui.gameEditorPlayModeButton.style.backgroundImage = "url(icons/grouped_game1.svg)";
                 }
+                saveGame();
                 displayEditor();
             });
 
@@ -895,6 +896,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                    MemorizeApp.editor.pairMode = MODE_EQUAL;
                    MemorizeApp.ui.gameEditorInsertModeButton.style.backgroundImage = "url(icons/pair-equals.svg)"
                }
+                saveGame();
                 displayEditor();
             });
 
