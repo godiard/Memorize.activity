@@ -607,6 +607,17 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         }
 
         function drawGame() {
+            if (MemorizeApp.editor.pairMode == MODE_EQUAL) {
+                MemorizeApp.ui.gameEditorInsertModeButton.style.backgroundImage = "url(icons/pair-non-equals.svg)"
+            } else {
+                MemorizeApp.ui.gameEditorInsertModeButton.style.backgroundImage = "url(icons/pair-equals.svg)"
+            }
+            if (MemorizeApp.game.template.mode == MODE_CLASSIC) {
+                MemorizeApp.ui.gameEditorPlayModeButton.style.backgroundImage = "url(icons/grouped_game1.svg)";
+            } else {
+                MemorizeApp.ui.gameEditorPlayModeButton.style.backgroundImage = "url(icons/grouped_game2.svg)";
+            }
+
             MemorizeApp.ui.gameSizeButton.style.background = "url(icons/" + MemorizeApp.game.size + "x" + MemorizeApp.game.size + ".svg)";
             MemorizeApp.ui.gameTemplatesButton.style.backgroundImage = "url(icons/" + MemorizeApp.game.template.icon + ")";
 
@@ -861,7 +872,31 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             MemorizeApp.ui.gameEditorButton = document.getElementById("game-editor-button");
             MemorizeApp.ui.gameEditorInsertModeButton = document.getElementById("game-editor-insert-mode-button");
             MemorizeApp.ui.gameEditorPlayModeButton = document.getElementById("game-editor-play-mode-button");
+
+            MemorizeApp.ui.gameEditorPlayModeButton.addEventListener("click", function() {
+                if (MemorizeApp.game.template.mode == MODE_CLASSIC) {
+                    MemorizeApp.game.template.mode = MODE_SPLITTED;
+                    MemorizeApp.ui.gameEditorPlayModeButton.style.backgroundImage = "url(icons/grouped_game2.svg)";
+                } else {
+                    MemorizeApp.game.template.mode = MODE_CLASSIC;
+                    MemorizeApp.ui.gameEditorPlayModeButton.style.backgroundImage = "url(icons/grouped_game1.svg)";
+                }
+                displayEditor();
+            });
+
+
             MemorizeApp.ui.gameEditorClearButton = document.getElementById("game-editor-clear-button");
+
+            MemorizeApp.ui.gameEditorInsertModeButton.addEventListener("click", function() {
+               if (MemorizeApp.editor.pairMode == MODE_EQUAL) {
+                   MemorizeApp.editor.pairMode = MODE_NON_EQUAL;
+                   MemorizeApp.ui.gameEditorInsertModeButton.style.backgroundImage = "url(icons/pair-non-equals.svg)"
+               } else {
+                   MemorizeApp.editor.pairMode = MODE_EQUAL;
+                   MemorizeApp.ui.gameEditorInsertModeButton.style.backgroundImage = "url(icons/pair-equals.svg)"
+               }
+                displayEditor();
+            });
 
             MemorizeApp.ui.gameEditorClearButton.addEventListener("click", function() {
                 MemorizeApp.game.template.cards = [];
