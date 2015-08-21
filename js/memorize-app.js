@@ -64,100 +64,100 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         var TEMPLATE_SOUNDS = {
             name: "Sounds", icon: "sounds.svg", cards: [
                 [
-                    {image: SampleRessources.drumkit1_b, sound: SampleRessources.beat1_a},
-                    {image: SampleRessources.drumkit1_b, sound: SampleRessources.beat1_a}
+                    {image: "#drumkit1_b", sound: "#beat1_a"},
+                    {image: "#drumkit1_b", sound: "#beat1_a"}
                 ],
                 [
-                    {image: SampleRessources.drumkit2_b, sound: SampleRessources.beat1_b},
-                    {image: SampleRessources.drumkit2_b, sound: SampleRessources.beat1_b}
+                    {image: "#drumkit2_b", sound: "#beat1_b"},
+                    {image: "#drumkit2_b", sound: "#beat1_b"}
                 ],
                 [
-                    {image: SampleRessources.drumkit3_b, sound: SampleRessources.beat1_c},
-                    {image: SampleRessources.drumkit3_b, sound: SampleRessources.beat1_c}
+                    {image: "#drumkit3_b", sound: "#beat1_c"},
+                    {image: "#drumkit3_b", sound: "#beat1_c"}
                 ],
                 [
-                    {image: SampleRessources.drumkit4_b, sound: SampleRessources.beat8},
-                    {image: SampleRessources.drumkit4_b, sound: SampleRessources.beat8}
+                    {image: "#drumkit4_b", sound: "#beat8"},
+                    {image: "#drumkit4_b", sound: "#beat8"}
                 ],
                 [
-                    {image: SampleRessources.drumkit5_b, sound: SampleRessources.beat10},
-                    {image: SampleRessources.drumkit5_b, sound: SampleRessources.beat10}
+                    {image: "#drumkit5_b", sound: "#beat10"},
+                    {image: "#drumkit5_b", sound: "#beat10"}
                 ],
                 [
-                    {image: SampleRessources.drumkit6_b, sound: SampleRessources.beat3},
-                    {image: SampleRessources.drumkit6_b, sound: SampleRessources.beat3}
+                    {image: "#drumkit6_b", sound: "#beat3"},
+                    {image: "#drumkit6_b", sound: "#beat3"}
                 ],
                 [
-                    {image: SampleRessources.drumkit7_b, sound: SampleRessources.beat4},
-                    {image: SampleRessources.drumkit7_b, sound: SampleRessources.beat4}
+                    {image: "#drumkit7_b", sound: "#beat4"},
+                    {image: "#drumkit7_b", sound: "#beat4"}
                 ],
                 [
-                    {image: SampleRessources.drumkit8_b, sound: SampleRessources.beat14},
-                    {image: SampleRessources.drumkit8_b, sound: SampleRessources.beat14}
+                    {image: "#drumkit8_b", sound: "#beat14"},
+                    {image: "#drumkit8_b", sound: "#beat14"}
                 ],
                 [
-                    {image: SampleRessources.drumkit9_b, sound: SampleRessources.beat6_2},
-                    {image: SampleRessources.drumkit9_b, sound: SampleRessources.beat6_2}
+                    {image: "#drumkit9_b", sound: "#beat6_2"},
+                    {image: "#drumkit9_b", sound: "#beat6_2"}
                 ],
                 [
-                    {image: SampleRessources.drumkit10_b, sound: SampleRessources.beat2},
-                    {image: SampleRessources.drumkit10_b, sound: SampleRessources.beat2}
+                    {image: "#drumkit10_b", sound: "#beat2"},
+                    {image: "#drumkit10_b", sound: "#beat2"}
                 ],
                 [
-                    {image: SampleRessources.drumkit11_b, sound: SampleRessources.beat16},
-                    {image: SampleRessources.drumkit11_b, sound: SampleRessources.beat16}
+                    {image: "#drumkit11_b", sound: "#beat16"},
+                    {image: "#drumkit11_b", sound: "#beat16"}
                 ],
                 [
-                    {image: SampleRessources.drumkit12_b, sound: SampleRessources.beat17},
-                    {image: SampleRessources.drumkit12_b, sound: SampleRessources.beat17}
+                    {image: "#drumkit12_b", sound: "#beat17"},
+                    {image: "#drumkit12_b", sound: "#beat17"}
                 ],
                 [
-                    {image: SampleRessources.guitar1_2, sound: SampleRessources.bending_a},
-                    {image: SampleRessources.guitar1_2, sound: SampleRessources.bending_a}
+                    {image: "#guitar1_2", sound: "#bending_a"},
+                    {image: "#guitar1_2", sound: "#bending_a"}
                 ],
                 [
-                    {image: SampleRessources.guitar2_2, sound: SampleRessources.bending_b},
-                    {image: SampleRessources.guitar2_2, sound: SampleRessources.bending_b}
+                    {image: "#guitar2_2", sound: "#bending_b"},
+                    {image: "#guitar2_2", sound: "#bending_b"}
                 ],
                 [
-                    {image: SampleRessources.guitar3_2, sound: SampleRessources.flashcomp2a},
-                    {image: SampleRessources.guitar3_2, sound: SampleRessources.flashcomp2a}
+                    {image: "#guitar3_2", sound: "#flashcomp2a"},
+                    {image: "#guitar3_2", sound: "#flashcomp2a"}
                 ],
                 [
-                    {image: SampleRessources.guitar4_2, sound: SampleRessources.flashcomp2b},
-                    {image: SampleRessources.guitar4_2, sound: SampleRessources.flashcomp2b}
+                    {image: "#guitar4_2", sound: "#flashcomp2b"},
+                    {image: "#guitar4_2", sound: "#flashcomp2b"}
                 ],
                 [
-                    {image: SampleRessources.guitar5_2, sound: SampleRessources.gedaempft},
-                    {image: SampleRessources.guitar5_2, sound: SampleRessources.gedaempft}
+                    {image: "#guitar5_2", sound: "#gedaempft"},
+                    {image: "#guitar5_2", sound: "#gedaempft"}
                 ],
                 [
-                    {image: SampleRessources.guitar6_2, sound: SampleRessources.ungedaempft},
-                    {image: SampleRessources.guitar6_2, sound: SampleRessources.ungedaempft}
+                    {image: "#guitar6_2", sound: "#ungedaempft"},
+                    {image: "#guitar6_2", sound: "#ungedaempft"}
                 ],
                 [
-                    {image: SampleRessources.guitar7_2, sound: SampleRessources.jimi4},
-                    {image: SampleRessources.guitar7_2, sound: SampleRessources.jimi4}
+                    {image: "#guitar7_2", sound: "#jimi4"},
+                    {image: "#guitar7_2", sound: "#jimi4"}
                 ],
                 [
-                    {image: SampleRessources.guitar8_2, sound: SampleRessources.git_hit1},
-                    {image: SampleRessources.guitar8_2, sound: SampleRessources.git_hit1}
+                    {image: "#guitar8_2", sound: "#git_hit1"},
+                    {image: "#guitar8_2", sound: "#git_hit1"}
                 ],
                 [
-                    {image: SampleRessources.guitar9_2, sound: SampleRessources.git_hit4},
-                    {image: SampleRessources.guitar9_2, sound: SampleRessources.git_hit4}
+                    {image: "#guitar9_2", sound: "#git_hit4"},
+                    {image: "#guitar9_2", sound: "#git_hit4"}
                 ],
                 [
-                    {image: SampleRessources.guitar10_2, sound: SampleRessources.jimi1},
-                    {image: SampleRessources.guitar10_2, sound: SampleRessources.jimi1}
+                    {image: "#guitar10_2", sound: "#jimi1"},
+                    {image: "#guitar10_2", sound: "#jimi1"}
                 ],
                 [
-                    {image: SampleRessources.guitar11_2, sound: SampleRessources.flasholet4},
-                    {image: SampleRessources.guitar11_2, sound: SampleRessources.flasholet4}
+                    {image: "#guitar11_2", sound: "#flasholet4"},
+                    {image: "#guitar11_2", sound: "#flasholet4"}
                 ],
                 [
-                    {image: SampleRessources.guitar12_2, sound: SampleRessources.guitcello},
-                    {image: SampleRessources.guitar12_2, sound: SampleRessources.guitcello}
+                    {image: "#guitar12_2", sound: "#guitcello"},
+                    {image: "#guitar12_2", sound: "#guitcello"}
                 ]
             ],
             mode: MODE_CLASSIC
@@ -298,6 +298,9 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
 
         function generateCardDiv(card, minSize) {
             if (card.image) {
+                if (card.image.indexOf("#") == 0) {
+                    card.image = SampleRessources[card.image.slice(1)];
+                }
                 var div = document.createElement("div");
                 div.style.background = "url('" + card.image + "')";
                 div.style.backgroundRepeat = "no-repeat";
@@ -311,6 +314,9 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             }
 
             if (card.text) {
+                if (card.text.indexOf("#") == 0) {
+                    card.text = SampleRessources[card.text.slice(1)];
+                }
                 var div = document.createElement("div");
                 div.className += "textCard";
                 div.style.textAlign = "center";
@@ -464,18 +470,10 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
 
             MemorizeApp.game.selectedCards.push(t);
 
-            if (MemorizeApp.game.selectedCards.length == 2 && MemorizeApp.game.selectedCards[0].card.id != t.card.id && fromMe) {
-                for (var i = 0; i < MemorizeApp.game.players.length; i++) {
-                    if (MemorizeApp.game.players[i].online && MemorizeApp.game.players[i].networkId != MemorizeApp.me.networkId) {
-                        MemorizeApp.game.currentPlayer = MemorizeApp.game.players[i].networkId;
-                        sendMessage({action: "updateCurrentPlayer", currentPlayer: MemorizeApp.game.currentPlayer});
-                        displayUsersAndScores();
-                        break;
-                    }
-                }
-            }
-
             if (t.card.sound) {
+                if (t.card.sound.indexOf("#") == 0) {
+                    t.card.sound = SampleRessources[t.card.sound.slice(1)];
+                }
                 var b64 = t.card.sound.split("base64,")[1];
                 b64 = Base64Binary.decodeArrayBuffer(btoa(atob(b64)));
 
@@ -544,6 +542,8 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 return;
             }
 
+            MemorizeApp.game.currentPlayer = "";
+
             setTimeout(function () {
                 try {
                     t.style.webkitTransform = "";
@@ -551,6 +551,24 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                     MemorizeApp.game.selectedCards[0].style.webkitTransform = "";
                     MemorizeApp.game.selectedCards[0].style.transform = "";
                     MemorizeApp.game.selectedCards = [];
+
+                    setTimeout(function () {
+                        if (fromMe) {
+                            for (var i = 0; i < MemorizeApp.game.players.length; i++) {
+                                if (MemorizeApp.game.players[i].online && MemorizeApp.game.players[i].networkId != MemorizeApp.me.networkId) {
+                                    MemorizeApp.game.currentPlayer = MemorizeApp.game.players[i].networkId;
+                                    sendMessage({
+                                        action: "updateCurrentPlayer",
+                                        currentPlayer: MemorizeApp.game.currentPlayer
+                                    });
+                                    displayUsersAndScores();
+                                    break;
+                                }
+                            }
+                        }
+                    }, 300);
+
+
                 } catch (e) {
                 }
             }, 2000)
