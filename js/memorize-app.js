@@ -1044,6 +1044,25 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             };
             updateButton.addEventListener("click", function () {
                 console.log("Update");
+
+                var cards = [];
+                if (MemorizeApp.editor.pairMode == MODE_EQUAL) {
+                    cards[0] = MemorizeApp.editor.card1;
+                    cards[1] = MemorizeApp.editor.card1;
+                }
+                if (MemorizeApp.editor.pairMode == MODE_NON_EQUAL) {
+                    cards[0] = MemorizeApp.editor.card1;
+                    cards[1] = MemorizeApp.editor.card2;
+                }
+
+                cards = JSON.parse(JSON.stringify(cards));
+
+                if (MemorizeApp.editor.selectedPair > -1) {
+                    MemorizeApp.game.template.cards[MemorizeApp.editor.selectedPair] = cards
+                }
+
+                saveGame();
+                displayEditor();
             });
 
             deleteButton.style.padding = "5px";
