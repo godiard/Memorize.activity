@@ -627,7 +627,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 gameDiv.appendChild(fullCardDiv);
             }
 
-            gameDiv.style.width = minSize * (MemorizeApp.game.size + 1) + MemorizeApp.game.size / 4 + "px";
+            gameDiv.style.width = parseInt(minSize + 10) * parseInt(MemorizeApp.game.size + 1) + "px";
             gameDiv.style.marginLeft = "auto";
             gameDiv.style.marginRight = "auto";
 
