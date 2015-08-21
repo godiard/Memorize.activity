@@ -902,6 +902,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
 
             MemorizeApp.ui.gameEditorClearButton.addEventListener("click", function() {
                 MemorizeApp.game.template.cards = [];
+                saveGame();
                 displayEditor();
             });
 
