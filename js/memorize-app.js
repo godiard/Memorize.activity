@@ -171,7 +171,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             ui: {},
             templates: [TEMPLATE_SUMS, TEMPLATE_LETTERS, TEMPLATE_SOUNDS],
             isHost: false,
-            editor: {pairMode: MODE_EQUAL, card1: {}, card2: {}},
+            editor: {pairMode: MODE_NON_EQUAL, card1: {}, card2: {}, selectedPair: -1},
             game: {
                 template: TEMPLATE_LETTERS,
                 multiplayer: false,
@@ -902,6 +902,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             MemorizeApp.ui.gameGrid.style.display = "none";
             MemorizeApp.ui.gameEditor.style.display = "block";
             MemorizeApp.game.selectedCards = [];
+            MemorizeApp.editor.selectedPair = -1;
 
             /* Disable game buttons */
 
@@ -1000,6 +1001,9 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             var buttonSize = parseInt((minSize / 3.5) / 5) + "px";
 
             addButton.style.padding = "5px";
+            addButton.style.userSelect = "none";
+            addButton.style.webkitUserSelect = "none";
+            addButton.style.mozUserSelect = "none";
             addButton.innerHTML = "<img style='height:" + buttonSize + "; width:" + buttonSize + ";' src='icons/pair-add.svg'><br/>" + MemorizeApp.strings.add;
             addButton.onmouseover = function () {
                 this.style.background = "#888";
@@ -1009,9 +1013,28 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             };
             addButton.addEventListener("click", function () {
                 console.log("ADD");
+                var cards = [];
+                if (MemorizeApp.editor.pairMode == MODE_EQUAL) {
+                    cards[0] = MemorizeApp.editor.card1;
+                    cards[1] = MemorizeApp.editor.card1;
+                }
+                if (MemorizeApp.editor.pairMode == MODE_NON_EQUAL) {
+                    cards[0] = MemorizeApp.editor.card1;
+                    cards[1] = MemorizeApp.editor.card2;
+                }
+
+                cards = JSON.parse(JSON.stringify(cards));
+
+                MemorizeApp.game.template.cards.push(cards);
+                MemorizeApp.editor.selectedPair = -1;
+                saveGame();
+                displayEditor();
             });
 
             updateButton.style.padding = "5px";
+            updateButton.style.userSelect = "none";
+            updateButton.style.webkitUserSelect = "none";
+            updateButton.style.mozUserSelect = "none";
             updateButton.innerHTML = "<img style='height:" + buttonSize + "; width:" + buttonSize + ";' src='icons/pair-update.svg'><br/>" + MemorizeApp.strings.update;
             updateButton.onmouseover = function () {
                 this.style.background = "#888";
@@ -1024,6 +1047,9 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             });
 
             deleteButton.style.padding = "5px";
+            deleteButton.style.userSelect = "none";
+            deleteButton.style.webkitUserSelect = "none";
+            deleteButton.style.mozUserSelect = "none";
             deleteButton.innerHTML = "<img style='height:" + buttonSize + "; width:" + buttonSize + ";' src='icons/remove.svg'><br/>" + MemorizeApp.strings.remove;
             deleteButton.onmouseover = function () {
                 this.style.background = "#888";
@@ -1033,6 +1059,14 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             };
             deleteButton.addEventListener("click", function () {
                 console.log("Delete");
+
+                if (MemorizeApp.editor.selectedPair > -1) {
+                    console.log(MemorizeApp.game.template.cards.splice(MemorizeApp.editor.selectedPair, 1));
+                }
+
+                MemorizeApp.editor.selectedPair = -1;
+                saveGame();
+                displayEditor();
             });
 
             div.appendChild(addButton);
@@ -1042,12 +1076,16 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             return div;
         }
 
-        function generateEditorPair(pair, minSize) {
+        function generateCardFromCardsList(pair, minSize, index) {
             minSize = minSize - 10;
             var d = document.createElement("div");
             d.style.display = "inline-block";
             d.style.height = minSize + "px";
             d.style.marginLeft = "5px";
+
+            if (index == MemorizeApp.editor.selectedPair) {
+                d.style.border = "3px solid #00f";
+            }
             //d.style.marginTop = "5px";
             //d.style.marginLeft = "15px";
 
@@ -1138,9 +1176,15 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
 
             for (var i = 0; i < MemorizeApp.game.template.cards.length; i++) {
                 var card = MemorizeApp.game.template.cards[i];
-                var pair = generateEditorPair(card, parseInt(minSize / 3));
+                var pair = generateCardFromCardsList(card, parseInt(minSize / 3), i);
                 pair.cards = card;
+                pair.index = i;
                 pair.addEventListener("click", function() {
+                    MemorizeApp.editor.selectedPair = this.index;
+                    MemorizeApp.editor.pairMode = MODE_NON_EQUAL;
+                    MemorizeApp.editor.card1 = this.cards[0];
+                    MemorizeApp.editor.card2 = this.cards[1];
+                    displayEditor();
                     console.log("Click pair", this.cards)
                 });
 
@@ -1164,12 +1208,11 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         function displayEditor() {
             MemorizeApp.ui.gameEditor.innerHTML = "";
 
-
-            if (MemorizeApp.editor.pairMode == MODE_NON_EQUAL) {
+            if (MemorizeApp.editor.pairMode == MODE_EQUAL) {
                 MemorizeApp.ui.gameEditor.appendChild(generateEditorDiv(MemorizeApp.editor.card1));
             }
 
-            if (MemorizeApp.editor.pairMode == MODE_EQUAL) {
+            if (MemorizeApp.editor.pairMode == MODE_NON_EQUAL) {
                 MemorizeApp.ui.gameEditor.appendChild(generateEditorDiv(MemorizeApp.editor.card1));
                 MemorizeApp.ui.gameEditor.appendChild(generateEditorDiv(MemorizeApp.editor.card2));
             }
