@@ -7,6 +7,8 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         var FOUND_COLOR = "#84f060";
         var MODE_CLASSIC = "classic";
         var MODE_SPLITTED = "splitted";
+        var MODE_EQUAL = "equal";
+        var MODE_NON_EQUAL = "non_equal";
         var INLINE_RES = "#inline#";
 
         var TEMPLATE_SUMS = {
@@ -168,6 +170,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             ui: {},
             templates: [TEMPLATE_SUMS, TEMPLATE_LETTERS, TEMPLATE_SOUNDS],
             isHost: false,
+            editor: {pairMode: MODE_EQUAL, card1: {}, card2: {}},
             game: {
                 template: TEMPLATE_LETTERS,
                 multiplayer: false,
@@ -319,7 +322,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                     card.text = SampleRessources[card.text.slice(INLINE_RES.length)];
                 }
                 var div = document.createElement("div");
-                div.className += "textCard";
+                div.className = "textCard";
                 div.style.textAlign = "center";
                 div.style.display = "block";
                 div.innerHTML = card.text;
@@ -876,7 +879,11 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
 
             window.onresize = function () {
                 setTimeout(function () {
-                    MemorizeApp.drawGame();
+                    if (MemorizeApp.inEditMode) {
+                        displayEditor()
+                    } else {
+                        MemorizeApp.drawGame();
+                    }
                 }, 250);
             };
 
@@ -889,6 +896,8 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         function enterEditMode() {
             MemorizeApp.inEditMode = true;
             MemorizeApp.ui.gameGrid.innerHTML = "";
+            MemorizeApp.ui.gameGrid.style.display = "none";
+            MemorizeApp.ui.gameEditor.style.display = "block";
             MemorizeApp.game.selectedCards = [];
 
             /* Disable game buttons */
@@ -914,10 +923,126 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             MemorizeApp.ui.gameEditorClearButton.style.opacity = 1;
 
             MemorizeApp.ui.gameEditorButton.style.backgroundImage = "url(icons/play.svg)";
+
+            displayEditor();
+        }
+
+        function generateEditorDiv(card) {
+            var minSize = document.body.clientWidth;
+            if (minSize > document.body.clientHeight) {
+                minSize = document.body.clientHeight;
+            }
+
+            var e = document.createElement("div");
+            e.style.width = parseInt(minSize / 3.5) + "px";
+            e.style.marginLeft = "25px";
+            e.style.float = "left";
+            e.style.marginTop = "7px";
+
+            var d = document.createElement("div");
+            d.style.width = parseInt(minSize / 3.5) - 10 + "px";
+            d.style.height = parseInt(minSize / 3.5) - 10 + "px";
+            d.style.background = "rgb(119, 119, 119)";
+            d.style.border = "4px solid #000";
+            d.style.borderRadius = "9px";
+            d.style.color = "#fff";
+            d.style.fontSize = parseInt(minSize / 3.5) - 10 + "px";
+            d.style.lineHeight = parseInt(minSize / 3.5) - 10 + "px";
+            d.className = "textCard";
+            if (card && card.text) {
+                d.innerHTML = card.text;
+            }
+
+            var input = document.createElement("input");
+            input.setAttribute("type", "text");
+            input.style.marginRight = "auto";
+            input.style.marginLeft = "auto";
+            input.style.width = parseInt(minSize / 3.5) - 10 + "px";
+            input.style.marginTop = "5px";
+            input.card = card;
+            if (card && card.text) {
+                input.value = card.text;
+            }
+
+            input.linkedDiv = d;
+            input.onkeyup = function() {
+                this.linkedDiv.innerHTML = this.value;
+                this.linkedDiv.style.fontSize = this.linkedDiv.style.width;
+                this.card.text = this.value;
+                resizeTextInsideTextCardDivs()
+            };
+
+            e.appendChild(d);
+            e.appendChild(input);
+            return e;
+        }
+
+        function generateAddEditRemoveButton() {
+            var div = document.createElement("div");
+            var minSize = document.body.clientWidth;
+            if (minSize > document.body.clientHeight) {
+                minSize = document.body.clientHeight;
+            }
+
+            div.style.float = "right";
+            div.style.height = parseInt(minSize / 3.5) + "px";
+            div.style.width = parseInt(minSize / 3.5) + "px";
+            div.style.marginRight = "20px";
+            div.style.marginTop = "7px";
+            div.style.background = "#0f0";
+
+            return div;
+        }
+
+        function generateCardsList() {
+            var div = document.createElement("div");
+            var minSize = document.body.clientWidth;
+            if (minSize > document.body.clientHeight) {
+                minSize = document.body.clientHeight;
+            }
+
+            div.style.position = "fixed";
+            div.style.bottom = 0;
+            div.style.height = parseInt(minSize / 3) + "px";
+            div.style.width = document.body.clientWidth + "px";
+            div.style.marginTop = "7px";
+            div.style.background = "#00f";
+
+            return div;
+        }
+
+        function generateClearBoth() {
+            var d = document.createElement("div");
+            d.style.clear = "both";
+            return d;
+        }
+
+        function displayEditor() {
+            MemorizeApp.ui.gameEditor.innerHTML = "";
+
+
+            if (MemorizeApp.editor.pairMode == MODE_NON_EQUAL) {
+                MemorizeApp.ui.gameEditor.appendChild(generateEditorDiv(MemorizeApp.editor.card1));
+            }
+
+            if (MemorizeApp.editor.pairMode == MODE_EQUAL) {
+                MemorizeApp.ui.gameEditor.appendChild(generateEditorDiv(MemorizeApp.editor.card1));
+                MemorizeApp.ui.gameEditor.appendChild(generateEditorDiv(MemorizeApp.editor.card2));
+            }
+
+            MemorizeApp.ui.gameEditor.appendChild(generateAddEditRemoveButton());
+            MemorizeApp.ui.gameEditor.appendChild(generateClearBoth());
+            MemorizeApp.ui.gameEditor.appendChild(generateCardsList());
+
+            resizeTextInsideTextCardDivs()
+
         }
 
         function leaveEditMode() {
             MemorizeApp.inEditMode = false;
+            MemorizeApp.ui.gameEditor.innerHTML = "";
+            MemorizeApp.ui.gameEditor.style.display = "none";
+            MemorizeApp.ui.gameGrid.style.display = "block";
 
             /* Enable game buttons */
 
