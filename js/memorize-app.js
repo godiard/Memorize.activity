@@ -167,6 +167,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         };
 
         var MemorizeApp = {
+            strings: {add: "Add", update: "Update", remove: "Remove"},
             ui: {},
             templates: [TEMPLATE_SUMS, TEMPLATE_LETTERS, TEMPLATE_SOUNDS],
             isHost: false,
@@ -986,10 +987,52 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
 
             div.style.float = "right";
             div.style.height = parseInt(minSize / 3.5) + "px";
-            div.style.width = parseInt(minSize / 3.5) + "px";
             div.style.marginRight = "20px";
             div.style.marginTop = "7px";
-            div.style.background = "#0f0";
+
+            var addButton = document.createElement("div");
+            var updateButton = document.createElement("div");
+            var deleteButton = document.createElement("div");
+
+            addButton.style.padding = "5px";
+            addButton.innerHTML = "<img style='height:42px; width:42px;' src='icons/pair-add.svg'><br/>" + MemorizeApp.strings.add;
+            addButton.onmouseover = function() {
+                this.style.background = "#888";
+            };
+            addButton.onmouseout = function() {
+                this.style.background = "transparent";
+            };
+            addButton.addEventListener("click", function() {
+               console.log("ADD");
+            });
+
+            updateButton.style.padding = "5px";
+            updateButton.innerHTML = "<img style='height:42px; width:42px;' src='icons/pair-update.svg'><br/>" + MemorizeApp.strings.update;
+            updateButton.onmouseover = function() {
+                this.style.background = "#888";
+            };
+            updateButton.onmouseout = function() {
+                this.style.background = "transparent";
+            };
+            updateButton.addEventListener("click", function() {
+                console.log("Update");
+            });
+
+            deleteButton.style.padding = "5px";
+            deleteButton.innerHTML = "<img style='height:42px; width:42px;' src='icons/remove.svg'><br/>" + MemorizeApp.strings.remove;
+            deleteButton.onmouseover = function() {
+                this.style.background = "#888";
+            };
+            deleteButton.onmouseout = function() {
+                this.style.background = "transparent";
+            };
+            deleteButton.addEventListener("click", function() {
+                console.log("Delete");
+            });
+
+            div.appendChild(addButton);
+            div.appendChild(updateButton);
+            div.appendChild(deleteButton);
 
             return div;
         }
