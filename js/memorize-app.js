@@ -1131,6 +1131,10 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             card1.style.backgroundSize = "cover";
             card1.style.backgroundPosition = "center center";
 
+            card1.innerHTML = "lol";
+            card1.className = "textCard";
+            card1.style.backgroundColor = "#666";
+
             if (pair[0].text) {
                 if (pair[0].text.indexOf(INLINE_RES) == 0) {
                     pair[0].text = SampleRessources[pair[0].image.slice(INLINE_RES.length)]
@@ -1139,7 +1143,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 card1.className = "textCard";
                 card1.style.background = "#666";
             }
-            else if (pair[0].image) {
+            if (pair[0].image) {
                 if (pair[0].image.indexOf(INLINE_RES) == 0) {
                     pair[0].image = SampleRessources[pair[0].image.slice(INLINE_RES.length)]
                 }
@@ -1162,6 +1166,10 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             card2.style.backgroundPosition = "center center";
             card2.style.backgroundSize = "cover";
 
+
+            card2.innerHTML = "lol";
+            card2.className = "textCard";
+            card2.style.backgroundColor = "#666";
             if (pair[1].text) {
                 if (pair[1].text.indexOf(INLINE_RES) == 0) {
                     pair[1].text = SampleRessources[pair[1].image.slice(INLINE_RES.length)]
@@ -1170,7 +1178,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 card2.className = "textCard";
                 card2.style.background = "#666";
             }
-            else if (pair[1].image) {
+            if (pair[1].image) {
                 if (pair[1].image.indexOf(INLINE_RES) == 0) {
                     pair[1].image = SampleRessources[pair[1].image.slice(INLINE_RES.length)]
                 }
