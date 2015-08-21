@@ -1019,7 +1019,6 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 this.style.background = "transparent";
             };
             addButton.addEventListener("click", function () {
-                console.log("ADD");
                 var cards = [];
                 if (MemorizeApp.editor.pairMode == MODE_EQUAL) {
                     cards[0] = MemorizeApp.editor.card1;
@@ -1059,8 +1058,6 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 this.style.background = "transparent";
             };
             updateButton.addEventListener("click", function () {
-                console.log("Update");
-
                 var cards = [];
                 if (MemorizeApp.editor.pairMode == MODE_EQUAL) {
                     cards[0] = MemorizeApp.editor.card1;
@@ -1100,10 +1097,8 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 this.style.background = "transparent";
             };
             deleteButton.addEventListener("click", function () {
-                console.log("Delete");
-
                 if (MemorizeApp.editor.selectedPair > -1) {
-                    console.log(MemorizeApp.game.template.cards.splice(MemorizeApp.editor.selectedPair, 1));
+                    MemorizeApp.game.template.cards.splice(MemorizeApp.editor.selectedPair, 1);
                 }
 
                 MemorizeApp.editor.selectedPair = -1;
@@ -1234,7 +1229,6 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                     MemorizeApp.editor.card1 = this.cards[0];
                     MemorizeApp.editor.card2 = this.cards[1];
                     displayEditor();
-                    console.log("Click pair", this.cards)
                 });
 
                 div.appendChild(pair);
