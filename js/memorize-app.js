@@ -598,7 +598,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             if (width < height) {
                 minSize = width;
             }
-            minSize = minSize - (56 + 20) * 2;
+            minSize = minSize - (56 + 20) * 3;
             minSize = minSize / MemorizeApp.game.size;
 
             for (var i = 0; i < MemorizeApp.game.cards.length; i++) {
