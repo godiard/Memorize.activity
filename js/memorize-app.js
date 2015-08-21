@@ -279,7 +279,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                     MemorizeApp.game.cards.push(shuffledCard2[i]);
                 }
             }
-
+            saveGame();
         }
 
 
@@ -579,7 +579,6 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         function saveGame() {
             MemorizeApp.activity.getDatastoreObject().setDataAsText(JSON.stringify({game: MemorizeApp.game}));
             MemorizeApp.activity.getDatastoreObject().save(function (error, meta) {
-                console.log(error, meta)
             });
         }
 
@@ -672,6 +671,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 MemorizeApp.ui.gameTemplatesButton.style.backgroundImage = "url(icons/" + MemorizeApp.game.template.icon + ")";
                 MemorizeApp.drawGame();
                 displayUsersAndScores();
+                saveGame();
             }
 
             if (data.content.action == "cardClick") {
