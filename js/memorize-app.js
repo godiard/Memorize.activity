@@ -923,15 +923,15 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             MemorizeApp.ui.gameEditorClearButton.disabled = true;
             MemorizeApp.ui.gameEditorClearButton.style.opacity = 0.3;
 
-            window.onresize = function () {
-                setTimeout(function () {
-                    if (MemorizeApp.inEditMode) {
-                        displayEditor()
-                    } else {
-                        MemorizeApp.drawGame();
-                    }
-                }, 250);
-            };
+            //window.onresize = function () {
+            //    setTimeout(function () {
+            //        if (MemorizeApp.inEditMode) {
+            //            displayEditor()
+            //        } else {
+            //            MemorizeApp.drawGame();
+            //        }
+            //    }, 250);
+            //};
 
 
             if (callback) {
