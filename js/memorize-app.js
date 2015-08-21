@@ -1023,8 +1023,17 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                     cards[1] = MemorizeApp.editor.card2;
                 }
 
-                cards = JSON.parse(JSON.stringify(cards));
+                if (!cards[0].text && !cards[0].image && !cards[0].sound) {
+                    return;
+                }
 
+                if (!cards[1].text && !cards[1].image && !cards[1].sound) {
+                    return;
+                }
+
+                cards = JSON.parse(JSON.stringify(cards));
+                MemorizeApp.editor.card1 = {};
+                MemorizeApp.editor.card2 = {};
                 MemorizeApp.game.template.cards.push(cards);
                 MemorizeApp.editor.selectedPair = -1;
                 saveGame();
@@ -1055,12 +1064,19 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                     cards[1] = MemorizeApp.editor.card2;
                 }
 
+                if (!cards[0].text && !cards[0].image && !cards[0].sound) {
+                    return;
+                }
+
+                if (!cards[1].text && !cards[1].image && !cards[1].sound) {
+                    return;
+                }
+
                 cards = JSON.parse(JSON.stringify(cards));
 
                 if (MemorizeApp.editor.selectedPair > -1) {
                     MemorizeApp.game.template.cards[MemorizeApp.editor.selectedPair] = cards
                 }
-
                 saveGame();
                 displayEditor();
             });
@@ -1084,6 +1100,8 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 }
 
                 MemorizeApp.editor.selectedPair = -1;
+                MemorizeApp.editor.card1 = {};
+                MemorizeApp.editor.card2 = {};
                 saveGame();
                 displayEditor();
             });
@@ -1121,7 +1139,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 card1.className = "textCard";
                 card1.style.background = "#666";
             }
-            if (pair[0].image) {
+            else if (pair[0].image) {
                 if (pair[0].image.indexOf(INLINE_RES) == 0) {
                     pair[0].image = SampleRessources[pair[0].image.slice(INLINE_RES.length)]
                 }
@@ -1152,7 +1170,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 card2.className = "textCard";
                 card2.style.background = "#666";
             }
-            if (pair[1].image) {
+            else if (pair[1].image) {
                 if (pair[1].image.indexOf(INLINE_RES) == 0) {
                     pair[1].image = SampleRessources[pair[1].image.slice(INLINE_RES.length)]
                 }
