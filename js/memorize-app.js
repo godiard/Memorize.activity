@@ -2,7 +2,7 @@
  * Created by ohayon_m on 17/08/15.
  */
 
-define(["activity/sample-ressources", "activity/palettes/template-palette", "activity/palettes/size-palette"], function (SampleRessources, templatePalette, sizePalette) {
+define(["activity/sample-ressources", "activity/palettes/template-palette", "activity/palettes/size-palette", "activity/lz-string"], function (SampleRessources, templatePalette, sizePalette, lzString) {
 
         var FOUND_COLOR = "#84f060";
         var MODE_CLASSIC = "classic";
@@ -657,7 +657,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 return;
             }
 
-            console.log("DATA HAS BEEN RECEIVED", data.content.action);
+            data.content = JSON.parse(lzString.decompressFromUTF16(data.content));
 
             if (data.content.action == "updateCurrentPlayer") {
                 memorizeApp.game.currentPlayer = data.content.currentPlayer;
@@ -699,12 +699,9 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 sharedId = MemorizeApp.presence.getSharedInfo().id
             }
 
-            console.log("DATA HAS BEEN SEND", content.action);
-
-
             MemorizeApp.presence.sendMessage(sharedId, {
                 user: MemorizeApp.presence.getUserInfo(),
-                content: content
+                content: lzString.compressToUTF16(JSON.stringify(content))
             });
         }
 
