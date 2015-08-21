@@ -171,7 +171,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             ui: {},
             templates: [TEMPLATE_SUMS, TEMPLATE_LETTERS, TEMPLATE_SOUNDS],
             isHost: false,
-            editor: {pairMode: MODE_NON_EQUAL, card1: {}, card2: {}, selectedPair: -1},
+            editor: {pairMode: MODE_EQUAL, card1: {}, card2: {}, selectedPair: -1},
             game: {
                 template: TEMPLATE_LETTERS,
                 multiplayer: false,
@@ -850,6 +850,8 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
                 for (var i = 0; i < MemorizeApp.game.players.length; i++) {
                     MemorizeApp.game.players[i].score = 0;
                 }
+                MemorizeApp.game.selectedCards = [];
+                MemorizeApp.game.cards = [];
                 displayUsersAndScores();
                 MemorizeApp.computeCards();
                 MemorizeApp.drawGame();
@@ -860,6 +862,11 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             MemorizeApp.ui.gameEditorInsertModeButton = document.getElementById("game-editor-insert-mode-button");
             MemorizeApp.ui.gameEditorPlayModeButton = document.getElementById("game-editor-play-mode-button");
             MemorizeApp.ui.gameEditorClearButton = document.getElementById("game-editor-clear-button");
+
+            MemorizeApp.ui.gameEditorClearButton.addEventListener("click", function() {
+                MemorizeApp.game.template.cards = [];
+                displayEditor();
+            });
 
             MemorizeApp.ui.gameEditorButton.addEventListener("click", function () {
                 if (MemorizeApp.inEditMode) {
