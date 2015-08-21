@@ -945,6 +945,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             d.style.height = parseInt(minSize / 3.5) - 10 + "px";
             d.style.background = "rgb(119, 119, 119)";
             d.style.border = "4px solid #000";
+            d.style.textAlign = "center";
             d.style.borderRadius = "9px";
             d.style.color = "#fff";
             d.style.fontSize = parseInt(minSize / 3.5) - 10 + "px";
@@ -966,7 +967,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             }
 
             input.linkedDiv = d;
-            input.onkeyup = function() {
+            input.onkeyup = function () {
                 this.linkedDiv.innerHTML = this.value;
                 this.linkedDiv.style.fontSize = this.linkedDiv.style.width;
                 this.card.text = this.value;
@@ -994,39 +995,41 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             var updateButton = document.createElement("div");
             var deleteButton = document.createElement("div");
 
+            var buttonSize = parseInt((minSize / 3.5) / 5) + "px";
+
             addButton.style.padding = "5px";
-            addButton.innerHTML = "<img style='height:42px; width:42px;' src='icons/pair-add.svg'><br/>" + MemorizeApp.strings.add;
-            addButton.onmouseover = function() {
+            addButton.innerHTML = "<img style='height:" + buttonSize + "; width:" + buttonSize + ";' src='icons/pair-add.svg'><br/>" + MemorizeApp.strings.add;
+            addButton.onmouseover = function () {
                 this.style.background = "#888";
             };
-            addButton.onmouseout = function() {
+            addButton.onmouseout = function () {
                 this.style.background = "transparent";
             };
-            addButton.addEventListener("click", function() {
-               console.log("ADD");
+            addButton.addEventListener("click", function () {
+                console.log("ADD");
             });
 
             updateButton.style.padding = "5px";
-            updateButton.innerHTML = "<img style='height:42px; width:42px;' src='icons/pair-update.svg'><br/>" + MemorizeApp.strings.update;
-            updateButton.onmouseover = function() {
+            updateButton.innerHTML = "<img style='height:" + buttonSize + "; width:" + buttonSize + ";' src='icons/pair-update.svg'><br/>" + MemorizeApp.strings.update;
+            updateButton.onmouseover = function () {
                 this.style.background = "#888";
             };
-            updateButton.onmouseout = function() {
+            updateButton.onmouseout = function () {
                 this.style.background = "transparent";
             };
-            updateButton.addEventListener("click", function() {
+            updateButton.addEventListener("click", function () {
                 console.log("Update");
             });
 
             deleteButton.style.padding = "5px";
-            deleteButton.innerHTML = "<img style='height:42px; width:42px;' src='icons/remove.svg'><br/>" + MemorizeApp.strings.remove;
-            deleteButton.onmouseover = function() {
+            deleteButton.innerHTML = "<img style='height:" + buttonSize + "; width:" + buttonSize + ";' src='icons/remove.svg'><br/>" + MemorizeApp.strings.remove;
+            deleteButton.onmouseover = function () {
                 this.style.background = "#888";
             };
-            deleteButton.onmouseout = function() {
+            deleteButton.onmouseout = function () {
                 this.style.background = "transparent";
             };
-            deleteButton.addEventListener("click", function() {
+            deleteButton.addEventListener("click", function () {
                 console.log("Delete");
             });
 
@@ -1035,6 +1038,51 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             div.appendChild(deleteButton);
 
             return div;
+        }
+
+        function generateEditorPair(pair, minSize) {
+            minSize = minSize - 10;
+            var d = document.createElement("div");
+            d.style.display = "inline-block";
+            d.style.height = minSize;
+            d.style.width = minSize;
+            d.style.marginTop = "5px";
+            d.style.marginLeft = "15px";
+
+            var card1 = document.createElement("div");
+            card1.innerHTML = pair[0].text;
+            card1.style.width = parseInt(minSize / 2) + "px";
+            card1.style.height = parseInt(minSize / 2) + "px";
+            card1.style.lineHeight = card1.style.width;
+            card1.style.borderRadius = "6px";
+            card1.style.textAlign = "center";
+            card1.style.fontSize = card1.style.width;
+            card1.style.border = "1px solid #000";
+            card1.style.background = "#666";
+            card1.style.color = "#fff";
+            //card1.style.marginBottom = "5px";
+
+            card1.className = "textCard";
+
+            var card2 = document.createElement("div");
+            card2.innerHTML = pair[1].text;
+            card2.style.width = parseInt(minSize / 2) + "px";
+            card2.style.height = parseInt(minSize / 2) + "px";
+            card2.style.textAlign = "center";
+            card2.style.lineHeight = card2.style.width;
+            card2.style.top = "5px";
+            card2.style.position = "relative";
+            card2.style.borderRadius = "6px";
+            card2.style.fontSize = card2.style.width;
+            card2.style.border = "1px solid #000";
+            card2.style.background = "#666";
+            card2.style.color = "#fff";
+            card2.className = "textCard";
+
+            d.appendChild(card1);
+            d.appendChild(card2);
+
+            return d;
         }
 
         function generateCardsList() {
@@ -1046,10 +1094,31 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
 
             div.style.position = "fixed";
             div.style.bottom = 0;
-            div.style.height = parseInt(minSize / 3) + "px";
             div.style.width = document.body.clientWidth + "px";
+            div.style.height = minSize / 3+ "px";
+            div.style.paddingBottom = "30px";
             div.style.marginTop = "7px";
-            div.style.background = "#00f";
+            div.style.background = "#eee";
+            div.style.overflowX = "auto";
+            div.style.overflowY = "hidden";
+
+            var container = document.createElement("div");
+            container.style.whiteSpace = "nowrap";
+            container.style.width = "auto";
+            container.style.height = minSize / 3  + "px";
+
+            for (var i = 0; i < MemorizeApp.game.template.cards.length; i++) {
+                var card = MemorizeApp.game.template.cards[i];
+                var pair = generateEditorPair(card, parseInt(minSize / 3));
+                container.appendChild(pair);
+            }
+            var emptyDiv = document.createElement("div");
+            emptyDiv.style.height = parseInt(minSize/6)+"px";
+            emptyDiv.style.width = "30px";
+            emptyDiv.style.display = "inline-block";
+            container.appendChild(emptyDiv);
+
+            div.appendChild(container);
 
             return div;
         }
