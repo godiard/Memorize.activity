@@ -7,6 +7,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         var FOUND_COLOR = "#84f060";
         var MODE_CLASSIC = "classic";
         var MODE_SPLITTED = "splitted";
+        var INLINE_RES = "#inline#";
 
         var TEMPLATE_SUMS = {
             name: "Addition", icon: "addition.svg", cards: [
@@ -64,100 +65,100 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         var TEMPLATE_SOUNDS = {
             name: "Sounds", icon: "sounds.svg", cards: [
                 [
-                    {image: "#drumkit1_b", sound: "#beat1_a"},
-                    {image: "#drumkit1_b", sound: "#beat1_a"}
+                    {image: INLINE_RES + "drumkit1_b", sound: INLINE_RES + "beat1_a"},
+                    {image: INLINE_RES + "drumkit1_b", sound: INLINE_RES + "beat1_a"}
                 ],
                 [
-                    {image: "#drumkit2_b", sound: "#beat1_b"},
-                    {image: "#drumkit2_b", sound: "#beat1_b"}
+                    {image: INLINE_RES + "drumkit2_b", sound: INLINE_RES + "beat1_b"},
+                    {image: INLINE_RES + "drumkit2_b", sound: INLINE_RES + "beat1_b"}
                 ],
                 [
-                    {image: "#drumkit3_b", sound: "#beat1_c"},
-                    {image: "#drumkit3_b", sound: "#beat1_c"}
+                    {image: INLINE_RES + "drumkit3_b", sound: INLINE_RES + "beat1_c"},
+                    {image: INLINE_RES + "drumkit3_b", sound: INLINE_RES + "beat1_c"}
                 ],
                 [
-                    {image: "#drumkit4_b", sound: "#beat8"},
-                    {image: "#drumkit4_b", sound: "#beat8"}
+                    {image: INLINE_RES + "drumkit4_b", sound: INLINE_RES + "beat8"},
+                    {image: INLINE_RES + "drumkit4_b", sound: INLINE_RES + "beat8"}
                 ],
                 [
-                    {image: "#drumkit5_b", sound: "#beat10"},
-                    {image: "#drumkit5_b", sound: "#beat10"}
+                    {image: INLINE_RES + "drumkit5_b", sound: INLINE_RES + "beat10"},
+                    {image: INLINE_RES + "drumkit5_b", sound: INLINE_RES + "beat10"}
                 ],
                 [
-                    {image: "#drumkit6_b", sound: "#beat3"},
-                    {image: "#drumkit6_b", sound: "#beat3"}
+                    {image: INLINE_RES + "drumkit6_b", sound: INLINE_RES + "beat3"},
+                    {image: INLINE_RES + "drumkit6_b", sound: INLINE_RES + "beat3"}
                 ],
                 [
-                    {image: "#drumkit7_b", sound: "#beat4"},
-                    {image: "#drumkit7_b", sound: "#beat4"}
+                    {image: INLINE_RES + "drumkit7_b", sound: INLINE_RES + "beat4"},
+                    {image: INLINE_RES + "drumkit7_b", sound: INLINE_RES + "beat4"}
                 ],
                 [
-                    {image: "#drumkit8_b", sound: "#beat14"},
-                    {image: "#drumkit8_b", sound: "#beat14"}
+                    {image: INLINE_RES + "drumkit8_b", sound: INLINE_RES + "beat14"},
+                    {image: INLINE_RES + "drumkit8_b", sound: INLINE_RES + "beat14"}
                 ],
                 [
-                    {image: "#drumkit9_b", sound: "#beat6_2"},
-                    {image: "#drumkit9_b", sound: "#beat6_2"}
+                    {image: INLINE_RES + "drumkit9_b", sound: INLINE_RES + "beat6_2"},
+                    {image: INLINE_RES + "drumkit9_b", sound: INLINE_RES + "beat6_2"}
                 ],
                 [
-                    {image: "#drumkit10_b", sound: "#beat2"},
-                    {image: "#drumkit10_b", sound: "#beat2"}
+                    {image: INLINE_RES + "drumkit10_b", sound: INLINE_RES + "beat2"},
+                    {image: INLINE_RES + "drumkit10_b", sound: INLINE_RES + "beat2"}
                 ],
                 [
-                    {image: "#drumkit11_b", sound: "#beat16"},
-                    {image: "#drumkit11_b", sound: "#beat16"}
+                    {image: INLINE_RES + "drumkit11_b", sound: INLINE_RES + "beat16"},
+                    {image: INLINE_RES + "drumkit11_b", sound: INLINE_RES + "beat16"}
                 ],
                 [
-                    {image: "#drumkit12_b", sound: "#beat17"},
-                    {image: "#drumkit12_b", sound: "#beat17"}
+                    {image: INLINE_RES + "drumkit12_b", sound: INLINE_RES + "beat17"},
+                    {image: INLINE_RES + "drumkit12_b", sound: INLINE_RES + "beat17"}
                 ],
                 [
-                    {image: "#guitar1_2", sound: "#bending_a"},
-                    {image: "#guitar1_2", sound: "#bending_a"}
+                    {image: INLINE_RES + "guitar1_2", sound: INLINE_RES + "bending_a"},
+                    {image: INLINE_RES + "guitar1_2", sound: INLINE_RES + "bending_a"}
                 ],
                 [
-                    {image: "#guitar2_2", sound: "#bending_b"},
-                    {image: "#guitar2_2", sound: "#bending_b"}
+                    {image: INLINE_RES + "guitar2_2", sound: INLINE_RES + "bending_b"},
+                    {image: INLINE_RES + "guitar2_2", sound: INLINE_RES + "bending_b"}
                 ],
                 [
-                    {image: "#guitar3_2", sound: "#flashcomp2a"},
-                    {image: "#guitar3_2", sound: "#flashcomp2a"}
+                    {image: INLINE_RES + "guitar3_2", sound: INLINE_RES + "flashcomp2a"},
+                    {image: INLINE_RES + "guitar3_2", sound: INLINE_RES + "flashcomp2a"}
                 ],
                 [
-                    {image: "#guitar4_2", sound: "#flashcomp2b"},
-                    {image: "#guitar4_2", sound: "#flashcomp2b"}
+                    {image: INLINE_RES + "guitar4_2", sound: INLINE_RES + "flashcomp2b"},
+                    {image: INLINE_RES + "guitar4_2", sound: INLINE_RES + "flashcomp2b"}
                 ],
                 [
-                    {image: "#guitar5_2", sound: "#gedaempft"},
-                    {image: "#guitar5_2", sound: "#gedaempft"}
+                    {image: INLINE_RES + "guitar5_2", sound: INLINE_RES + "gedaempft"},
+                    {image: INLINE_RES + "guitar5_2", sound: INLINE_RES + "gedaempft"}
                 ],
                 [
-                    {image: "#guitar6_2", sound: "#ungedaempft"},
-                    {image: "#guitar6_2", sound: "#ungedaempft"}
+                    {image: INLINE_RES + "guitar6_2", sound: INLINE_RES + "ungedaempft"},
+                    {image: INLINE_RES + "guitar6_2", sound: INLINE_RES + "ungedaempft"}
                 ],
                 [
-                    {image: "#guitar7_2", sound: "#jimi4"},
-                    {image: "#guitar7_2", sound: "#jimi4"}
+                    {image: INLINE_RES + "guitar7_2", sound: INLINE_RES + "jimi4"},
+                    {image: INLINE_RES + "guitar7_2", sound: INLINE_RES + "jimi4"}
                 ],
                 [
-                    {image: "#guitar8_2", sound: "#git_hit1"},
-                    {image: "#guitar8_2", sound: "#git_hit1"}
+                    {image: INLINE_RES + "guitar8_2", sound: INLINE_RES + "git_hit1"},
+                    {image: INLINE_RES + "guitar8_2", sound: INLINE_RES + "git_hit1"}
                 ],
                 [
-                    {image: "#guitar9_2", sound: "#git_hit4"},
-                    {image: "#guitar9_2", sound: "#git_hit4"}
+                    {image: INLINE_RES + "guitar9_2", sound: INLINE_RES + "git_hit4"},
+                    {image: INLINE_RES + "guitar9_2", sound: INLINE_RES + "git_hit4"}
                 ],
                 [
-                    {image: "#guitar10_2", sound: "#jimi1"},
-                    {image: "#guitar10_2", sound: "#jimi1"}
+                    {image: INLINE_RES + "guitar10_2", sound: INLINE_RES + "jimi1"},
+                    {image: INLINE_RES + "guitar10_2", sound: INLINE_RES + "jimi1"}
                 ],
                 [
-                    {image: "#guitar11_2", sound: "#flasholet4"},
-                    {image: "#guitar11_2", sound: "#flasholet4"}
+                    {image: INLINE_RES + "guitar11_2", sound: INLINE_RES + "flasholet4"},
+                    {image: INLINE_RES + "guitar11_2", sound: INLINE_RES + "flasholet4"}
                 ],
                 [
-                    {image: "#guitar12_2", sound: "#guitcello"},
-                    {image: "#guitar12_2", sound: "#guitcello"}
+                    {image: INLINE_RES + "guitar12_2", sound: INLINE_RES + "guitcello"},
+                    {image: INLINE_RES + "guitar12_2", sound: INLINE_RES + "guitcello"}
                 ]
             ],
             mode: MODE_CLASSIC
@@ -298,8 +299,8 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
 
         function generateCardDiv(card, minSize) {
             if (card.image) {
-                if (card.image.indexOf("#") == 0) {
-                    card.image = SampleRessources[card.image.slice(1)];
+                if (card.image.indexOf(INLINE_RES) == 0) {
+                    card.image = SampleRessources[card.image.slice(INLINE_RES.length)];
                 }
                 var div = document.createElement("div");
                 div.style.background = "url('" + card.image + "')";
@@ -314,8 +315,8 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             }
 
             if (card.text) {
-                if (card.text.indexOf("#") == 0) {
-                    card.text = SampleRessources[card.text.slice(1)];
+                if (card.text.indexOf(INLINE_RES) == 0) {
+                    card.text = SampleRessources[card.text.slice(INLINE_RES.length)];
                 }
                 var div = document.createElement("div");
                 div.className += "textCard";
@@ -471,8 +472,8 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             MemorizeApp.game.selectedCards.push(t);
 
             if (t.card.sound) {
-                if (t.card.sound.indexOf("#") == 0) {
-                    t.card.sound = SampleRessources[t.card.sound.slice(1)];
+                if (t.card.sound.indexOf(INLINE_RES) == 0) {
+                    t.card.sound = SampleRessources[t.card.sound.slice(INLINE_RES.length)];
                 }
                 var b64 = t.card.sound.split("base64,")[1];
                 b64 = Base64Binary.decodeArrayBuffer(btoa(atob(b64)));
