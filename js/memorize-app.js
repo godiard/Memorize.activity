@@ -2,7 +2,9 @@
  * Created by ohayon_m on 17/08/15.
  */
 
-define(["activity/sample-ressources", "activity/palettes/template-palette", "activity/palettes/size-palette", "activity/lz-string"], function (SampleRessources, templatePalette, sizePalette, lzString) {
+define(["activity/sample-ressources", "activity/palettes/template-palette",
+        "activity/palettes/size-palette", "activity/lz-string"], function (
+            SampleRessources, templatePalette, sizePalette, lzString) {
 
         var FOUND_COLOR = "#84f060";
         var MODE_CLASSIC = "classic";
@@ -10,6 +12,21 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
         var MODE_EQUAL = "equal";
         var MODE_NON_EQUAL = "non_equal";
         var INLINE_RES = "#inline#";
+        var CARD_MARGIN = 8;
+        var BOARD_MARGIN = 15;
+
+        var onAndroid = /Android/i.test(navigator.userAgent);
+        if (window.location.search.indexOf('onAndroid') > -1) {
+            onAndroid = true;
+        };
+
+        var onXo = ((window.innerWidth == 1200) && (window.innerHeight >= 900));
+        var sugarCellSize = 75;
+        var sugarSubCellSize = 15;
+        if (!onXo && !onAndroid) {
+            sugarCellSize = 55;
+            sugarSubCellSize = 11;
+        };
 
         var TEMPLATE_SUMS = {
             name: "Addition", icon: "addition.svg", cards: [
@@ -367,9 +384,10 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             fullCardDiv.cardPosition = i;
             fullCardDiv.webkitPerspective = "500px";
             fullCardDiv.perspective = "500px";
-            fullCardDiv.style.border = "3px solid #fff";
+            var BORDER = 3;
+            fullCardDiv.style.border = BORDER + "px solid #fff";
             fullCardDiv.style.borderRadius = "6px";
-            fullCardDiv.style.margin = "5px";
+            fullCardDiv.style.margin = (CARD_MARGIN - BORDER) + "px";
             fullCardDiv.style.webkitTransition = "transform 0.5s";
             fullCardDiv.style.transition = "transform 0.5s";
 
@@ -622,18 +640,21 @@ define(["activity/sample-ressources", "activity/palettes/template-palette", "act
             MemorizeApp.ui.gameTemplatesButton.style.backgroundImage = "url(icons/" + MemorizeApp.game.template.icon + ")";
 
             MemorizeApp.ui.gameGrid.innerHTML = "";
+            MemorizeApp.ui.gameGrid.style.marginTop = BOARD_MARGIN + 'px';
 
             var gameDiv = MemorizeApp.ui.gameGrid;
             var width = document.body.clientWidth;
             var height = document.body.clientHeight;
             var middle = MemorizeApp.game.cards.length / 2;
 
-            var minSize = height;
+            var boardSize = height;
             if (width < height) {
-                minSize = width;
+                boardSize = width;
             }
-            minSize = minSize - (56 + 20) * 3;
-            minSize = minSize / MemorizeApp.game.size;
+
+
+            var minSize = ((boardSize - sugarCellSize - BOARD_MARGIN * 2) /
+                MemorizeApp.game.size) - CARD_MARGIN * 2;
 
             for (var i = 0; i < MemorizeApp.game.cards.length; i++) {
                 var card = MemorizeApp.game.cards[i];
