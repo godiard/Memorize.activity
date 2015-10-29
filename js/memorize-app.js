@@ -936,13 +936,8 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             });
 
             MemorizeApp.ui.gameEditorInsertModeButton.disabled = true;
-            MemorizeApp.ui.gameEditorInsertModeButton.style.opacity = 0.3;
-
             MemorizeApp.ui.gameEditorPlayModeButton.disabled = true;
-            MemorizeApp.ui.gameEditorPlayModeButton.style.opacity = 0.3;
-
             MemorizeApp.ui.gameEditorClearButton.disabled = true;
-            MemorizeApp.ui.gameEditorClearButton.style.opacity = 0.3;
 
             //window.onresize = function () {
             //    setTimeout(function () {
@@ -973,24 +968,14 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             /* Disable game buttons */
 
             MemorizeApp.ui.gameTemplatesButton.disabled = true;
-            MemorizeApp.ui.gameTemplatesButton.style.opacity = 0.3;
-
             MemorizeApp.ui.gameSizeButton.disabled = true;
-            MemorizeApp.ui.gameSizeButton.style.opacity = 0.3;
-
             MemorizeApp.ui.gameResetButton.disabled = true;
-            MemorizeApp.ui.gameResetButton.style.opacity = 0.3;
 
             /* Enable editor buttons */
 
             MemorizeApp.ui.gameEditorInsertModeButton.disabled = false;
-            MemorizeApp.ui.gameEditorInsertModeButton.style.opacity = 1;
-
             MemorizeApp.ui.gameEditorPlayModeButton.disabled = false;
-            MemorizeApp.ui.gameEditorPlayModeButton.style.opacity = 1;
-
             MemorizeApp.ui.gameEditorClearButton.disabled = false;
-            MemorizeApp.ui.gameEditorClearButton.style.opacity = 1;
 
             MemorizeApp.ui.gameEditorButton.style.backgroundImage = "url(icons/play.svg)";
 
@@ -1338,24 +1323,14 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             /* Enable game buttons */
 
             MemorizeApp.ui.gameTemplatesButton.disabled = false;
-            MemorizeApp.ui.gameTemplatesButton.style.opacity = 1;
-
             MemorizeApp.ui.gameSizeButton.disabled = false;
-            MemorizeApp.ui.gameSizeButton.style.opacity = 1;
-
             MemorizeApp.ui.gameResetButton.disabled = false;
-            MemorizeApp.ui.gameResetButton.style.opacity = 1;
 
             /* Disable editor buttons */
 
             MemorizeApp.ui.gameEditorInsertModeButton.disabled = true;
-            MemorizeApp.ui.gameEditorInsertModeButton.style.opacity = 0.3;
-
             MemorizeApp.ui.gameEditorPlayModeButton.disabled = true;
-            MemorizeApp.ui.gameEditorPlayModeButton.style.opacity = 0.3;
-
             MemorizeApp.ui.gameEditorClearButton.disabled = true;
-            MemorizeApp.ui.gameEditorClearButton.style.opacity = 0.3;
 
             MemorizeApp.ui.gameEditorButton.style.backgroundImage = "url(icons/cog.svg)";
 
@@ -1366,17 +1341,10 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             /* Disable All editor buttons */
 
             MemorizeApp.ui.gameEditorButton.disabled = true;
-            MemorizeApp.ui.gameEditorButton.style.opacity = 0.3;
             MemorizeApp.ui.gameEditorButton.style.backgroundImage = "url(icons/cog.svg)";
-
             MemorizeApp.ui.gameEditorInsertModeButton.disabled = true;
-            MemorizeApp.ui.gameEditorInsertModeButton.style.opacity = 0.3;
-
             MemorizeApp.ui.gameEditorPlayModeButton.disabled = true;
-            MemorizeApp.ui.gameEditorPlayModeButton.style.opacity = 0.3;
-
             MemorizeApp.ui.gameEditorClearButton.disabled = true;
-            MemorizeApp.ui.gameEditorClearButton.style.opacity = 0.3;
         }
 
         var Base64Binary = {
