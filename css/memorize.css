@@ -1,0 +1,26 @@
+.card-div {
+    background-repeat: no-repeat;
+    background-size: contain;
+    -webkit-background-size: contain;
+    background-position: center center;
+}
+
+.text-card {
+    text-align: center;
+    display: block;
+    border-radius: 6px;
+    border: 1px solid #000;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+.full-card {
+    border: 3px solid rgb(255, 255, 255);
+    border-radius: 6px;
+    margin: 5px;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+    position: relative;
+    float: left;
+}

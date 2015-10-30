@@ -305,7 +305,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
 
 
         function resizeTextInsideTextCardDivs() {
-            var elements = document.getElementsByClassName('textCard');
+            var elements = document.getElementsByClassName('text-card');
             for (var i = 0; i < elements.length; i++) {
                 var el = elements[i];
                 while (el.scrollHeight > el.offsetHeight) {
@@ -324,11 +324,8 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
                     card.image = SampleRessources[card.image.slice(INLINE_RES.length)];
                 }
                 var div = document.createElement("div");
+                div.className = "card-div";
                 div.style.background = "url('" + card.image + "')";
-                div.style.backgroundRepeat = "no-repeat";
-                div.style.backgroundSize = "contain";
-                div.style.webkitBackgroundSize = "contain";
-                div.style.backgroundPosition = "center center";
                 div.style.height = minSize + "px";
                 div.style.width = minSize + "px";
 
@@ -340,13 +337,10 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
                     card.text = SampleRessources[card.text.slice(INLINE_RES.length)];
                 }
                 var div = document.createElement("div");
-                div.className = "textCard";
-                div.style.textAlign = "center";
-                div.style.display = "block";
+                div.className = "text-card";
                 div.innerHTML = card.text;
                 div.style.lineHeight = minSize + "px";
                 div.style.fontSize = minSize + 'px';
-                div.style.color = "#000";
                 div.style.width = minSize + "px";
                 div.style.height = minSize + "px";
 
@@ -381,23 +375,8 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
 
         function createFullCardDiv(i, minSize, card) {
             var fullCardDiv = document.createElement("div");
+            fullCardDiv.className = "full-card";
             fullCardDiv.cardPosition = i;
-            fullCardDiv.webkitPerspective = "500px";
-            fullCardDiv.perspective = "500px";
-            var BORDER = 3;
-            fullCardDiv.style.border = BORDER + "px solid #fff";
-            fullCardDiv.style.borderRadius = "6px";
-            fullCardDiv.style.margin = (CARD_MARGIN - BORDER) + "px";
-            fullCardDiv.style.webkitTransition = "transform 0.5s";
-            fullCardDiv.style.transition = "transform 0.5s";
-
-            fullCardDiv.style.transitionDuration = "0.5s";
-            fullCardDiv.style.webkitTransitionDuration = "0.5s";
-
-            fullCardDiv.style.transformStyle = "preserve-3d";
-            fullCardDiv.style.webkitTransformStyle = "preserve-3d";
-            fullCardDiv.style.position = "relative";
-            fullCardDiv.style.float = "left";
             fullCardDiv.style.height = minSize + "px";
             fullCardDiv.style.width = minSize + "px";
             if (card.solved) {
@@ -999,12 +978,11 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             d.style.height = parseInt(minSize / 3.5) - 10 + "px";
             d.style.background = "rgb(119, 119, 119)";
             d.style.border = "4px solid #000";
-            d.style.textAlign = "center";
             d.style.borderRadius = "9px";
             d.style.color = "#fff";
             d.style.fontSize = parseInt(minSize / 3.5) - 10 + "px";
             d.style.lineHeight = parseInt(minSize / 3.5) - 10 + "px";
-            d.className = "textCard";
+            d.className = "text-card";
             if (card && card.text) {
                 d.innerHTML = card.text;
             }
@@ -1173,13 +1151,10 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             //d.style.marginLeft = "15px";
 
             var card1 = document.createElement("div");
-            card1.style.backgroundRepeat = "no-repeat";
-            card1.style.backgroundSize = "cover";
-            card1.style.backgroundPosition = "center center";
 
             card1.innerHTML = "&nbsp;";
             card1.style.backgroundColor = "#666";
-            card1.className = "textCard";
+            card1.className = "text-card";
 
 
             if (pair[0].text) {
@@ -1198,23 +1173,16 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             card1.style.width = parseInt(minSize / 2) + "px";
             card1.style.height = parseInt(minSize / 2) + "px";
             card1.style.lineHeight = card1.style.width + "";
-            card1.style.borderRadius = "6px";
-            card1.style.textAlign = "center";
             card1.style.fontSize = parseInt(minSize / 8) + "px";
-            card1.style.border = "1px solid #000";
             card1.style.color = "#fff";
             card1.style.marginBottom = "5px";
 
 
             var card2 = document.createElement("div");
-            card2.style.backgroundRepeat = "no-repeat";
-            card2.style.backgroundPosition = "center center";
-            card2.style.backgroundSize = "cover";
-
 
             card2.innerHTML = "&nbsp;";
             card2.style.backgroundColor = "#666";
-            card2.className = "textCard";
+            card2.className = "text-card";
             if (pair[1].text) {
                 if (pair[1].text.indexOf(INLINE_RES) == 0) {
                     pair[1].text = SampleRessources[pair[1].image.slice(INLINE_RES.length)]
@@ -1230,11 +1198,8 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
 
             card2.style.width = parseInt(minSize / 2) + "px";
             card2.style.height = parseInt(minSize / 2) + "px";
-            card2.style.textAlign = "center";
             card2.style.lineHeight = card2.style.width + "";
-            card2.style.borderRadius = "6px";
             card2.style.fontSize = parseInt(minSize / 8) + "px";
-            card2.style.border = "1px solid #000";
             card2.style.color = "#fff";
 
             d.appendChild(card1);
