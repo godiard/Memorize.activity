@@ -1086,15 +1086,17 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
         }
 
         function generateCardFromCardsList(pair, minSize, index) {
-            minSize = minSize - 10;
             var d = document.createElement("div");
             d.style.display = "inline-block";
             d.style.height = minSize + "px";
-            d.style.marginLeft = "5px";
+            d.style.marginLeft = "2px";
+            d.style.borderRadius = "8px";
 
             if (index == MemorizeApp.editor.selectedPair) {
-                d.style.border = "3px solid #00f";
-            }
+                d.style.border = "3px solid #00f"; // blue
+            } else {
+                d.style.border = "3px solid #fff";
+            };
             //d.style.marginTop = "5px";
             //d.style.marginLeft = "15px";
 
@@ -1117,9 +1119,10 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
                 card1.style.backgroundImage = "url('" + pair[0].image + "')";
 
             }
-            card1.style.width = parseInt(minSize / 2) + "px";
-            card1.style.height = parseInt(minSize / 2) + "px";
-            card1.style.lineHeight = card1.style.width + "";
+            var cardSize = (minSize - 10) / 2;
+            card1.style.width = cardSize + "px";
+            card1.style.height = cardSize + "px";
+            card1.style.lineHeight = cardSize + "px";
             card1.style.fontSize = parseInt(minSize / 8) + "px";
 
             var card2 = document.createElement("div");
@@ -1139,9 +1142,9 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
                 card2.style.backgroundImage = "url('" + pair[1].image + "')";
             }
 
-            card2.style.width = parseInt(minSize / 2) + "px";
-            card2.style.height = parseInt(minSize / 2) + "px";
-            card2.style.lineHeight = card2.style.width + "";
+            card2.style.width = cardSize + "px";
+            card2.style.height = cardSize + "px";
+            card2.style.lineHeight = cardSize + "px";
             card2.style.fontSize = parseInt(minSize / 8) + "px";
 
             d.appendChild(card1);
