@@ -947,20 +947,14 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
 
             var e = document.createElement("div");
             e.style.width = parseInt(minSize / 3.5) + "px";
-            e.style.marginLeft = "25px";
-            e.style.float = "left";
-            e.style.marginTop = "7px";
+            e.className = "edit-card-border";
 
             var d = document.createElement("div");
             d.style.width = parseInt(minSize / 3.5) - 10 + "px";
             d.style.height = parseInt(minSize / 3.5) - 10 + "px";
-            d.style.background = "rgb(119, 119, 119)";
-            d.style.border = "4px solid #000";
-            d.style.borderRadius = "9px";
-            d.style.color = "#fff";
             d.style.fontSize = parseInt(minSize / 3.5) - 10 + "px";
             d.style.lineHeight = parseInt(minSize / 3.5) - 10 + "px";
-            d.className = "text-card";
+            d.className = "edit-card";
             if (card && card.text) {
                 d.innerHTML = card.text;
             }
@@ -1131,8 +1125,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             var card1 = document.createElement("div");
 
             card1.innerHTML = "&nbsp;";
-            card1.style.backgroundColor = "#666";
-            card1.className = "text-card";
+            card1.className = "card-list";
 
 
             if (pair[0].text) {
@@ -1152,15 +1145,11 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             card1.style.height = parseInt(minSize / 2) + "px";
             card1.style.lineHeight = card1.style.width + "";
             card1.style.fontSize = parseInt(minSize / 8) + "px";
-            card1.style.color = "#fff";
-            card1.style.marginBottom = "5px";
-
 
             var card2 = document.createElement("div");
 
             card2.innerHTML = "&nbsp;";
-            card2.style.backgroundColor = "#666";
-            card2.className = "text-card";
+            card2.className = "card-list";
             if (pair[1].text) {
                 if (pair[1].text.indexOf(INLINE_RES) == 0) {
                     pair[1].text = SampleRessources[pair[1].image.slice(INLINE_RES.length)]
@@ -1178,7 +1167,6 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             card2.style.height = parseInt(minSize / 2) + "px";
             card2.style.lineHeight = card2.style.width + "";
             card2.style.fontSize = parseInt(minSize / 8) + "px";
-            card2.style.color = "#fff";
 
             d.appendChild(card1);
             d.appendChild(card2);
