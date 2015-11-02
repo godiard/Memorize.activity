@@ -398,29 +398,17 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
 
         function createFrontDiv(i, middle, minSize) {
             var front = document.createElement("div");
-            if (MemorizeApp.game.mode == MODE_CLASSIC) {
-                front.style.background = "#777";
-            }
+            front.className = "front-card";
             if (MemorizeApp.game.mode == MODE_SPLITTED) {
                 if (i < middle) {
-                    front.style.background = "#777 url(icons/number1.svg)";
+                    front.style.backgroundImage = "url(icons/number1.svg)";
                 } else {
-                    front.style.background = "#777 url(icons/number2.svg)";
+                    front.style.backgroundImage = "url(icons/number2.svg)";
                 }
             }
             front.zIndex = 2;
-            front.style.borderRadius = "6px";
-            front.style.webkitBackfaceVisibility = "hidden";
-            front.style.backfaceVisibility = "hidden";
-
-            front.style.backgroundPosition = "center center";
-            front.style.backgroundRepeat = "no-repeat";
             front.style.height = minSize + "px";
-            front.style.position = "absolute";
-            front.style.top = "0px";
-            front.style.left = "0px";
             front.style.width = minSize + "px";
-
             return front;
         }
 
@@ -428,19 +416,9 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             var div = document.createElement("div");
             var generatedDiv = generateCardDiv(MemorizeApp.game.cards[i], minSize);
             div.appendChild(generatedDiv);
+            div.className = "back-card";
             div.style.height = minSize + "px";
-            div.style.webkitBackfaceVisibility = "hidden";
-            div.style.backfaceVisibility = "hidden";
-            div.style.mozBackfaceVisibility = "hidden";
-            div.style.position = "absolute";
-            div.style.webkitTransform = "rotateY(180deg)";
-            div.style.transform = "rotateY(180deg)";
-            div.style.top = "0px";
-            div.style.left = "0px";
-            div.style.borderRadius = "6px";
             div.style.width = minSize + "px";
-            div.style.background = "#fff";
-
             if (card.solved) {
                 div.style.backgroundColor = FOUND_COLOR;
             }
