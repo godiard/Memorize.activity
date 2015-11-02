@@ -998,20 +998,14 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             var addButton = document.createElement("div");
             var updateButton = document.createElement("div");
             var deleteButton = document.createElement("div");
+            addButton.className = 'edit-button';
+            updateButton.className = 'edit-button';
+            deleteButton.className = 'edit-button';
 
             var buttonSize = parseInt((minSize / 3.5) / 5) + "px";
 
-            addButton.style.padding = "5px";
-            addButton.style.userSelect = "none";
-            addButton.style.webkitUserSelect = "none";
-            addButton.style.mozUserSelect = "none";
-            addButton.innerHTML = "<img style='height:" + buttonSize + "; width:" + buttonSize + ";' src='icons/pair-add.svg'><br/>" + MemorizeApp.strings.add;
-            addButton.onmouseover = function () {
-                this.style.background = "#888";
-            };
-            addButton.onmouseout = function () {
-                this.style.background = "transparent";
-            };
+            addButton.innerHTML = "<img style='height:" + buttonSize + "; width:" + buttonSize + ";'" +
+                " src='icons/pair-add.svg'><br/>" + MemorizeApp.strings.add;
             addButton.addEventListener("click", function () {
                 var cards = [];
                 if (MemorizeApp.editor.pairMode == MODE_EQUAL) {
@@ -1040,17 +1034,8 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
                 displayEditor();
             });
 
-            updateButton.style.padding = "5px";
-            updateButton.style.userSelect = "none";
-            updateButton.style.webkitUserSelect = "none";
-            updateButton.style.mozUserSelect = "none";
-            updateButton.innerHTML = "<img style='height:" + buttonSize + "; width:" + buttonSize + ";' src='icons/pair-update.svg'><br/>" + MemorizeApp.strings.update;
-            updateButton.onmouseover = function () {
-                this.style.background = "#888";
-            };
-            updateButton.onmouseout = function () {
-                this.style.background = "transparent";
-            };
+            updateButton.innerHTML = "<img style='height:" + buttonSize + "; width:" + buttonSize + ";' " +
+                "src='icons/pair-update.svg'><br/>" + MemorizeApp.strings.update;
             updateButton.addEventListener("click", function () {
                 var cards = [];
                 if (MemorizeApp.editor.pairMode == MODE_EQUAL) {
@@ -1079,17 +1064,8 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
                 displayEditor();
             });
 
-            deleteButton.style.padding = "5px";
-            deleteButton.style.userSelect = "none";
-            deleteButton.style.webkitUserSelect = "none";
-            deleteButton.style.mozUserSelect = "none";
-            deleteButton.innerHTML = "<img style='height:" + buttonSize + "; width:" + buttonSize + ";' src='icons/remove.svg'><br/>" + MemorizeApp.strings.remove;
-            deleteButton.onmouseover = function () {
-                this.style.background = "#888";
-            };
-            deleteButton.onmouseout = function () {
-                this.style.background = "transparent";
-            };
+            deleteButton.innerHTML = "<img style='height:" + buttonSize + "; width:" + buttonSize + ";' " +
+                "src='icons/remove.svg'><br/>" + MemorizeApp.strings.remove;
             deleteButton.addEventListener("click", function () {
                 if (MemorizeApp.editor.selectedPair > -1) {
                     MemorizeApp.game.template.cards.splice(MemorizeApp.editor.selectedPair, 1);
