@@ -87,3 +87,15 @@
 .edit-button:hover {
     background: #888;
 }
+
+.card-list-container {
+    position: fixed;
+    bottom: 0;
+    padding; 10px;
+    padding-bottom: 20px;
+    margin-top: 7px;
+    background: #eee;
+    overflow-x: auto;
+    white-space: nowrap;
+    overflow-y: hidden;
+}

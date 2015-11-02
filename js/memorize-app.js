@@ -1157,17 +1157,9 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
                 minSize = document.body.clientHeight;
             }
 
-            div.style.position = "fixed";
-            div.style.bottom = 0;
+            div.className = 'card-list-container';
             div.style.width = document.body.clientWidth + "px";
             div.style.height = parseInt(minSize / 3) + "px";
-            div.style.padding = "10px";
-            div.style.paddingBottom = "20px";
-            div.style.marginTop = "7px";
-            div.style.background = "#eee";
-            div.style.overflowX = "auto";
-            div.style.whiteSpace = "nowrap"
-            div.style.overflowY = "hidden";
 
             for (var i = 0; i < MemorizeApp.game.template.cards.length; i++) {
                 var card = MemorizeApp.game.template.cards[i];
