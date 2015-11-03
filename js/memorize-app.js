@@ -47,6 +47,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
                 [{text: "7+8"}, {text: "15"}],
                 [{text: "6+6"}, {text: "12"}]
             ],
+            pairMode: MODE_NON_EQUAL,
             mode: MODE_SPLITTED
         };
         var TEMPLATE_LETTERS = {
@@ -78,6 +79,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
                 [{text: "Y"}, {text: "y"}],
                 [{text: "Z"}, {text: "z"}]
             ],
+            pairMode: MODE_NON_EQUAL,
             mode: MODE_SPLITTED
         };
 
@@ -180,6 +182,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
                     {image: INLINE_RES + "guitar12_2", sound: INLINE_RES + "guitcello"}
                 ]
             ],
+            pairMode: MODE_NON_EQUAL,
             mode: MODE_CLASSIC
         };
 
@@ -188,7 +191,6 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             ui: {},
             templates: [TEMPLATE_SUMS, TEMPLATE_LETTERS, TEMPLATE_SOUNDS],
             isHost: false,
-            editor: {pairMode: MODE_EQUAL, card1: {}, card2: {}, selectedPair: -1},
             game: {
                 template: TEMPLATE_LETTERS,
                 multiplayer: false,
@@ -197,8 +199,10 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
                 cards: [],
                 currentPlayer: "",
                 players: [],
-                size: 4
+                pairMode: TEMPLATE_LETTERS.pairMode,
+                size: 4,
             },
+            editor: {pairMode: TEMPLATE_LETTERS.pairMode, card1: {}, card2: {}, selectedPair: -1},
             computeCards: computeCards,
             inEditMode: false,
             shareActivity: shareActivity,
@@ -585,9 +589,9 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
 
         function drawGame() {
             if (MemorizeApp.editor.pairMode == MODE_EQUAL) {
-                MemorizeApp.ui.gameEditorInsertModeButton.style.backgroundImage = "url(icons/pair-non-equals.svg)"
-            } else {
                 MemorizeApp.ui.gameEditorInsertModeButton.style.backgroundImage = "url(icons/pair-equals.svg)"
+            } else {
+                MemorizeApp.ui.gameEditorInsertModeButton.style.backgroundImage = "url(icons/pair-non-equals.svg)"
             }
             if (MemorizeApp.game.template.mode == MODE_CLASSIC) {
                 MemorizeApp.ui.gameEditorPlayModeButton.style.backgroundImage = "url(icons/grouped_game1.svg)";
@@ -870,9 +874,11 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
 
             MemorizeApp.ui.gameEditorInsertModeButton.addEventListener("click", function() {
                if (MemorizeApp.editor.pairMode == MODE_EQUAL) {
+                   MemorizeApp.game.pairMode = MODE_NON_EQUAL;
                    MemorizeApp.editor.pairMode = MODE_NON_EQUAL;
                    MemorizeApp.ui.gameEditorInsertModeButton.style.backgroundImage = "url(icons/pair-non-equals.svg)"
                } else {
+                   MemorizeApp.editor.pairMode = MODE_EQUAL;
                    MemorizeApp.editor.pairMode = MODE_EQUAL;
                    MemorizeApp.ui.gameEditorInsertModeButton.style.backgroundImage = "url(icons/pair-equals.svg)"
                }
@@ -915,8 +921,6 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
         }
 
         function enterEditMode() {
-            //TODO palette equality
-            //TODO palette show
             MemorizeApp.inEditMode = true;
             MemorizeApp.ui.gameGrid.innerHTML = "";
             MemorizeApp.ui.gameGrid.style.display = "none";
