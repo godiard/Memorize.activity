@@ -958,8 +958,8 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             var d = document.createElement("div");
             d.style.width = parseInt(minSize / 3.5) - 10 + "px";
             d.style.height = parseInt(minSize / 3.5) - 10 + "px";
-            d.style.fontSize = parseInt(minSize / 3.5) - 10 + "px";
-            d.style.lineHeight = parseInt(minSize / 3.5) - 10 + "px";
+            d.style.fontSize = parseInt(minSize / 3.5) - 20 + "px";
+            d.style.lineHeight = parseInt(minSize / 3.5) - 30 + "px";
             d.className = "edit-card";
             if (card && card.text) {
                 d.innerHTML = card.text;

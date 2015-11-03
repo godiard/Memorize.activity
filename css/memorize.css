@@ -7,6 +7,7 @@
 
 .text-card {
     text-align: center;
+    vertical-align: middle;
     display: block;
     border-radius: 6px;
     border: 1px solid #000;
@@ -65,10 +66,12 @@
     border-radius: 9px;
     color:  #fff;
     text-align: center;
+    vertical-align: middle;
 }
 
 .card-list {
     text-align: center;
+    vertical-align: middle;
     color: #fff;
     margin: 2px;
     background-color: #666;
