@@ -54,7 +54,7 @@
     transform: rotateY(180deg);
 }
 
-.edit-card-border {
+.edit-card-box {
     margin-left: 25px;
     float: left;
     margin-top: 7px;

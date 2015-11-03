@@ -943,6 +943,17 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             MemorizeApp.ui.gameEditorButton.style.backgroundImage = "url(icons/play.svg)";
 
             displayEditor();
+
+            var minSize = document.body.clientWidth;
+            if (minSize > document.body.clientHeight) {
+                minSize = document.body.clientHeight;
+            }
+
+            var editorElement = document.getElementsByClassName('edit-card-box')[0];
+            var editorHeight = editorElement.offsetHeight;
+            MemorizeApp.ui.gameEditor.style.paddingTop =
+                (minSize * 2 / 3 - sugarCellSize - editorHeight) / 2 + "px";
+
         }
 
         function generateEditorDiv(card) {
@@ -953,7 +964,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
 
             var e = document.createElement("div");
             e.style.width = parseInt(minSize / 3.5) + "px";
-            e.className = "edit-card-border";
+            e.className = "edit-card-box";
 
             var d = document.createElement("div");
             d.style.width = parseInt(minSize / 3.5) - 10 + "px";
