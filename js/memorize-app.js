@@ -1000,29 +1000,38 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             return e;
         }
 
+        function createEditionBtn(buttonSize, imageUrl, text) {
+            var button = document.createElement("div");
+            button.className = 'edit-button';
+
+            button.innerHTML = "<img style='height:" + buttonSize + "; width:" + buttonSize + ";'" +
+                " src='"+ imageUrl + "'><br/>" + text;
+            return button;
+        };
+
         function generateAddEditRemoveButton() {
-            var div = document.createElement("div");
+            var btnPanel = document.createElement("div");
             var minSize = document.body.clientWidth;
             if (minSize > document.body.clientHeight) {
                 minSize = document.body.clientHeight;
             }
 
-            div.style.float = "right";
-            div.style.height = parseInt(minSize / 3.5) + "px";
-            div.style.marginRight = "20px";
-            div.style.marginTop = "7px";
-
-            var addButton = document.createElement("div");
-            var updateButton = document.createElement("div");
-            var deleteButton = document.createElement("div");
-            addButton.className = 'edit-button';
-            updateButton.className = 'edit-button';
-            deleteButton.className = 'edit-button';
+            btnPanel.style.float = "right";
+            btnPanel.style.height = parseInt(minSize / 3.5) + "px";
+            btnPanel.style.marginRight = "20px";
+            btnPanel.style.marginTop = "7px";
 
             var buttonSize = parseInt((minSize / 3.5) / 5) + "px";
 
-            addButton.innerHTML = "<img style='height:" + buttonSize + "; width:" + buttonSize + ";'" +
-                " src='icons/pair-add.svg'><br/>" + MemorizeApp.strings.add;
+            var addButton = createEditionBtn(buttonSize, 'icons/pair-add.svg',
+                                             MemorizeApp.strings.add);
+
+            var updateButton = createEditionBtn(buttonSize, 'icons/pair-update.svg',
+                                             MemorizeApp.strings.update);
+
+            var deleteButton = createEditionBtn(buttonSize, 'icons/remove.svg',
+                                             MemorizeApp.strings.remove);
+
             addButton.addEventListener("click", function () {
                 var cards = [];
                 if (MemorizeApp.editor.pairMode == MODE_EQUAL) {
@@ -1051,8 +1060,6 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
                 displayEditor();
             });
 
-            updateButton.innerHTML = "<img style='height:" + buttonSize + "; width:" + buttonSize + ";' " +
-                "src='icons/pair-update.svg'><br/>" + MemorizeApp.strings.update;
             updateButton.addEventListener("click", function () {
                 var cards = [];
                 if (MemorizeApp.editor.pairMode == MODE_EQUAL) {
@@ -1081,8 +1088,6 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
                 displayEditor();
             });
 
-            deleteButton.innerHTML = "<img style='height:" + buttonSize + "; width:" + buttonSize + ";' " +
-                "src='icons/remove.svg'><br/>" + MemorizeApp.strings.remove;
             deleteButton.addEventListener("click", function () {
                 if (MemorizeApp.editor.selectedPair > -1) {
                     MemorizeApp.game.template.cards.splice(MemorizeApp.editor.selectedPair, 1);
@@ -1095,11 +1100,11 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
                 displayEditor();
             });
 
-            div.appendChild(addButton);
-            div.appendChild(updateButton);
-            div.appendChild(deleteButton);
+            btnPanel.appendChild(addButton);
+            btnPanel.appendChild(updateButton);
+            btnPanel.appendChild(deleteButton);
 
-            return div;
+            return btnPanel;
         }
 
         function generateCardFromCardsList(pair, minSize, index) {
