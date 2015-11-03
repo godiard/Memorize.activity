@@ -645,7 +645,10 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
                 gameDiv.appendChild(fullCardDiv);
             }
 
-            gameDiv.style.width = parseInt(minSize + 10) * parseInt(MemorizeApp.game.size + 1) + "px";
+            var gridWidth = minSize * parseInt(MemorizeApp.game.size) +
+                CARD_MARGIN * parseInt(MemorizeApp.game.size) * 2;
+
+            gameDiv.style.width = gridWidth + "px";
             gameDiv.style.marginLeft = "auto";
             gameDiv.style.marginRight = "auto";
 
