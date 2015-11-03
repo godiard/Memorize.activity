@@ -953,7 +953,6 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             var editorHeight = editorElement.offsetHeight;
             MemorizeApp.ui.gameEditor.style.paddingTop =
                 (minSize * 2 / 3 - sugarCellSize - editorHeight) / 2 + "px";
-
         }
 
         function generateEditorDiv(card) {
@@ -1016,9 +1015,9 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
                 minSize = document.body.clientHeight;
             }
 
-            btnPanel.style.float = "right";
+            btnPanel.style.float = "left";
             btnPanel.style.height = parseInt(minSize / 3.5) + "px";
-            btnPanel.style.marginRight = "20px";
+            btnPanel.style.marginLeft = "20px";
             btnPanel.style.marginTop = "7px";
 
             var buttonSize = parseInt((minSize / 3.5) / 5) + "px";
@@ -1233,6 +1232,10 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
                 resizeText(editor1.childNodes[0]);
                 resizeText(editor2.childNodes[0]);
             }
+            // calculate aprox width of previews more edition buttons
+            var editionWidth = editor1.offsetWidth * 2.5;
+            editor1.style.paddingLeft =
+                ((document.body.clientWidth - editionWidth) / 2) + "px";
 
             MemorizeApp.ui.gameEditor.appendChild(generateAddEditRemoveButton());
             MemorizeApp.ui.gameEditor.appendChild(generateClearBoth());
