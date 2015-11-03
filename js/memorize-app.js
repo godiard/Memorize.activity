@@ -303,19 +303,21 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             saveGame();
         }
 
-
         function resizeTextInsideTextCardDivs() {
             var elements = document.getElementsByClassName('text-card');
             for (var i = 0; i < elements.length; i++) {
                 var el = elements[i];
-                while (el.scrollHeight > el.offsetHeight) {
-                    el.style.fontSize = parseInt(el.style.fontSize) - 1 + "px";
-                }
-                while (el.scrollWidth > el.offsetWidth) {
-                    el.style.fontSize = parseInt(el.style.fontSize) - 1 + "px";
-                }
+                resizeText(el);
             }
+        }
 
+        function resizeText(el) {
+            while (el.scrollHeight > el.offsetHeight) {
+                el.style.fontSize = (parseInt(el.style.fontSize) - 1) + "px";
+            }
+            while (el.scrollWidth > el.offsetWidth) {
+                el.style.fontSize = (parseInt(el.style.fontSize) - 1) + "px";
+            }
         }
 
         function generateCardDiv(card, minSize) {
@@ -975,7 +977,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
                 this.linkedDiv.innerHTML = this.value;
                 this.linkedDiv.style.fontSize = this.linkedDiv.style.width;
                 this.card.text = this.value;
-                resizeTextInsideTextCardDivs()
+                resizeText(this.linkedDiv);
             };
 
             e.appendChild(d);
@@ -1198,21 +1200,35 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             MemorizeApp.ui.gameEditor.innerHTML = "";
 
             if (MemorizeApp.editor.pairMode == MODE_EQUAL) {
-                MemorizeApp.ui.gameEditor.appendChild(generateEditorDiv(MemorizeApp.editor.card1));
+                var editor1 = generateEditorDiv(MemorizeApp.editor.card1);
+                MemorizeApp.ui.gameEditor.appendChild(editor1);
+                resizeText(editor1.childNodes[0]);
             }
 
             if (MemorizeApp.editor.pairMode == MODE_NON_EQUAL) {
-                MemorizeApp.ui.gameEditor.appendChild(generateEditorDiv(MemorizeApp.editor.card1));
-                MemorizeApp.ui.gameEditor.appendChild(generateEditorDiv(MemorizeApp.editor.card2));
+                var editor1 = generateEditorDiv(MemorizeApp.editor.card1);
+                var editor2 = generateEditorDiv(MemorizeApp.editor.card2);
+                MemorizeApp.ui.gameEditor.appendChild(editor1);
+                MemorizeApp.ui.gameEditor.appendChild(editor2);
+                resizeText(editor1.childNodes[0]);
+                resizeText(editor2.childNodes[0]);
             }
 
             MemorizeApp.ui.gameEditor.appendChild(generateAddEditRemoveButton());
             MemorizeApp.ui.gameEditor.appendChild(generateClearBoth());
-            MemorizeApp.ui.gameEditor.appendChild(generateCardsList());
-
-            resizeTextInsideTextCardDivs()
-
+            var cardList = generateCardsList();
+            MemorizeApp.ui.gameEditor.appendChild(cardList);
+            resizeTextCardList(cardList);
         }
+
+        function resizeTextCardList(cardList) {
+            for (var i=0; i < cardList.childNodes.length; i++) {
+                var pair = cardList.childNodes[i];
+                for (var j=0; j < pair.childNodes.length; j++) {
+                    resizeText(pair.childNodes[j]);
+                };
+            };
+        };
 
         function leaveEditMode() {
             MemorizeApp.editor.card1 = {};
