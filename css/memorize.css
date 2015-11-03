@@ -81,9 +81,6 @@
 .edit-button {
     text-align: center;
     padding: 5px;
-    user-select: none;
-    -webkit-user-uelect: none;
-    -moz-user-uelect: none;
     background: transparent;
 }
 
