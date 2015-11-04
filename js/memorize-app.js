@@ -984,6 +984,12 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             if (card && card.text) {
                 d.innerHTML = card.text;
             }
+            if (card.image) {
+                if (card.image.indexOf(INLINE_RES) == 0) {
+                    card.image = SampleRessources[card.image.slice(INLINE_RES.length)]
+                }
+                d.style.backgroundImage = "url('" + card.image + "')";
+            }
 
             var input = document.createElement("input");
             input.setAttribute("type", "text");
