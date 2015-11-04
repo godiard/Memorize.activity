@@ -930,7 +930,8 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             input.style.marginRight = "auto";
             input.style.marginLeft = "auto";
             input.style.width = parseInt(minSize / 3.5) - 10 + "px";
-            input.style.marginTop = "5px";
+            input.style.marginBottom = "10px";
+            input.style.fontSize = "20px";
             input.card = card;
             if (card && card.text) {
                 input.value = card.text;
@@ -944,8 +945,8 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
                 resizeText(this.linkedDiv);
             };
 
-            e.appendChild(d);
             e.appendChild(input);
+            e.appendChild(d);
             return e;
         }
 
