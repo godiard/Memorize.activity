@@ -4,8 +4,9 @@
 
 define(["activity/sample-ressources", "activity/palettes/template-palette",
         "activity/palettes/size-palette", "activity/lz-string",
-        "activity/localization-data"], function (SampleRessources, templatePalette,
-            sizePalette, lzString, localizationData) {
+        "sugar-web/activity/activity","activity/localization-data"],
+        function (SampleRessources, templatePalette,
+            sizePalette, lzString, activity, localizationData) {
 
         var FOUND_COLOR = "#84f060";
         var MODE_CLASSIC = "classic";
@@ -845,9 +846,15 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             });
 
             MemorizeApp.ui.gameEditorClearButton.addEventListener("click", function() {
-                MemorizeApp.game.template.cards = [];
-                saveGame();
-                displayEditor();
+                activity.showConfirmationAlert(_('ATENTION'),
+                    _('RemoveAllConfirmMessage'),
+                    _('Yes'), _('No'), function(result) {
+                        if (result) {
+                            MemorizeApp.game.template.cards = [];
+                            saveGame();
+                            displayEditor();
+                        };
+                    });
             });
 
             MemorizeApp.ui.gameEditorButton.addEventListener("click", function () {
