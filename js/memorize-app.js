@@ -3,8 +3,9 @@
  */
 
 define(["activity/sample-ressources", "activity/palettes/template-palette",
-        "activity/palettes/size-palette", "activity/lz-string"], function (
-            SampleRessources, templatePalette, sizePalette, lzString) {
+        "activity/palettes/size-palette", "activity/lz-string",
+        "activity/localization-data"], function (SampleRessources, templatePalette,
+            sizePalette, lzString, localizationData) {
 
         var FOUND_COLOR = "#84f060";
         var MODE_CLASSIC = "classic";
@@ -26,6 +27,20 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
         if (!onXo && !onAndroid) {
             sugarCellSize = 55;
             sugarSubCellSize = 11;
+        };
+
+        var lang = navigator.language.substr(0, 2);
+        console.log('LANG ' + lang);
+
+        function _(text) {
+            // this function add a fallback for the case of translation not found
+            // can be removed when we find how to read the localization.ini
+            // file in the case of local html file opened in the browser
+            translation = localizationData[lang][text];
+            if (translation == '') {
+                translation = text;
+            };
+            return translation;
         };
 
         var TEMPLATE_SUMS = {
@@ -99,7 +114,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
         };
 
         var MemorizeApp = {
-            strings: {add: "Add", update: "Update", remove: "Remove"},
+            strings: {add: _("Add"), update: _("Update"), remove: _("Remove")},
             ui: {},
             templates: [TEMPLATE_SUMS, TEMPLATE_LETTERS, TEMPLATE_SOUNDS],
             isHost: false,
