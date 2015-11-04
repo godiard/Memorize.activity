@@ -352,7 +352,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
                 div.className = "text-card";
                 div.innerHTML = card.text;
                 div.style.lineHeight = minSize + "px";
-                div.style.fontSize = minSize + 'px';
+                div.style.fontSize = (minSize * 0.8) + 'px';
                 div.style.width = minSize + "px";
                 div.style.height = minSize + "px";
 
@@ -975,10 +975,11 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             e.className = "edit-card-box";
 
             var d = document.createElement("div");
-            d.style.width = parseInt(minSize / 3.5) - 10 + "px";
-            d.style.height = parseInt(minSize / 3.5) - 10 + "px";
-            d.style.fontSize = parseInt(minSize / 3.5) - 20 + "px";
-            d.style.lineHeight = parseInt(minSize / 3.5) - 30 + "px";
+            var cardSize = parseInt(minSize / 3.5) - 10;
+            d.style.width = cardSize + "px";
+            d.style.height = cardSize + "px";
+            d.style.fontSize = (cardSize * 0.8) + "px";
+            d.style.lineHeight = cardSize + "px";
             d.className = "edit-card";
             if (card && card.text) {
                 d.innerHTML = card.text;
@@ -1153,7 +1154,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             card1.style.width = cardSize + "px";
             card1.style.height = cardSize + "px";
             card1.style.lineHeight = cardSize + "px";
-            card1.style.fontSize = parseInt(minSize / 8) + "px";
+            card1.style.fontSize = (cardSize * 0.8) + "px";
 
             var card2 = document.createElement("div");
 
@@ -1175,7 +1176,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             card2.style.width = cardSize + "px";
             card2.style.height = cardSize + "px";
             card2.style.lineHeight = cardSize + "px";
-            card2.style.fontSize = parseInt(minSize / 8) + "px";
+            card2.style.fontSize = (cardSize * 0.8) + "px";
 
             d.appendChild(card1);
             d.appendChild(card2);
