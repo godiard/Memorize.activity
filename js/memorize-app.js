@@ -69,104 +69,32 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
 
         var TEMPLATE_SOUNDS = {
             name: "Sounds", icon: "sounds.svg", cards: [
-                [
-                    {image: INLINE_RES + "drumkit1_b", sound: INLINE_RES + "beat1_a"},
-                    {image: INLINE_RES + "drumkit1_b", sound: INLINE_RES + "beat1_a"}
-                ],
-                [
-                    {image: INLINE_RES + "drumkit2_b", sound: INLINE_RES + "beat1_b"},
-                    {image: INLINE_RES + "drumkit2_b", sound: INLINE_RES + "beat1_b"}
-                ],
-                [
-                    {image: INLINE_RES + "drumkit3_b", sound: INLINE_RES + "beat1_c"},
-                    {image: INLINE_RES + "drumkit3_b", sound: INLINE_RES + "beat1_c"}
-                ],
-                [
-                    {image: INLINE_RES + "drumkit4_b", sound: INLINE_RES + "beat8"},
-                    {image: INLINE_RES + "drumkit4_b", sound: INLINE_RES + "beat8"}
-                ],
-                [
-                    {image: INLINE_RES + "drumkit5_b", sound: INLINE_RES + "beat10"},
-                    {image: INLINE_RES + "drumkit5_b", sound: INLINE_RES + "beat10"}
-                ],
-                [
-                    {image: INLINE_RES + "drumkit6_b", sound: INLINE_RES + "beat3"},
-                    {image: INLINE_RES + "drumkit6_b", sound: INLINE_RES + "beat3"}
-                ],
-                [
-                    {image: INLINE_RES + "drumkit7_b", sound: INLINE_RES + "beat4"},
-                    {image: INLINE_RES + "drumkit7_b", sound: INLINE_RES + "beat4"}
-                ],
-                [
-                    {image: INLINE_RES + "drumkit8_b", sound: INLINE_RES + "beat14"},
-                    {image: INLINE_RES + "drumkit8_b", sound: INLINE_RES + "beat14"}
-                ],
-                [
-                    {image: INLINE_RES + "drumkit9_b", sound: INLINE_RES + "beat6_2"},
-                    {image: INLINE_RES + "drumkit9_b", sound: INLINE_RES + "beat6_2"}
-                ],
-                [
-                    {image: INLINE_RES + "drumkit10_b", sound: INLINE_RES + "beat2"},
-                    {image: INLINE_RES + "drumkit10_b", sound: INLINE_RES + "beat2"}
-                ],
-                [
-                    {image: INLINE_RES + "drumkit11_b", sound: INLINE_RES + "beat16"},
-                    {image: INLINE_RES + "drumkit11_b", sound: INLINE_RES + "beat16"}
-                ],
-                [
-                    {image: INLINE_RES + "drumkit12_b", sound: INLINE_RES + "beat17"},
-                    {image: INLINE_RES + "drumkit12_b", sound: INLINE_RES + "beat17"}
-                ],
-                [
-                    {image: INLINE_RES + "guitar1_2", sound: INLINE_RES + "bending_a"},
-                    {image: INLINE_RES + "guitar1_2", sound: INLINE_RES + "bending_a"}
-                ],
-                [
-                    {image: INLINE_RES + "guitar2_2", sound: INLINE_RES + "bending_b"},
-                    {image: INLINE_RES + "guitar2_2", sound: INLINE_RES + "bending_b"}
-                ],
-                [
-                    {image: INLINE_RES + "guitar3_2", sound: INLINE_RES + "flashcomp2a"},
-                    {image: INLINE_RES + "guitar3_2", sound: INLINE_RES + "flashcomp2a"}
-                ],
-                [
-                    {image: INLINE_RES + "guitar4_2", sound: INLINE_RES + "flashcomp2b"},
-                    {image: INLINE_RES + "guitar4_2", sound: INLINE_RES + "flashcomp2b"}
-                ],
-                [
-                    {image: INLINE_RES + "guitar5_2", sound: INLINE_RES + "gedaempft"},
-                    {image: INLINE_RES + "guitar5_2", sound: INLINE_RES + "gedaempft"}
-                ],
-                [
-                    {image: INLINE_RES + "guitar6_2", sound: INLINE_RES + "ungedaempft"},
-                    {image: INLINE_RES + "guitar6_2", sound: INLINE_RES + "ungedaempft"}
-                ],
-                [
-                    {image: INLINE_RES + "guitar7_2", sound: INLINE_RES + "jimi4"},
-                    {image: INLINE_RES + "guitar7_2", sound: INLINE_RES + "jimi4"}
-                ],
-                [
-                    {image: INLINE_RES + "guitar8_2", sound: INLINE_RES + "git_hit1"},
-                    {image: INLINE_RES + "guitar8_2", sound: INLINE_RES + "git_hit1"}
-                ],
-                [
-                    {image: INLINE_RES + "guitar9_2", sound: INLINE_RES + "git_hit4"},
-                    {image: INLINE_RES + "guitar9_2", sound: INLINE_RES + "git_hit4"}
-                ],
-                [
-                    {image: INLINE_RES + "guitar10_2", sound: INLINE_RES + "jimi1"},
-                    {image: INLINE_RES + "guitar10_2", sound: INLINE_RES + "jimi1"}
-                ],
-                [
-                    {image: INLINE_RES + "guitar11_2", sound: INLINE_RES + "flasholet4"},
-                    {image: INLINE_RES + "guitar11_2", sound: INLINE_RES + "flasholet4"}
-                ],
-                [
-                    {image: INLINE_RES + "guitar12_2", sound: INLINE_RES + "guitcello"},
-                    {image: INLINE_RES + "guitar12_2", sound: INLINE_RES + "guitcello"}
-                ]
+                [{image: INLINE_RES + "drumkit1_b", sound: INLINE_RES + "beat1_a"}],
+                [{image: INLINE_RES + "drumkit2_b", sound: INLINE_RES + "beat1_b"}],
+                [{image: INLINE_RES + "drumkit3_b", sound: INLINE_RES + "beat1_c"}],
+                [{image: INLINE_RES + "drumkit4_b", sound: INLINE_RES + "beat8"}],
+                [{image: INLINE_RES + "drumkit5_b", sound: INLINE_RES + "beat10"}],
+                [{image: INLINE_RES + "drumkit6_b", sound: INLINE_RES + "beat3"}],
+                [{image: INLINE_RES + "drumkit7_b", sound: INLINE_RES + "beat4"}],
+                [{image: INLINE_RES + "drumkit8_b", sound: INLINE_RES + "beat14"}],
+                [{image: INLINE_RES + "drumkit9_b", sound: INLINE_RES + "beat6_2"}],
+                [{image: INLINE_RES + "drumkit10_b", sound: INLINE_RES + "beat2"}],
+                [{image: INLINE_RES + "drumkit11_b", sound: INLINE_RES + "beat16"}],
+                [{image: INLINE_RES + "drumkit12_b", sound: INLINE_RES + "beat17"}],
+                [{image: INLINE_RES + "guitar1_2", sound: INLINE_RES + "bending_a"}],
+                [{image: INLINE_RES + "guitar2_2", sound: INLINE_RES + "bending_b"}],
+                [{image: INLINE_RES + "guitar3_2", sound: INLINE_RES + "flashcomp2a"}],
+                [{image: INLINE_RES + "guitar4_2", sound: INLINE_RES + "flashcomp2b"}],
+                [{image: INLINE_RES + "guitar5_2", sound: INLINE_RES + "gedaempft"}],
+                [{image: INLINE_RES + "guitar6_2", sound: INLINE_RES + "ungedaempft"}],
+                [{image: INLINE_RES + "guitar7_2", sound: INLINE_RES + "jimi4"}],
+                [{image: INLINE_RES + "guitar8_2", sound: INLINE_RES + "git_hit1"}],
+                [{image: INLINE_RES + "guitar9_2", sound: INLINE_RES + "git_hit4"}],
+                [{image: INLINE_RES + "guitar10_2", sound: INLINE_RES + "jimi1"}],
+                [{image: INLINE_RES + "guitar11_2", sound: INLINE_RES + "flasholet4"}],
+                [{image: INLINE_RES + "guitar12_2", sound: INLINE_RES + "guitcello"}]
             ],
-            pairMode: MODE_NON_EQUAL,
+            pairMode: MODE_EQUAL,
             mode: MODE_CLASSIC
         };
 
@@ -179,7 +107,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
                 template: TEMPLATE_LETTERS,
                 multiplayer: false,
                 selectedCards: [],
-                mode: undefined,
+                mode: TEMPLATE_LETTERS.mode,
                 cards: [],
                 currentPlayer: "",
                 players: [],
@@ -237,6 +165,8 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
                 return;
             }
             MemorizeApp.game.mode = MemorizeApp.game.template.mode;
+            MemorizeApp.game.pairMode = MemorizeApp.game.template.pairMode;
+            MemorizeApp.editor.pairMode = MemorizeApp.game.template.pairMode;
 
             var shuffledTemplate = {name: MemorizeApp.game.template.name, cards: []};
             if (shuffledTemplate.name != "Addition") {
@@ -275,8 +205,11 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
                 var cards = [];
                 for (var i = 0; i < shuffledTemplate.cards.length && i < cardsNumber / 2; i++) {
                     var card1 = shuffledTemplate.cards[i][0];
-                    var card2 = shuffledTemplate.cards[i][1];
-
+                    if (MemorizeApp.editor.pairMode == MODE_EQUAL) {
+                        var card2 = shuffledTemplate.cards[i][0];
+                    } else {
+                        var card2 = shuffledTemplate.cards[i][1];
+                    };
                     card1.id = i;
                     card2.id = i;
 
@@ -888,7 +821,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
                    MemorizeApp.editor.pairMode = MODE_NON_EQUAL;
                    MemorizeApp.ui.gameEditorInsertModeButton.style.backgroundImage = "url(icons/pair-non-equals.svg)"
                } else {
-                   MemorizeApp.editor.pairMode = MODE_EQUAL;
+                   MemorizeApp.game.pairMode = MODE_EQUAL;
                    MemorizeApp.editor.pairMode = MODE_EQUAL;
                    MemorizeApp.ui.gameEditorInsertModeButton.style.backgroundImage = "url(icons/pair-equals.svg)"
                }
@@ -1135,61 +1068,45 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             } else {
                 d.style.border = "3px solid #fff";
             };
-            //d.style.marginTop = "5px";
-            //d.style.marginLeft = "15px";
 
-            var card1 = document.createElement("div");
-
-            card1.innerHTML = "&nbsp;";
-            card1.className = "card-list";
-
-
-            if (pair[0].text) {
-                if (pair[0].text.indexOf(INLINE_RES) == 0) {
-                    pair[0].text = SampleRessources[pair[0].image.slice(INLINE_RES.length)]
-                }
-                card1.innerHTML = pair[0].text;
-            }
-            else if (pair[0].image) {
-                if (pair[0].image.indexOf(INLINE_RES) == 0) {
-                    pair[0].image = SampleRessources[pair[0].image.slice(INLINE_RES.length)]
-                }
-                card1.style.backgroundImage = "url('" + pair[0].image + "')";
-
-            }
-            var cardSize = (minSize - 10) / 2;
-            card1.style.width = cardSize + "px";
-            card1.style.height = cardSize + "px";
-            card1.style.lineHeight = cardSize + "px";
-            card1.style.fontSize = (cardSize * 0.8) + "px";
-
-            var card2 = document.createElement("div");
-
-            card2.innerHTML = "&nbsp;";
-            card2.className = "card-list";
-            if (pair[1].text) {
-                if (pair[1].text.indexOf(INLINE_RES) == 0) {
-                    pair[1].text = SampleRessources[pair[1].image.slice(INLINE_RES.length)]
-                }
-                card2.innerHTML = pair[1].text;
-            }
-            else if (pair[1].image) {
-                if (pair[1].image.indexOf(INLINE_RES) == 0) {
-                    pair[1].image = SampleRessources[pair[1].image.slice(INLINE_RES.length)]
-                }
-                card2.style.backgroundImage = "url('" + pair[1].image + "')";
-            }
-
-            card2.style.width = cardSize + "px";
-            card2.style.height = cardSize + "px";
-            card2.style.lineHeight = cardSize + "px";
-            card2.style.fontSize = (cardSize * 0.8) + "px";
-
+            var card1 = createCardForPairList(pair[0], minSize);
+            var secondCard = (MemorizeApp.editor.pairMode == MODE_EQUAL) ? pair[0] : pair[1];
+            if (secondCard == undefined) {
+                // if the user changes to equals mode
+                secondCard = card1;
+            };
+            var card2 = createCardForPairList(secondCard, minSize);
             d.appendChild(card1);
             d.appendChild(card2);
 
             return d;
         }
+
+        function createCardForPairList(cardData, size) {
+            var card = document.createElement("div");
+            card.innerHTML = "&nbsp;";
+            card.className = "card-list";
+
+            if (cardData.text) {
+                if (cardData.text.indexOf(INLINE_RES) == 0) {
+                    cardData.text = SampleRessources[cardData.image.slice(INLINE_RES.length)]
+                }
+                card.innerHTML = cardData.text;
+            }
+            else if (cardData.image) {
+                if (cardData.image.indexOf(INLINE_RES) == 0) {
+                    cardData.image = SampleRessources[cardData.image.slice(INLINE_RES.length)]
+                }
+                card.style.backgroundImage = "url('" + cardData.image + "')";
+
+            }
+            var cardSize = (size - 10) / 2;
+            card.style.width = cardSize + "px";
+            card.style.height = cardSize + "px";
+            card.style.lineHeight = cardSize + "px";
+            card.style.fontSize = (cardSize * 0.8) + "px";
+            return card;
+        };
 
         function generateCardsList() {
             var div = document.createElement("div");
