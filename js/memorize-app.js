@@ -261,6 +261,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
                         cardsArray.push([{text: key}, {text: cards[key]}])
                     });
                 shuffledTemplate.cards = cardsArray;
+                MemorizeApp.game.template.cards = cardsArray;
             };
 
             var cardsNumber = 0;
