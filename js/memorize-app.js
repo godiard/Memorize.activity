@@ -337,7 +337,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
                 }
                 var div = document.createElement("div");
                 div.className = "card-div";
-                div.style.background = "url('" + card.image + "')";
+                div.style.backgroundImage = "url('" + card.image + "')";
                 div.style.height = minSize + "px";
                 div.style.width = minSize + "px";
 
