@@ -2,6 +2,9 @@ define(function (require) {
 
 uiStrings = {
 'en': {
+'Addition': 'Addition',
+'Letters': 'Letters',
+'Sounds': 'Sounds',
 'Add': 'Add',
 'Update': 'Update',
 'Remove': 'Remove',
@@ -12,6 +15,9 @@ uiStrings = {
 },
 
 'es': {
+'Addition': 'Sumas',
+'Letters': 'Letras',
+'Sounds': 'Sonidos',
 'Add': 'Agregar',
 'Update': 'Actualizar',
 'Remove': 'Borrar',

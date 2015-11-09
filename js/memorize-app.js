@@ -51,7 +51,7 @@ define(function (require) {
         };
 
         var TEMPLATE_SUMS = {
-            name: "Addition", icon: "addition.svg",
+            name: _("Addition"), icon: "addition.svg",
             // cards are randomly created
             cards: null,
             cardsFunction: createAdditionCards,
@@ -59,7 +59,7 @@ define(function (require) {
             mode: MODE_SPLITTED
         };
         var TEMPLATE_LETTERS = {
-            name: "Letters", icon: "letters.svg", cards: [
+            name: _("Letters"), icon: "letters.svg", cards: [
                 [{text: "A"}, {text: "a"}],
                 [{text: "B"}, {text: "b"}],
                 [{text: "C"}, {text: "c"}],
@@ -92,7 +92,7 @@ define(function (require) {
         };
 
         var TEMPLATE_SOUNDS = {
-            name: "Sounds", icon: "sounds.svg", cards: [
+            name: _("Sounds"), icon: "sounds.svg", cards: [
                 [{image: INLINE_RES + "drumkit1_b", sound: INLINE_RES + "beat1_a"}],
                 [{image: INLINE_RES + "drumkit2_b", sound: INLINE_RES + "beat1_b"}],
                 [{image: INLINE_RES + "drumkit3_b", sound: INLINE_RES + "beat1_c"}],
