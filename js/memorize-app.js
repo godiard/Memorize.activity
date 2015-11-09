@@ -47,6 +47,8 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
         var TEMPLATE_SUMS = {
             name: "Addition", icon: "addition.svg",
             // cards are randomly created
+            cards: null,
+            cardsFunction: createAdditionCards,
             pairMode: MODE_NON_EQUAL,
             mode: MODE_SPLITTED
         };
@@ -114,10 +116,15 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             mode: MODE_CLASSIC
         };
 
+        function initTemplatesList() {
+            var templates = [TEMPLATE_SUMS, TEMPLATE_LETTERS, TEMPLATE_SOUNDS];
+            return templates;
+        };
+
         var MemorizeApp = {
             strings: {add: _("Add"), update: _("Update"), remove: _("Remove")},
             ui: {},
-            templates: [TEMPLATE_SUMS, TEMPLATE_LETTERS, TEMPLATE_SOUNDS],
+            templates: initTemplatesList(),
             isHost: false,
             game: {
                 template: TEMPLATE_LETTERS,
@@ -155,7 +162,6 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             return array;
         }
 
-
         function shareActivity(isHost) {
             if (!MemorizeApp.presence.isConnected()) {
                 return;
@@ -172,6 +178,26 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             MemorizeApp.ui.gamePlayers.style.display = "block";
         }
 
+        function createAdditionCards() {
+            //generate 'addition' cards on the fly
+            cards = {};
+            while (Object.getOwnPropertyNames(cards).length < 18) {
+                var a = Math.floor((Math.random() * 9) + 1);
+                var b = Math.floor((Math.random() * 9) + 1);
+                var key = String(a + '+' + b);
+                var value = String(a + b);
+                if (! (key in cards)) {
+                    cards[key] = value;
+                };
+            };
+            // put the cards in the game structure
+            cardsArray = [];
+            Object.getOwnPropertyNames(cards).forEach(
+                function(key, idx, array) {
+                    cardsArray.push([{text: key}, {text: cards[key]}])
+                });
+            return cardsArray;
+        };
 
         function computeCards() {
             MemorizeApp.game.cards = [];
@@ -185,27 +211,11 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             MemorizeApp.editor.pairMode = MemorizeApp.game.template.pairMode;
 
             var shuffledTemplate = {name: MemorizeApp.game.template.name, cards: []};
-            if (shuffledTemplate.name != "Addition") {
+            if (MemorizeApp.game.template.cards != null) {
                 shuffledTemplate.cards = JSON.parse(
                     JSON.stringify(shuffle(MemorizeApp.game.template.cards)));
             } else {
-                //generate 'addition' cards on the fly
-                cards = {};
-                while (Object.getOwnPropertyNames(cards).length < 18) {
-                    var a = Math.floor((Math.random() * 9) + 1);
-                    var b = Math.floor((Math.random() * 9) + 1);
-                    var key = String(a + '+' + b);
-                    var value = String(a + b);
-                    if (! (key in cards)) {
-                        cards[key] = value;
-                    };
-                };
-                // put the cards in the game structure
-                cardsArray = [];
-                Object.getOwnPropertyNames(cards).forEach(
-                    function(key, idx, array) {
-                        cardsArray.push([{text: key}, {text: cards[key]}])
-                    });
+                cardArray = MemorizeApp.game.template.cardsFunction();
                 shuffledTemplate.cards = cardsArray;
                 MemorizeApp.game.template.cards = cardsArray;
             };
