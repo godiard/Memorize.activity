@@ -1389,8 +1389,6 @@ define(function (require) {
             }
         }
 
-
         return MemorizeApp;
     }
-)
-;
+);
