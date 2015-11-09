@@ -167,14 +167,21 @@ define(function (require) {
                 'houseware', 'jobs', 'nature', 'objects', 'people',
                 'plants', 'sports', 'transports', 'tools', 'vegetables'];
 
+            // sort translated categories
+            var translatedCategories = {};
             categoryNames.forEach(function(category, idx, array) {
                 var translatedCategory = category;
                 if (wordTranslations != null) {
                     translatedCategory = wordTranslations[category];
                 };
+                translatedCategories[translatedCategory] = category;
+            });
+
+            Object.keys(translatedCategories).sort().forEach(function(
+                    translatedCategory, idx, array) {
                 var gameTemplate = {
                     name: translatedCategory, icon: "letters.svg",
-                    cards: createWordCards(category),
+                    cards: createWordCards(translatedCategories[translatedCategory]),
                     pairMode: MODE_NON_EQUAL,
                     mode: MODE_SPLITTED
                 };
