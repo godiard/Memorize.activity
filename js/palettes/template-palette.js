@@ -12,7 +12,11 @@ define(["sugar-web/graphics/palette"], function (palette) {
 
         this.buttons = [];
 
-        var div = document.createElement('div');
+        var content = document.createElement('div');
+        content.style.width = "360px";
+        var col = document.createElement('div');
+        col.style.display= 'inline-block';
+        content.appendChild(col);
         for (var i = 0; i < templates.length; i++) {
             var template = templates[i];
             var button = document.createElement("div");
@@ -25,15 +29,23 @@ define(["sugar-web/graphics/palette"], function (palette) {
                 this.style.background = "#000";
             };
             button.style.borderRadius = "0";
-            button.style.width = "100%";
+            button.style.width = "180px";
             if (i != 0) {
                 button.style.marginTop = "3px";
             }
-            button.innerHTML = "<img style='vertical-align: middle; margin-right:3px;' src='icons/" + template.icon + "'>" + template.name;
-            div.appendChild(button);
+            button.innerHTML = "<img style='vertical-align: middle; margin:3px;' " +
+                "src='icons/" + template.icon + "'> " + template.name;
+            col.appendChild(button);
+            if (i == Math.floor(templates.length / 2) - 1) {
+                var col = document.createElement('div');
+                col.style.display= 'inline-block';
+                content.appendChild(col);
+            };
             this.buttons.push(button);
         }
-        this.setContent([div]);
+        this.setContent([content]);
+        // overwrite max-width defined in sugar.css for wrapper div
+        this.getPalette().children[1].style.maxWidth = "360px";
 
         // Pop-down the palette when a item in the menu is clicked.
 

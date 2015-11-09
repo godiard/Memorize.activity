@@ -2,11 +2,13 @@
  * Created by ohayon_m on 17/08/15.
  */
 
-define(["activity/sample-ressources", "activity/palettes/template-palette",
-        "activity/palettes/size-palette", "activity/lz-string",
-        "sugar-web/activity/activity","activity/localization-data"],
-        function (SampleRessources, templatePalette,
-            sizePalette, lzString, activity, localizationData) {
+define(function (require) {
+        var SampleRessources = require("activity/sample-ressources");
+        var templatePalette = require("activity/palettes/template-palette");
+        var sizePalette = require("activity/palettes/size-palette");
+        var lzString = require("activity/lz-string");
+        var activity = require("sugar-web/activity/activity");
+        var localizationData = require("activity/localization-data");
 
         var FOUND_COLOR = "#84f060";
         var MODE_CLASSIC = "classic";
@@ -16,6 +18,10 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
         var INLINE_RES = "#inline#";
         var CARD_MARGIN = 8;
         var BOARD_MARGIN = 15;
+
+        // used to load word games
+        var categories = null;
+        var wordTranslations = null;
 
         var onAndroid = /Android/i.test(navigator.userAgent);
         if (window.location.search.indexOf('onAndroid') > -1) {
@@ -116,8 +122,65 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
             mode: MODE_CLASSIC
         };
 
+        function createWordCards(category) {
+            var cardsArray = [];
+            var words = categories[category].slice(0);
+            var wordList = [];
+            words.forEach(function(word, idx, array) {
+                var translated = word;
+                if (wordTranslations != null) {
+                    translated = wordTranslations[word];
+                };
+                if (translated != null ) {
+                    translated = translated.replace(/ /g, ' ');
+                    //var imgData = require('images/' + word + '.png');
+                    //cardsArray.push([{text: translated}, {image: imgData}]);
+                    cardsArray.push([{text: translated}, {image: './images/' + word + '.png'}]);
+                };
+            });
+            return cardsArray;
+        };
+
         function initTemplatesList() {
             var templates = [TEMPLATE_SUMS, TEMPLATE_LETTERS, TEMPLATE_SOUNDS];
+
+            // add words games
+            if (categories == null) {
+                categories = require("activity/categories_words");
+            };
+            if (wordTranslations == null) {
+                switch(lang) {
+                    case 'es':
+                        wordTranslations = require("activity/words_es");
+                        break;
+                    case 'fr':
+                        wordTranslations = require("activity/words_fr");
+                        break;
+                    case 'ht':
+                        wordTranslations = require("activity/words_ht");
+                        break;
+                };
+            };
+            var categoryNames = ['actions', 'adjectives', 'animals',
+                'bodyparts', 'clothes', 'colors', 'constructions',
+                'emotions', 'food', 'fruits', 'furnitures',
+                'houseware', 'jobs', 'nature', 'objects', 'people',
+                'plants', 'sports', 'transports', 'tools', 'vegetables'];
+
+            categoryNames.forEach(function(category, idx, array) {
+                var translatedCategory = category;
+                if (wordTranslations != null) {
+                    translatedCategory = wordTranslations[category];
+                };
+                var gameTemplate = {
+                    name: translatedCategory, icon: "letters.svg",
+                    cards: createWordCards(category),
+                    pairMode: MODE_NON_EQUAL,
+                    mode: MODE_SPLITTED
+                };
+                templates.push(gameTemplate);
+            });
+
             return templates;
         };
 
@@ -191,7 +254,7 @@ define(["activity/sample-ressources", "activity/palettes/template-palette",
                 };
             };
             // put the cards in the game structure
-            cardsArray = [];
+            var cardsArray = [];
             Object.getOwnPropertyNames(cards).forEach(
                 function(key, idx, array) {
                     cardsArray.push([{text: key}, {text: cards[key]}])
