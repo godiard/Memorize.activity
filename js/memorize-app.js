@@ -343,8 +343,8 @@ define(function (require) {
             saveGame();
         }
 
-        function resizeTextInsideTextCardDivs() {
-            var elements = document.getElementsByClassName('text-card');
+        function resizeTextByClassName(className) {
+            var elements = document.getElementsByClassName(className);
             for (var i = 0; i < elements.length; i++) {
                 var el = elements[i];
                 resizeText(el);
@@ -356,7 +356,8 @@ define(function (require) {
                 el.style.fontSize = (parseInt(el.style.fontSize) - 1) + "px";
             }
             while (el.scrollWidth > el.offsetWidth) {
-                el.style.fontSize = (parseInt(el.style.fontSize) - 1) + "px";
+                var fontSize = parseInt(el.style.fontSize);
+                el.style.fontSize = (fontSize - Math.round(fontSize / 10)) + "px";
             }
         }
 
@@ -688,7 +689,7 @@ define(function (require) {
             gameDiv.style.marginLeft = "auto";
             gameDiv.style.marginRight = "auto";
 
-            resizeTextInsideTextCardDivs();
+            resizeTextByClassName('text-card');
         }
 
         function onDataReceived(data) {
@@ -1256,12 +1257,10 @@ define(function (require) {
 
             var editor1 = generateEditorDiv(MemorizeApp.editor.card1);
             MemorizeApp.ui.gameEditor.appendChild(editor1);
-            resizeText(editor1.childNodes[0]);
 
             if (MemorizeApp.editor.pairMode == MODE_NON_EQUAL) {
                 var editor2 = generateEditorDiv(MemorizeApp.editor.card2);
                 MemorizeApp.ui.gameEditor.appendChild(editor2);
-                resizeText(editor2.childNodes[0]);
             }
             // calculate aprox width of previews more edition buttons
             var editionWidth = editor1.offsetWidth * 2.5;
@@ -1272,17 +1271,11 @@ define(function (require) {
             MemorizeApp.ui.gameEditor.appendChild(generateClearBoth());
             var cardList = generateCardsList();
             MemorizeApp.ui.gameEditor.appendChild(cardList);
-            resizeTextCardList(cardList);
-        }
 
-        function resizeTextCardList(cardList) {
-            for (var i=0; i < cardList.childNodes.length; i++) {
-                var pair = cardList.childNodes[i];
-                for (var j=0; j < pair.childNodes.length; j++) {
-                    resizeText(pair.childNodes[j]);
-                };
-            };
-        };
+            // resize the text
+            resizeTextByClassName('edit-card');
+            resizeTextByClassName('card-list');
+        }
 
         function leaveEditMode() {
             MemorizeApp.editor.card1 = {};
