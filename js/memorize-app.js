@@ -1229,7 +1229,6 @@ define(function (require) {
                 pair.index = i;
                 pair.addEventListener("click", function() {
                     MemorizeApp.editor.selectedPair = this.index;
-                    MemorizeApp.editor.pairMode = MODE_NON_EQUAL;
                     MemorizeApp.editor.card1 = this.cards[0];
                     MemorizeApp.editor.card2 = this.cards[1];
                     displayEditor();
