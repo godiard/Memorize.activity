@@ -131,7 +131,10 @@ define(function (require) {
                 if (wordTranslations != null) {
                     translated = wordTranslations[word];
                 };
-                if (translated != null ) {
+                if (translated == '') {
+                    console.log('WORD ' + word + ' UNTRANSLATED (' + category + ')');
+                };
+                if ((translated != null ) && (translated != '')) {
                     translated = translated.replace(/ /g, ' ');
                     //var imgData = require('images/' + word + '.png');
                     //cardsArray.push([{text: translated}, {image: imgData}]);
