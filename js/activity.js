@@ -2,6 +2,19 @@
 define(function (require) {
     require(['domReady!', "sugar-web/activity/activity", 'activity/memorize-app'], function (doc, activity, memorizeApp) {
 
+        var onAndroid = /Android/i.test(navigator.userAgent);
+        if (window.location.search.indexOf('onAndroid') > -1) {
+            onAndroid = true;
+        };
+
+        if (onAndroid) {
+            // hide activity button on android
+            var activityButton = document.getElementById("activity-button");
+            activityButton.style.display = 'none';
+            var stopButton = document.getElementById("stop-button");
+            stopButton.style.display = 'none';
+        };
+
         window.memorizeApp = memorizeApp;
 
         memorizeApp.activity = activity;
