@@ -953,17 +953,6 @@ define(function (require) {
             MemorizeApp.ui.gameEditorPlayModeButton.disabled = true;
             MemorizeApp.ui.gameEditorClearButton.disabled = true;
 
-            //window.onresize = function () {
-            //    setTimeout(function () {
-            //        if (MemorizeApp.inEditMode) {
-            //            displayEditor()
-            //        } else {
-            //            MemorizeApp.drawGame();
-            //        }
-            //    }, 250);
-            //};
-
-
             if (callback) {
                 callback();
             }
