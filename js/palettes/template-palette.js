@@ -13,7 +13,14 @@ define(["sugar-web/graphics/palette"], function (palette) {
         this.buttons = [];
 
         var content = document.createElement('div');
-        content.style.width = "360px";
+        var columns = 1;
+        var buttonsHeight = 50;
+        var canvasHaight =  window.innerHeight - 75; // aprox toolbar height
+        while (buttonsHeight * templates.length / columns > canvasHaight) {
+            columns++;
+        };
+        var elementWidth = 180;
+        content.style.width = (columns * elementWidth) + "px";
         var col = document.createElement('div');
         col.style.display= 'inline-block';
         content.appendChild(col);
@@ -29,14 +36,14 @@ define(["sugar-web/graphics/palette"], function (palette) {
                 this.style.background = "#000";
             };
             button.style.borderRadius = "0";
-            button.style.width = "180px";
+            button.style.width = elementWidth + "px";
             if (i != 0) {
                 button.style.marginTop = "3px";
             }
             button.innerHTML = "<img style='vertical-align: middle; margin:3px;' " +
                 "src='icons/" + template.icon + "'> " + template.name;
             col.appendChild(button);
-            if (i == Math.floor(templates.length / 2) - 1) {
+            if (((i + 1) % Math.floor(templates.length / columns)) == 0) {
                 var col = document.createElement('div');
                 col.style.display= 'inline-block';
                 content.appendChild(col);
@@ -45,7 +52,8 @@ define(["sugar-web/graphics/palette"], function (palette) {
         }
         this.setContent([content]);
         // overwrite max-width defined in sugar.css for wrapper div
-        this.getPalette().children[1].style.maxWidth = "360px";
+        this.getPalette().children[1].style.maxWidth =
+            (columns * elementWidth) + "px";
 
         // Pop-down the palette when a item in the menu is clicked.
 
