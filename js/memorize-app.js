@@ -3,6 +3,19 @@
  */
 
 define(function (require) {
+
+    // load game souds
+    var bellSoundData = null;
+    require(['bell'], function (url) {
+        bellSoundData = url;
+    });
+
+    var trumpetSoundData = null;
+    require(['trumpet'], function (url) {
+        trumpetSoundData = url;
+    });
+
+
         var SampleRessources = require("activity/sample-ressources");
         var templatePalette = require("activity/palettes/template-palette");
         var sizePalette = require("activity/palettes/size-palette");
@@ -275,6 +288,7 @@ define(function (require) {
         function computeCards() {
             MemorizeApp.game.cards = [];
             MemorizeApp.game.selectedCards = [];
+            MemorizeApp.game.cardsFound = 0;
 
             if (!MemorizeApp.game.template) {
                 return;
@@ -299,6 +313,7 @@ define(function (require) {
             } else {
                 cardsNumber = MemorizeApp.game.size * MemorizeApp.game.size - 2;
             }
+            MemorizeApp.game.cardsNumber = cardsNumber;
 
             if (MemorizeApp.game.mode == MODE_CLASSIC) {
                 var cards = [];
@@ -472,6 +487,47 @@ define(function (require) {
             return div;
         }
 
+        function playAudio(base64AudioData) {
+            var b64 = base64AudioData.split("base64,")[1];
+            b64 = Base64Binary.decodeArrayBuffer(btoa(atob(b64)));
+
+            if (MemorizeApp.context) {
+                MemorizeApp.context.decodeAudioData(b64, function (buffer) {
+                    var source = MemorizeApp.context.createBufferSource(); // creates a sound source
+                    if (MemorizeApp.source) {
+                        if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+                            try {
+                                MemorizeApp.source.noteOff(0);
+                            } catch (e) {
+                            }
+                        } else {
+                            try {
+                                MemorizeApp.source.stop(0);
+                            } catch (e) {
+                            }
+                        }
+                    }
+                    MemorizeApp.source = source;
+                    source.buffer = buffer;
+                    source.connect(MemorizeApp.context.destination);
+                    if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+                        try {
+                            source.noteOn(0);
+                        } catch (e) {
+                        }
+                    } else {
+                        try {
+                            source.start(0);
+                        } catch (e) {
+
+                        }
+                    }
+                }, function (err) {
+                    console.log("err(decodeAudioData): " + err);
+                });
+            }
+        }
+
         function cardClick(div, fromMe, user) {
             var middle = MemorizeApp.game.cards.length / 2;
 
@@ -500,45 +556,7 @@ define(function (require) {
                 if (t.card.sound.indexOf(INLINE_RES) == 0) {
                     t.card.sound = SampleRessources[t.card.sound.slice(INLINE_RES.length)];
                 }
-                var b64 = t.card.sound.split("base64,")[1];
-                b64 = Base64Binary.decodeArrayBuffer(btoa(atob(b64)));
-
-                if (MemorizeApp.context) {
-                    MemorizeApp.context.decodeAudioData(b64, function (buffer) {
-                        var source = MemorizeApp.context.createBufferSource(); // creates a sound source
-                        if (MemorizeApp.source) {
-                            if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
-                                try {
-                                    MemorizeApp.source.noteOff(0);
-                                } catch (e) {
-                                }
-                            } else {
-                                try {
-                                    MemorizeApp.source.stop(0);
-                                } catch (e) {
-                                }
-                            }
-                        }
-                        MemorizeApp.source = source;
-                        source.buffer = buffer;
-                        source.connect(MemorizeApp.context.destination);
-                        if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
-                            try {
-                                source.noteOn(0);
-                            } catch (e) {
-                            }
-                        } else {
-                            try {
-                                source.start(0);
-                            } catch (e) {
-
-                            }
-                        }
-                    }, function (err) {
-                        console.log("err(decodeAudioData): " + err);
-                    });
-                }
-
+                playAudio(t.card.sound);
             }
 
             if (MemorizeApp.game.selectedCards.length == 1) {
@@ -564,6 +582,12 @@ define(function (require) {
                 }, 1000);
 
                 MemorizeApp.game.selectedCards = [];
+                MemorizeApp.game.cardsFound += 2;
+                if (MemorizeApp.game.cardsFound == MemorizeApp.game.cardsNumber) {
+                    playAudio(trumpetSoundData);
+                } else {
+                    playAudio(bellSoundData);
+                };
                 saveGame();
                 return;
             }
