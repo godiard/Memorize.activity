@@ -488,6 +488,7 @@ define(function (require) {
         }
 
         function playAudio(base64AudioData) {
+            createAudioContextIfMissing();
             var b64 = base64AudioData.split("base64,")[1];
             b64 = Base64Binary.decodeArrayBuffer(btoa(atob(b64)));
 
@@ -531,7 +532,6 @@ define(function (require) {
         function cardClick(div, fromMe, user) {
             var middle = MemorizeApp.game.cards.length / 2;
 
-            createAudioContextIfMissing();
             var t = div;
 
             if (t.card.solved || MemorizeApp.game.selectedCards.length == 2) {
@@ -1024,6 +1024,7 @@ define(function (require) {
             if (minSize > document.body.clientHeight) {
                 minSize = document.body.clientHeight;
             }
+            var buttonSize = parseInt((minSize / 3.5) / 5) + "px";
 
             var e = document.createElement("div");
             e.style.width = parseInt(minSize / 3.5) + "px";
@@ -1036,6 +1037,7 @@ define(function (require) {
             d.style.fontSize = (cardSize * 0.8) + "px";
             d.style.lineHeight = cardSize + "px";
             d.className = "edit-card";
+            d.style.position = 'relative';
             if (card && card.text) {
                 d.innerHTML = card.text;
             }
@@ -1044,6 +1046,18 @@ define(function (require) {
                     card.image = SampleRessources[card.image.slice(INLINE_RES.length)]
                 }
                 d.style.backgroundImage = "url('" + card.image + "')";
+            }
+            if (card.sound) {
+                if (card.sound.indexOf(INLINE_RES) == 0) {
+                    card.sound = SampleRessources[card.sound.slice(INLINE_RES.length)];
+                }
+                var playBtn = document.createElement("div");
+                playBtn.className = 'play-sound-button';
+                playBtn.style.width = buttonSize;
+                playBtn.style.height = buttonSize;
+                playBtn.style.borderRadius = parseInt((minSize / 3.5) / 10) + "px";
+                playBtn.addEventListener("click", function (e) {playAudio(card.sound)});
+                d.appendChild(playBtn);
             }
 
             var input = document.createElement("input");
@@ -1068,7 +1082,6 @@ define(function (require) {
 
             // add image and sound buttons
             var btnDiv = document.createElement("div");
-            var buttonSize = parseInt((minSize / 3.5) / 5) + "px";
             var imageBtn = createEditionBtn(buttonSize, 'icons/image.svg', null);
             var audioBtn = createEditionBtn(buttonSize, 'icons/audio.svg', null);
             var recordBtn = createEditionBtn(buttonSize, 'icons/media-audio.svg', null);
@@ -1088,6 +1101,7 @@ define(function (require) {
         function clearCardBtnCb (card) {
             card.text = '';
             card.image = '';
+            card.sound = '';
             updatePairModel();
         };
 
