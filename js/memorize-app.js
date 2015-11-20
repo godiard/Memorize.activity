@@ -1073,6 +1073,7 @@ define(function (require) {
             var audioBtn = createEditionBtn(buttonSize, 'icons/audio.svg', null);
             var recordBtn = createEditionBtn(buttonSize, 'icons/media-audio.svg', null);
             var clearBtn = createEditionBtn(buttonSize, 'icons/dialog-cancel.svg', null);
+            clearBtn.addEventListener("click", function (e) {clearCardBtnCb(card)});
             var btns = [imageBtn, audioBtn, recordBtn, clearBtn];
             btns.forEach(function(btn, idx, array) {
                 btn.style.display = 'inline-block';
@@ -1083,6 +1084,12 @@ define(function (require) {
             e.appendChild(btnDiv);
             return e;
         }
+
+        function clearCardBtnCb (card) {
+            card.text = '';
+            card.image = '';
+            updatePairModel();
+        };
 
         function createEditionBtn(buttonSize, imageUrl, text) {
             var button = document.createElement("div");
@@ -1147,33 +1154,7 @@ define(function (require) {
                 displayEditor();
             });
 
-            updateButton.addEventListener("click", function () {
-                var cards = [];
-                if (MemorizeApp.editor.pairMode == MODE_EQUAL) {
-                    cards[0] = MemorizeApp.editor.card1;
-                    cards[1] = MemorizeApp.editor.card1;
-                }
-                if (MemorizeApp.editor.pairMode == MODE_NON_EQUAL) {
-                    cards[0] = MemorizeApp.editor.card1;
-                    cards[1] = MemorizeApp.editor.card2;
-                }
-
-                if (!cards[0].text && !cards[0].image && !cards[0].sound) {
-                    return;
-                }
-
-                if (!cards[1].text && !cards[1].image && !cards[1].sound) {
-                    return;
-                }
-
-                cards = JSON.parse(JSON.stringify(cards));
-
-                if (MemorizeApp.editor.selectedPair > -1) {
-                    MemorizeApp.game.template.cards[MemorizeApp.editor.selectedPair] = cards
-                }
-                saveGame();
-                displayEditor();
-            });
+            updateButton.addEventListener("click", updatePairModel);
 
             deleteButton.addEventListener("click", function () {
                 if (MemorizeApp.editor.selectedPair > -1) {
@@ -1193,6 +1174,26 @@ define(function (require) {
 
             return btnPanel;
         }
+
+        function updatePairModel() {
+            var cards = [];
+            if (MemorizeApp.editor.pairMode == MODE_EQUAL) {
+                cards[0] = MemorizeApp.editor.card1;
+                cards[1] = MemorizeApp.editor.card1;
+            }
+            if (MemorizeApp.editor.pairMode == MODE_NON_EQUAL) {
+                cards[0] = MemorizeApp.editor.card1;
+                cards[1] = MemorizeApp.editor.card2;
+            }
+
+            cards = JSON.parse(JSON.stringify(cards));
+
+            if (MemorizeApp.editor.selectedPair > -1) {
+                MemorizeApp.game.template.cards[MemorizeApp.editor.selectedPair] = cards
+            }
+            saveGame();
+            displayEditor();
+        };
 
         function generateCardFromCardsList(pair, minSize, index) {
             var d = document.createElement("div");
