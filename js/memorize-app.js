@@ -1066,17 +1066,33 @@ define(function (require) {
                 resizeText(this.linkedDiv);
             };
 
+            // add image and sound buttons
+            var btnDiv = document.createElement("div");
+            var buttonSize = parseInt((minSize / 3.5) / 5) + "px";
+            var imageBtn = createEditionBtn(buttonSize, 'icons/image.svg', null);
+            var audioBtn = createEditionBtn(buttonSize, 'icons/audio.svg', null);
+            var recordBtn = createEditionBtn(buttonSize, 'icons/media-audio.svg', null);
+            var clearBtn = createEditionBtn(buttonSize, 'icons/dialog-cancel.svg', null);
+            var btns = [imageBtn, audioBtn, recordBtn, clearBtn];
+            btns.forEach(function(btn, idx, array) {
+                btn.style.display = 'inline-block';
+                btnDiv.appendChild(btn);
+            });
             e.appendChild(input);
             e.appendChild(d);
+            e.appendChild(btnDiv);
             return e;
         }
 
         function createEditionBtn(buttonSize, imageUrl, text) {
             var button = document.createElement("div");
             button.className = 'edit-button';
-
-            button.innerHTML = "<img style='height:" + buttonSize + "; width:" + buttonSize + ";'" +
-                " src='"+ imageUrl + "'><br/>" + text;
+            var html = "<img style='height:" + buttonSize + "; width:" + buttonSize + ";'" +
+                " src='"+ imageUrl + "'>";
+            if (text != null) {
+                html = html + "<br/>" + text;
+            };
+            button.innerHTML = html;
             return button;
         };
 
