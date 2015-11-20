@@ -579,6 +579,8 @@ define(function (require) {
                 setTimeout(function () {
                     div1.style.backgroundColor = FOUND_COLOR;
                     div2.style.backgroundColor = FOUND_COLOR;
+                    div1.parentElement.style.borderColor = FOUND_COLOR;
+                    div2.parentElement.style.borderColor = FOUND_COLOR;
                 }, 1000);
 
                 MemorizeApp.game.selectedCards = [];
