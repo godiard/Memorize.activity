@@ -69,8 +69,10 @@ define(function (require) {
             cards: null,
             cardsFunction: createAdditionCards,
             pairMode: MODE_NON_EQUAL,
-            mode: MODE_SPLITTED
+            mode: MODE_SPLITTED,
+            demo: true
         };
+
         var TEMPLATE_LETTERS = {
             name: _("Letters"), icon: "letters.svg", cards: [
                 [{text: "A"}, {text: "a"}],
@@ -101,7 +103,8 @@ define(function (require) {
                 [{text: "Z"}, {text: "z"}]
             ],
             pairMode: MODE_NON_EQUAL,
-            mode: MODE_SPLITTED
+            mode: MODE_SPLITTED,
+            demo: true
         };
 
         var TEMPLATE_SOUNDS = {
@@ -132,7 +135,8 @@ define(function (require) {
                 [{image: INLINE_RES + "guitar12_2", sound: INLINE_RES + "guitcello"}]
             ],
             pairMode: MODE_EQUAL,
-            mode: MODE_CLASSIC
+            mode: MODE_CLASSIC,
+            demo: true
         };
 
         function createWordCards(category) {
@@ -199,7 +203,8 @@ define(function (require) {
                     name: translatedCategory, icon: "letters.svg",
                     cards: createWordCards(translatedCategories[translatedCategory]),
                     pairMode: MODE_NON_EQUAL,
-                    mode: MODE_SPLITTED
+                    mode: MODE_SPLITTED,
+                    demo: true
                 };
                 templates.push(gameTemplate);
             });
