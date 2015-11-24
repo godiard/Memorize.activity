@@ -913,7 +913,6 @@ define(function (require) {
                 sendMessage({action: "updateGame", game: MemorizeApp.game});
             });
 
-
             MemorizeApp.ui.gameResetButton = document.getElementById("game-reset-button");
             MemorizeApp.ui.gameResetButton.addEventListener("click", function () {
                 for (var i = 0; i < MemorizeApp.game.players.length; i++) {
@@ -942,7 +941,6 @@ define(function (require) {
                 saveGame();
                 displayEditor();
             });
-
 
             MemorizeApp.ui.gameEditorClearButton = document.getElementById("game-editor-clear-button");
 
