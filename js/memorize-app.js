@@ -1088,6 +1088,7 @@ define(function (require) {
             var clearBtn = createEditionBtn(buttonSize, 'icons/dialog-cancel.svg', null);
             imageBtn.addEventListener("click", function (e) {imageBtnCb(card)});
             clearBtn.addEventListener("click", function (e) {clearCardBtnCb(card)});
+            audioBtn.addEventListener("click", function (e) {audioBtnCb(card)});
             var btns = [imageBtn, audioBtn, recordBtn, clearBtn];
             btns.forEach(function(btn, idx, array) {
                 btn.style.display = 'inline-block';
@@ -1125,6 +1126,27 @@ define(function (require) {
 
             imageChooser.focus();
             imageChooser.click();
+        };
+
+        function audioBtnCb(card) {
+            var audioChooser = document.getElementById('audio-loader');
+
+            audioChooser.addEventListener('change', function (event) {
+                // Read file here.
+                var reader = new FileReader();
+                reader.onloadend = (function () {
+                    card.sound = reader.result;
+                    updatePairModel();
+                });
+
+                var file = audioChooser.files[0];
+                if (file) {
+                    reader.readAsDataURL(file);
+                };
+            }, false);
+
+            audioChooser.focus();
+            audioChooser.click();
         };
 
         function createEditionBtn(buttonSize, imageUrl, text) {
