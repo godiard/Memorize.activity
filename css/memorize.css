@@ -88,6 +88,13 @@
     background: transparent;
 }
 
+.card-btns-container {
+    padding-top: 5px;
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
 .edit-button:hover {
     background: #888;
 }

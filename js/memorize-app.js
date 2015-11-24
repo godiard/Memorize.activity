@@ -1082,16 +1082,17 @@ define(function (require) {
 
             // add image and sound buttons
             var btnDiv = document.createElement("div");
+            btnDiv.className = 'card-btns-container';
+
             var imageBtn = createEditionBtn(buttonSize, 'icons/image.svg', null);
             var audioBtn = createEditionBtn(buttonSize, 'icons/audio.svg', null);
-            var recordBtn = createEditionBtn(buttonSize, 'icons/media-audio.svg', null);
             var clearBtn = createEditionBtn(buttonSize, 'icons/dialog-cancel.svg', null);
             imageBtn.addEventListener("click", function (e) {imageBtnCb(card)});
             clearBtn.addEventListener("click", function (e) {clearCardBtnCb(card)});
             audioBtn.addEventListener("click", function (e) {audioBtnCb(card)});
-            var btns = [imageBtn, audioBtn, recordBtn, clearBtn];
+            var btns = [imageBtn, audioBtn, clearBtn];
             btns.forEach(function(btn, idx, array) {
-                btn.style.display = 'inline-block';
+                btn.style.display = 'table-cell';
                 btnDiv.appendChild(btn);
             });
             e.appendChild(input);
