@@ -301,6 +301,8 @@ define(function (require) {
             MemorizeApp.game.mode = MemorizeApp.game.template.mode;
             MemorizeApp.game.pairMode = MemorizeApp.game.template.pairMode;
             MemorizeApp.editor.pairMode = MemorizeApp.game.template.pairMode;
+            MemorizeApp.game.demo = MemorizeApp.game.template.demo;
+            MemorizeApp.ui.gameEditorSaveButton.disabled = MemorizeApp.game.demo;
 
             var shuffledTemplate = {name: MemorizeApp.game.template.name, cards: []};
             if (MemorizeApp.game.template.cards != null) {
@@ -943,6 +945,7 @@ define(function (require) {
             });
 
             MemorizeApp.ui.gameEditorClearButton = document.getElementById("game-editor-clear-button");
+            MemorizeApp.ui.gameEditorSaveButton = document.getElementById("game-editor-save-button");
 
             MemorizeApp.ui.gameEditorInsertModeButton.addEventListener("click", function() {
                if (MemorizeApp.editor.pairMode == MODE_EQUAL) {
@@ -981,6 +984,7 @@ define(function (require) {
             MemorizeApp.ui.gameEditorInsertModeButton.disabled = true;
             MemorizeApp.ui.gameEditorPlayModeButton.disabled = true;
             MemorizeApp.ui.gameEditorClearButton.disabled = true;
+            MemorizeApp.ui.gameEditorSaveButton.disabled = true;
 
             if (callback) {
                 callback();
@@ -1006,6 +1010,7 @@ define(function (require) {
             MemorizeApp.ui.gameEditorInsertModeButton.disabled = false;
             MemorizeApp.ui.gameEditorPlayModeButton.disabled = false;
             MemorizeApp.ui.gameEditorClearButton.disabled = false;
+            MemorizeApp.ui.gameEditorSaveButton.disabled = MemorizeApp.game.demo;
 
             MemorizeApp.ui.gameEditorButton.style.backgroundImage = "url(icons/play.svg)";
 
@@ -1213,6 +1218,7 @@ define(function (require) {
                 MemorizeApp.game.template.cards.push(cards);
                 MemorizeApp.editor.selectedPair = -1;
                 saveGame();
+                markGameModified();
                 displayEditor();
             });
 
@@ -1227,6 +1233,7 @@ define(function (require) {
                 MemorizeApp.editor.card1 = {};
                 MemorizeApp.editor.card2 = {};
                 saveGame();
+                markGameModified();
                 displayEditor();
             });
 
@@ -1255,6 +1262,12 @@ define(function (require) {
             }
             saveGame();
             displayEditor();
+            markGameModified();
+        };
+
+        function markGameModified() {
+            MemorizeApp.game.demo = false;
+            MemorizeApp.ui.gameEditorSaveButton.disabled = MemorizeApp.game.demo;
         };
 
         function generateCardFromCardsList(pair, minSize, index) {

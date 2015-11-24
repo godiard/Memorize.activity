@@ -38,6 +38,10 @@
     background-image: url(../icons/edit-clear.svg);
 }
 
+#main-toolbar #game-editor-save-button {
+    background-image: url(../icons/document-save.svg);
+}
+
 #game-templates-button {
     background-repeat: no-repeat;
     background-position: center center;
