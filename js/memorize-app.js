@@ -1086,6 +1086,7 @@ define(function (require) {
             var audioBtn = createEditionBtn(buttonSize, 'icons/audio.svg', null);
             var recordBtn = createEditionBtn(buttonSize, 'icons/media-audio.svg', null);
             var clearBtn = createEditionBtn(buttonSize, 'icons/dialog-cancel.svg', null);
+            imageBtn.addEventListener("click", function (e) {imageBtnCb(card)});
             clearBtn.addEventListener("click", function (e) {clearCardBtnCb(card)});
             var btns = [imageBtn, audioBtn, recordBtn, clearBtn];
             btns.forEach(function(btn, idx, array) {
@@ -1098,11 +1099,32 @@ define(function (require) {
             return e;
         }
 
-        function clearCardBtnCb (card) {
+        function clearCardBtnCb(card) {
             card.text = '';
             card.image = '';
             card.sound = '';
             updatePairModel();
+        };
+
+        function imageBtnCb(card) {
+            var imageChooser = document.getElementById('image-loader');
+
+            imageChooser.addEventListener('change', function (event) {
+                // Read file here.
+                var reader = new FileReader();
+                reader.onloadend = (function () {
+                    card.image = reader.result;
+                    updatePairModel();
+                });
+
+                var file = imageChooser.files[0];
+                if (file) {
+                    reader.readAsDataURL(file);
+                };
+            }, false);
+
+            imageChooser.focus();
+            imageChooser.click();
         };
 
         function createEditionBtn(buttonSize, imageUrl, text) {
