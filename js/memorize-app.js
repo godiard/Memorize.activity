@@ -23,6 +23,9 @@ define(function (require) {
         var activity = require("sugar-web/activity/activity");
         var localizationData = require("activity/localization-data");
 
+        require("activity/persistence");
+        var cordobaIO = new persistence.CordobaIO();
+
         var FOUND_COLOR = "#84f060";
         var MODE_CLASSIC = "classic";
         var MODE_SPLITTED = "splitted";
@@ -640,6 +643,73 @@ define(function (require) {
             });
         }
 
+        //var saveButton = document.getElementById("doc-save");
+        //saveButton.addEventListener('click', function (e) {
+
+        function askGameName() {
+            // create a dialog to ask a name
+            dialog = document.getElementById('ask-name-dialog');
+            if (dialog != undefined) {
+                dialog.style.display = 'block';
+                return;
+            };
+
+            var dialog = document.createElement("div");
+            dialog.className = "ask-name-dialog";
+            dialog.id = 'ask-name-dialog';
+
+            var inputDiv = document.createElement("div");
+            inputDiv.className = 'card-btns-container';
+            var label = document.createTextNode('Select game name:');
+
+            var input = document.createElement("input");
+            input.setAttribute("type", "text");
+            input.style.marginRight = "auto";
+            input.style.marginLeft = "20px";
+            input.style.marginBottom = "10px";
+            input.style.fontSize = "20px";
+            input.style.display = 'table-cell';
+
+            var elements = [label, input];
+            elements.forEach(function(el, idx, array) {
+                inputDiv.appendChild(el);
+            });
+
+            // add buttons
+            var btnDiv = document.createElement("div");
+            btnDiv.className = 'card-btns-container';
+            var buttonSize = '60px';
+            var acceptBtn = createEditionBtn(buttonSize, 'icons/dialog-ok.svg', null);
+            var cancelBtn = createEditionBtn(buttonSize, 'icons/dialog-cancel.svg', null);
+            acceptBtn.addEventListener("click", function (e) {
+                MemorizeApp.game.name = input.value;
+                storeGame();
+            });
+            cancelBtn.addEventListener("click", function (e) {
+                dialog.style.display = 'none';
+            });
+            var btns = [acceptBtn, cancelBtn];
+            btns.forEach(function(btn, idx, array) {
+                btn.style.display = 'table-cell';
+                btnDiv.appendChild(btn);
+            });
+            dialog.appendChild(inputDiv);
+            dialog.appendChild(btnDiv);
+            document.body.appendChild(dialog);
+        };
+
+        function storeGame() {
+            var content = JSON.stringify({game: MemorizeApp.game});
+            var fileName = MemorizeApp.game.name + '.memorize';
+            if (onAndroid) {
+                cordobaIO.save(content, fileName);
+                //activity.showAlert(_('ToonSaved'),
+                //    _('FileSavedSuccessfully'), null, null);
+            } else {
+                saveAs(content, fileName);
+            };
+        };
+
         function onCardClick() {
             if (MemorizeApp.game.multiplayer) {
                 if (MemorizeApp.game.currentPlayer != MemorizeApp.me.networkId) {
@@ -946,6 +1016,13 @@ define(function (require) {
 
             MemorizeApp.ui.gameEditorClearButton = document.getElementById("game-editor-clear-button");
             MemorizeApp.ui.gameEditorSaveButton = document.getElementById("game-editor-save-button");
+            MemorizeApp.ui.gameEditorSaveButton.addEventListener("click", function() {
+                if (MemorizeApp.game.name == undefined) {
+                    askGameName();
+                } else {
+                    storeGame();
+                };
+            });
 
             MemorizeApp.ui.gameEditorInsertModeButton.addEventListener("click", function() {
                if (MemorizeApp.editor.pairMode == MODE_EQUAL) {

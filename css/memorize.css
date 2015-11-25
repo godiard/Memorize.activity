@@ -134,3 +134,24 @@
 #io-div {
     display: none;
 }
+
+.ask-name-dialog {
+    background-color: #fff;
+    border-color: black;
+    z-index: 10;
+    padding: 20px;
+    position: relative;
+    top: 100px;
+    width: 50%;
+    border-radius: 20px;
+    margin: auto auto;
+    border-style: solid;
+}
+
+.ask-name-dialog .card-btns-container {
+    border-spacing: 30px 5px;
+}
+.ask-name-dialog .edit-button{
+    background-color: #ccc;
+    border-radius: 10px;
+}
