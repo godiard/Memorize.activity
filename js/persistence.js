@@ -61,9 +61,7 @@ define(function (require) {
                 var reader =dir.createReader();
                 reader.readEntries(function(entries) {
                     for (var i=0; i<entries.length; i++) {
-                        if (entries[i].name.indexOf(".fototoon") != -1) {
-                            fileList.push(entries[i].fullPath);
-                        };
+                        fileList.push(entries[i].fullPath);
                     };
                     console.log('fileList ' + fileList);
                     callback(fileList);
@@ -93,7 +91,7 @@ define(function (require) {
                         console.log("Read file: " + fileName);
                         callback(e.target.result);
                     };
-                    reader.readAsArrayBuffer(file);
+                    reader.readAsText(file);
                 });
             };
 

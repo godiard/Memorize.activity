@@ -312,7 +312,7 @@ define(function (require) {
                 shuffledTemplate.cards = JSON.parse(
                     JSON.stringify(shuffle(MemorizeApp.game.template.cards)));
             } else {
-                cardArray = MemorizeApp.game.template.cardsFunction();
+                cardsArray = MemorizeApp.game.template.cardsFunction();
                 shuffledTemplate.cards = cardsArray;
                 MemorizeApp.game.template.cards = cardsArray;
             };
@@ -684,6 +684,7 @@ define(function (require) {
             acceptBtn.addEventListener("click", function (e) {
                 MemorizeApp.game.name = input.value;
                 storeGame();
+                dialog.style.display = 'none';
             });
             cancelBtn.addEventListener("click", function (e) {
                 dialog.style.display = 'none';
@@ -960,17 +961,29 @@ define(function (require) {
 
             MemorizeApp.ui.gameTemplatesButton = document.getElementById("game-templates-button");
 
-            var gt = new templatePalette.TemplatePalette(MemorizeApp.ui.gameTemplatesButton, undefined, MemorizeApp.templates);
-            gt.addEventListener('template', function (e) {
-                for (var i = 0; i < MemorizeApp.game.players.length; i++) {
-                    MemorizeApp.game.players[i].score = 0;
-                }
-                MemorizeApp.game.template = e.detail.value;
-                MemorizeApp.ui.gameTemplatesButton.style.backgroundImage = "url(icons/" + e.detail.value.icon + ")";
-                MemorizeApp.computeCards();
-                MemorizeApp.drawGame();
-                sendMessage({action: "updateGame", game: MemorizeApp.game});
-            });
+            if (onAndroid) {
+                cordobaIO.getFilesList(function (fileList) {
+                    console.log(fileList);
+                    fileList.forEach(function(fileName, idx, array) {
+                        if (fileName.endsWith('.memorize')) {
+                            fileName = fileName.substring(fileName.lastIndexOf('/') + 1);
+                            var gameName = fileName.substring(0, fileName.indexOf('.memorize'));
+                            var gameTemplate = {
+                                name: gameName, icon: "custom.svg",
+                                cards: [],
+                                pairMode: MODE_NON_EQUAL,
+                                mode: MODE_SPLITTED,
+                                demo: false
+                            };
+                            createCardsStoredGame(gameTemplate, fileName);
+                            MemorizeApp.templates.push(gameTemplate);
+                        };
+                    });
+                    loadTemplatesPallete();
+                });
+            } else {
+                loadTemplatesPallete();
+            };
 
             MemorizeApp.ui.gameSizeButton = document.getElementById("game-size-button");
             var sp = new sizePalette.SizePalette(MemorizeApp.ui.gameSizeButton);
@@ -1067,6 +1080,32 @@ define(function (require) {
                 callback();
             }
         }
+
+        function loadTemplatesPallete() {
+            var gt = new templatePalette.TemplatePalette(MemorizeApp.ui.gameTemplatesButton, undefined, MemorizeApp.templates);
+            gt.addEventListener('template', function (e) {
+                for (var i = 0; i < MemorizeApp.game.players.length; i++) {
+                    MemorizeApp.game.players[i].score = 0;
+                }
+                MemorizeApp.game.template = e.detail.value;
+                MemorizeApp.ui.gameTemplatesButton.style.backgroundImage = "url(icons/" + e.detail.value.icon + ")";
+                MemorizeApp.computeCards();
+                MemorizeApp.drawGame();
+                sendMessage({action: "updateGame", game: MemorizeApp.game});
+            });
+
+        };
+
+        function createCardsStoredGame(gameTemplate, fileName) {
+            console.log('createCardsStoredGame ' + fileName);
+            cordobaIO.read(fileName, function(content) {
+                var game = JSON.parse(content)['game'];
+                console.log('game ' + game);
+                gameTemplate.cards = game.template.cards;
+                gameTemplate.pairMode = game.pairMode;
+                gameTemplate.mode = game.mode;
+            });
+        };
 
         function enterEditMode() {
             MemorizeApp.inEditMode = true;
