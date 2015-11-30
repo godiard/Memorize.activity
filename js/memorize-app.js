@@ -298,6 +298,7 @@ define(function (require) {
             MemorizeApp.editor.pairMode = MemorizeApp.game.template.pairMode;
             MemorizeApp.game.demo = MemorizeApp.game.template.demo;
             MemorizeApp.ui.gameEditorSaveButton.disabled = MemorizeApp.game.demo;
+            MemorizeApp.game.name = MemorizeApp.game.template.name;
 
             var shuffledTemplate = {name: MemorizeApp.game.template.name, cards: []};
             if (MemorizeApp.game.template.cards != null) {
@@ -661,6 +662,7 @@ define(function (require) {
             input.style.marginBottom = "10px";
             input.style.fontSize = "20px";
             input.style.display = 'table-cell';
+            input.value = MemorizeApp.game.name != undefined ? MemorizeApp.game.name : '';
 
             var elements = [label, input];
             elements.forEach(function(el, idx, array) {
@@ -1022,11 +1024,7 @@ define(function (require) {
             MemorizeApp.ui.gameEditorClearButton = document.getElementById("game-editor-clear-button");
             MemorizeApp.ui.gameEditorSaveButton = document.getElementById("game-editor-save-button");
             MemorizeApp.ui.gameEditorSaveButton.addEventListener("click", function() {
-                if (MemorizeApp.game.name == undefined) {
-                    askGameName();
-                } else {
-                    storeGame();
-                };
+                askGameName();
             });
 
             MemorizeApp.ui.gameEditorInsertModeButton.addEventListener("click", function() {
