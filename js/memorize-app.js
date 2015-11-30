@@ -274,22 +274,14 @@ define(function (require) {
 
         function createAdditionCards() {
             //generate 'addition' cards on the fly
-            cards = {};
-            while (Object.getOwnPropertyNames(cards).length < 18) {
-                var a = Math.floor((Math.random() * 9) + 1);
-                var b = Math.floor((Math.random() * 9) + 1);
+            var cardsArray = [];
+            for (var result=2; result < 20; result++) {
+                var a = Math.floor(Math.random() * (result -1)) + 1;
+                var b = result - a;
                 var key = String(a + '+' + b);
                 var value = String(a + b);
-                if (! (key in cards)) {
-                    cards[key] = value;
-                };
+                cardsArray.push([{text: key}, {text: value}])
             };
-            // put the cards in the game structure
-            var cardsArray = [];
-            Object.getOwnPropertyNames(cards).forEach(
-                function(key, idx, array) {
-                    cardsArray.push([{text: key}, {text: cards[key]}])
-                });
             return cardsArray;
         };
 
