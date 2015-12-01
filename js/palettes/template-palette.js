@@ -4,6 +4,7 @@ define(["sugar-web/graphics/palette"], function (palette) {
 
     var templatepalette = {};
 
+
     templatepalette.TemplatePalette = function (invoker, primaryText, templates) {
         palette.Palette.call(this, invoker, primaryText);
 
@@ -12,48 +13,13 @@ define(["sugar-web/graphics/palette"], function (palette) {
 
         this.buttons = [];
 
-        var content = document.createElement('div');
-        var columns = 1;
-        var buttonsHeight = 50;
-        var canvasHaight =  window.innerHeight - 75; // aprox toolbar height
-        while (buttonsHeight * templates.length / columns > canvasHaight) {
-            columns++;
-        };
-        var elementWidth = 180;
-        content.style.width = (columns * elementWidth) + "px";
-        var col = document.createElement('div');
-        col.style.display= 'inline-block';
-        content.appendChild(col);
-        for (var i = 0; i < templates.length; i++) {
-            var template = templates[i];
-            var button = document.createElement("div");
-            button.value = template;
-            button.onmouseover = function() {
-                this.style.background = "#ccc";
-            };
+        this.columns = 0;
+        this.buttonsHeight = 50;
+        this.canvasHeight =  window.innerHeight - 75; // aprox toolbar height
+        this.elementWidth = 180;
 
-            button.onmouseout = function() {
-                this.style.background = "#000";
-            };
-            button.style.borderRadius = "0";
-            button.style.width = elementWidth + "px";
-            if (i != 0) {
-                button.style.marginTop = "3px";
-            }
-            button.innerHTML = "<img style='vertical-align: middle; margin:3px;' " +
-                "src='icons/" + template.icon + "'> " + template.name;
-            col.appendChild(button);
-            if (((i + 1) % Math.floor(templates.length / columns)) == 0) {
-                var col = document.createElement('div');
-                col.style.display= 'inline-block';
-                content.appendChild(col);
-            };
-            this.buttons.push(button);
-        }
-        this.setContent([content]);
-        // overwrite max-width defined in sugar.css for wrapper div
-        this.getPalette().children[1].style.maxWidth =
-            (columns * elementWidth) + "px";
+        this.addColumns = templatepalette.TemplatePalette.addColumns;
+        this.addColumns(templates);
 
         // Pop-down the palette when a item in the menu is clicked.
 
@@ -81,6 +47,58 @@ define(["sugar-web/graphics/palette"], function (palette) {
             })(button, template);
             button.addEventListener('template', popDownOnButtonClick);
         }
+    };
+
+    templatepalette.TemplatePalette.addColumns = function (templates) {
+        var columns = 1;
+        while (this.buttonsHeight * templates.length / columns > this.canvasHeight) {
+            columns++;
+        };
+        this.columns = this.columns + columns;
+
+        this.paletteWidth = this.columns * this.elementWidth;
+
+        var content = document.getElementById('palette-template-content');
+        if (content == undefined) {
+            content = document.createElement('div');
+            content.id = 'palette-template-content';
+        };
+
+        content.style.width = this.paletteWidth + "px";
+        var col = document.createElement('div');
+        col.style.display= 'inline-block';
+        col.style.verticalAlign= 'top';
+        content.appendChild(col);
+        for (var i = 0; i < templates.length; i++) {
+            var template = templates[i];
+            var button = document.createElement("div");
+            button.value = template;
+            button.onmouseover = function() {
+                this.style.background = "#ccc";
+            };
+
+            button.onmouseout = function() {
+                this.style.background = "#000";
+            };
+            button.style.borderRadius = "0";
+            button.style.width = this.elementWidth + "px";
+            if (i != 0) {
+                button.style.marginTop = "3px";
+            }
+            button.innerHTML = "<img style='vertical-align: middle; margin:3px;' " +
+                "src='icons/" + template.icon + "'> " + template.name;
+            col.appendChild(button);
+            if (((i + 1) % Math.round(templates.length / this.columns)) == 0) {
+                var col = document.createElement('div');
+                col.style.display= 'inline-block';
+                col.style.verticalAlign= 'top';
+                content.appendChild(col);
+            };
+            this.buttons.push(button);
+        }
+        this.setContent([content]);
+        // overwrite max-width defined in sugar.css for wrapper div
+        this.getPalette().children[1].style.maxWidth = this.paletteWidth + "px";
     };
 
     var addEventListener = function (type, listener, useCapture) {
