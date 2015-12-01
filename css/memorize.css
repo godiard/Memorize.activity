@@ -102,6 +102,9 @@
 .play-sound-button {
     text-align: center;
     position: absolute;
+    border-width: 10px;
+    border-style: solid;
+    border-color: #aaa;
     top: 5px;
     background: #aaa;
     left: 5px;
