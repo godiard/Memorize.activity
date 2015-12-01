@@ -34,6 +34,7 @@ define(function (require) {
         var INLINE_RES = "#inline#";
         var CARD_MARGIN = 8;
         var BOARD_MARGIN = 15;
+        var MAX_SECONDS_AUDIO = 7;
 
         // used to load word games
         var categories = null;
@@ -526,6 +527,9 @@ define(function (require) {
 
                         }
                     }
+                    MemorizeApp.context.timer = setTimeout(function() {
+                        source.stop()}, MAX_SECONDS_AUDIO * 1000);
+
                 }, function (err) {
                     console.log("err(decodeAudioData): " + err);
                 });
