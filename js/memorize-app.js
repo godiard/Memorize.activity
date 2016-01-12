@@ -1185,6 +1185,7 @@ define(function (require) {
             input.style.width = parseInt(minSize / 3.5) - 10 + "px";
             input.style.marginBottom = "10px";
             input.style.fontSize = "20px";
+            input.tanIndex = 1;
             input.card = card;
             if (card && card.text) {
                 input.value = card.text;
@@ -1444,11 +1445,13 @@ define(function (require) {
             div.className = 'card-list-container';
             div.id = 'card-list-container';
             div.style.width = document.body.clientWidth + "px";
-            div.style.height = parseInt(minSize / 3) + "px";
+            var height = parseInt(minSize / 3);
+            div.style.height = height + "px";
+            div.tabIndex = -1;
 
             for (var i = 0; i < MemorizeApp.game.template.cards.length; i++) {
                 var card = MemorizeApp.game.template.cards[i];
-                var pair = generateCardFromCardsList(card, parseInt(minSize / 3), i);
+                var pair = generateCardFromCardsList(card, height, i);
                 pair.cards = card;
                 pair.index = i;
                 pair.addEventListener("click", function() {
@@ -1457,12 +1460,45 @@ define(function (require) {
                     MemorizeApp.editor.card2 = this.cards[1];
                     displayEditor();
                 });
-
                 div.appendChild(pair);
             }
 
             return div;
         }
+
+        window.onkeydown = function(e) {
+            // change the pair selected in edit mode with the keyboard
+
+            // use onkeydown event in the window because
+            // didn't find a way to catch the event in the div
+
+            // if a input is focused, document.activeElement
+            // returns the input, else returns body
+            if (MemorizeApp.inEditMode &&
+                    document.activeElement == document.body) {
+
+                var newIndex = MemorizeApp.editor.selectedPair;
+                e = e || event;
+                if (e.keyCode == 37) { // left
+                    newIndex = newIndex - 1;
+                } else if (e.keyCode == 39) { // right
+                    newIndex = newIndex + 1;
+                } else {
+                    return;
+                };
+                if (newIndex < 0 ||
+                    newIndex == MemorizeApp.game.template.cards.length) {
+                    return;
+                }
+
+                MemorizeApp.editor.selectedPair = newIndex;
+                var card = MemorizeApp.game.template.cards[newIndex];
+                MemorizeApp.editor.card1 = card[0];
+                MemorizeApp.editor.card2 = card[1];
+                displayEditor();
+            };
+        };
+
 
         function generateClearBoth() {
             var d = document.createElement("div");
@@ -1489,6 +1525,14 @@ define(function (require) {
             MemorizeApp.ui.gameEditor.appendChild(generateClearBoth());
             var cardList = generateCardsList();
             MemorizeApp.ui.gameEditor.appendChild(cardList);
+
+            // scroll the cardlist if the selected pair is not visible
+            var cardHeight = parseInt(cardList.style.height) / 2;
+            if (MemorizeApp.editor.selectedPair * cardHeight >
+                    document.body.clientWidth) {
+                cardList.scrollLeft = MemorizeApp.editor.selectedPair *
+                     cardHeight;
+            };
 
             // resize the text
             resizeTextByClassName('edit-card');
