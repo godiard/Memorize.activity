@@ -1460,11 +1460,6 @@ define(function (require) {
 
                 div.appendChild(pair);
             }
-            var emptyDiv = document.createElement("div");
-            emptyDiv.style.height = parseInt(minSize/6)+"px";
-            emptyDiv.style.width = "30px";
-            emptyDiv.style.display = "inline-block";
-            div.appendChild(emptyDiv);
 
             return div;
         }
