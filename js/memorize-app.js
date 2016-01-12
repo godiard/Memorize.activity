@@ -1330,6 +1330,8 @@ define(function (require) {
                 saveGame();
                 markGameModified();
                 displayEditor();
+                var listContainer = document.getElementById('card-list-container');
+                listContainer.scrollLeft = listContainer.scrollWidth;
             });
 
             updateButton.addEventListener("click", updatePairModel);
@@ -1440,6 +1442,7 @@ define(function (require) {
             }
 
             div.className = 'card-list-container';
+            div.id = 'card-list-container';
             div.style.width = document.body.clientWidth + "px";
             div.style.height = parseInt(minSize / 3) + "px";
 
